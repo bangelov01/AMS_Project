@@ -3,12 +3,12 @@
 This project is developed with educational purposes for the
 Softuni C# Web Development curriculum final exam.
 
-  -Core functionalities:
+Core functionalities:
 
-  -Admin:
-  - Auction creation/management
-  - Grant permission/denial to edit Listings in an Auction
-  - User management
+Admin:
+- Auction creation/management
+- Grant permission/denial to edit Listings in an Auction
+- User management
 
 User:
 - Listings bid monitoring/cancellation
