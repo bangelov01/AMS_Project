@@ -11,6 +11,7 @@ Admin:
 - User management
 
 User:
+- Create Listings in available Auctions
 - Listings bid monitoring/cancellation
 - Search listings by given parameters
 - Add listings to personal watch list
