@@ -9,7 +9,7 @@ namespace AMS.Data.Migrations
     using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
     using System;
 
-    [DbContext(typeof(ApplicationDbContext))]
+    [DbContext(typeof(AMSDbContext))]
     [Migration("00000000000000_CreateIdentitySchema")]
     partial class CreateIdentitySchema
     {
