@@ -8,6 +8,7 @@
     public class Vehicle
     {
         public Vehicle()
+
         {
             this.Id = Guid.NewGuid().ToString();
             this.Bids = new HashSet<Bid>();
