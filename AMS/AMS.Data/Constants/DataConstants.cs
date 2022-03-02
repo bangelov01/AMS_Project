@@ -2,6 +2,12 @@
 {
     public class DataConstants
     {
+        public class UserConstants
+        {
+            public const int UsernameMinLength = 5;
+            public const int UsernameMaxLength = 30;
+        }
+
         public class VehicleConstants
         {
             public const byte ConditionMaxLength = 20;
@@ -18,8 +24,13 @@
 
         public class AddressConstants
         {
+            public const byte CountryNameMinLength = 4;
             public const byte CountryNameMaxLength = 60;
+
+            public const byte CityNameMinLength = 1;
             public const byte CityNameMaxLength = 90;
+
+            public const byte AddressTextMinLength = 20;
             public const byte AddressTextMaxLength = 200;
         }
     }
