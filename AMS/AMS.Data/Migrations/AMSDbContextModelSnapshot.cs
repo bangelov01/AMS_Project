@@ -159,6 +159,7 @@ namespace AMS.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("AddressId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -457,7 +458,9 @@ namespace AMS.Data.Migrations
                 {
                     b.HasOne("AMS.Data.Models.Address", "Address")
                         .WithMany("Users")
-                        .HasForeignKey("AddressId");
+                        .HasForeignKey("AddressId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Address");
                 });
