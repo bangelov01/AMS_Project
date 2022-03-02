@@ -1,6 +1,7 @@
 using AMS.Data;
 using AMS.Data.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
