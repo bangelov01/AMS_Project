@@ -22,7 +22,7 @@
         [Required, MaxLength(AddressConstants.CityNameMaxLength)]
         public string City { get; init; }
 
-        [Required, MinLength(AddressConstants.AddressTextMaxLength)]
+        [Required, MaxLength(AddressConstants.AddressTextMaxLength)]
         public string AddressText { get; init; }
 
         public virtual ICollection<Auction> Auctions { get; set; }

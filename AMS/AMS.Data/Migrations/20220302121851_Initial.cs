@@ -16,7 +16,7 @@ namespace AMS.Data.Migrations
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Country = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: false),
                     City = table.Column<string>(type: "nvarchar(90)", maxLength: 90, nullable: false),
-                    AddressText = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    AddressText = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false)
                 },
                 constraints: table =>
                 {

@@ -29,7 +29,8 @@ namespace AMS.Data.Migrations
 
                     b.Property<string>("AddressText")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("City")
                         .IsRequired()
