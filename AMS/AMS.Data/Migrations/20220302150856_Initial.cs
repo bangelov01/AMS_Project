@@ -79,7 +79,7 @@ namespace AMS.Data.Migrations
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     IsSuspended = table.Column<bool>(type: "bit", nullable: false),
-                    AddressId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    AddressId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -102,8 +102,7 @@ namespace AMS.Data.Migrations
                         name: "FK_AspNetUsers_Addresses_AddressId",
                         column: x => x.AddressId,
                         principalTable: "Addresses",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
