@@ -11,6 +11,7 @@
             this.Vehicles = new HashSet<Vehicle>();
             this.Bids = new HashSet<Bid>();
             this.Watchlists = new HashSet<Watchlist>();
+            this.IsSuspended = false;
         }
 
         public bool IsSuspended { get; set; }
