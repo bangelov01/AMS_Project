@@ -25,12 +25,6 @@
             builder.Entity<Watchlist>()
                 .HasKey(k => new { k.UserId, k.VehicleId });
 
-            builder.Entity<User>()
-                .HasOne<Address>(u => u.Address)
-                .WithMany(a => a.Users)
-                .HasForeignKey(u => u.AddressId)
-                .IsRequired(false);
-
             base.OnModelCreating(builder);
         }
     }
