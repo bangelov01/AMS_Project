@@ -35,16 +35,19 @@
 
         public virtual User User { get; init; }
 
+        [Required]
         [ForeignKey(nameof(Condition))]
         public string ConditionId { get; set; }
 
         public virtual Condition Condition { get; init; }
 
+        [Required]
         [ForeignKey(nameof(Make))]
         public string MakeId { get; set; }
 
         public virtual Make Make { get; init; }
 
+        [Required]
         [ForeignKey(nameof(Model))]
         public string ModelId { get; set; }
 
