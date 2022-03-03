@@ -12,6 +12,7 @@
         {
             public const byte ConditionMaxLength = 20;
             public const byte MakeMaxLength = 30;
+            public const byte TypeMaxLength = 30;
             public const byte ModelMaxLength = 50;
             public const short DescriptionMaxLength = 255;
 

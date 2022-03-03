@@ -1,8 +1,9 @@
 ﻿namespace AMS.Data
 {
-    using AMS.Data.Models;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
+
+    using AMS.Data.Models;
 
     public class AMSDbContext : IdentityDbContext<User>
     {
@@ -17,6 +18,7 @@
         public virtual DbSet<Condition> Conditions { get; init; }
         public virtual DbSet<Make> Makes { get; init; }
         public virtual DbSet<Model> Models { get; init; }
+        public virtual DbSet<VehicleType> VehicleTypes { get; init; }
         public virtual DbSet<Vehicle> Vehicles { get; init; }
         public virtual DbSet<Watchlist> Watchlists { get; init; }
 
