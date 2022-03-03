@@ -4,5 +4,7 @@
     {
         public void SeedConditions();
         public void SeedVehicleTypes();
+        public void SeedAdministrator();
+
     }
 }

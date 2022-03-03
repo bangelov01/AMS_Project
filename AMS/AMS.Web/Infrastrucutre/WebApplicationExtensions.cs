@@ -11,17 +11,31 @@
         {
             using var scopedServices = app.Services.CreateScope();
 
-            var data = scopedServices.ServiceProvider.GetService<AMSDbContext>();
+            var serviceProvider = scopedServices.ServiceProvider;
+           
+            Migrate(serviceProvider);
 
-            var seeder = scopedServices.ServiceProvider.GetService<IDataSeederService>();
+            Seed(serviceProvider);
+
+            return app;
+        }
+
+        private static void Migrate(IServiceProvider provider)
+        {
+            var data = provider.GetRequiredService<AMSDbContext>();
 
             data.Database.Migrate();
+        }
+
+        private static void Seed(IServiceProvider provider)
+        {
+            var seeder = provider.GetRequiredService<IDataSeederService>();
 
             seeder.SeedConditions();
 
             seeder.SeedVehicleTypes();
 
-            return app;
+            seeder.SeedAdministrator();
         }
     }
 }

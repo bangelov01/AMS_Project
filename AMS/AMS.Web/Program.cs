@@ -5,8 +5,10 @@ using AMS.Data;
 using AMS.Data.Models;
 using AMS.Services.Contracts;
 using AMS.Services;
+using AMS.Services.Models;
 
 using static AMS.Web.Infrastrucutre.WebApplicationExtensions;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +20,10 @@ builder.Services.AddDbContext<AMSDbContext>(options =>
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
+builder.Services.Configure<AppSettingsServiceModel>(builder
+    .Configuration
+    .GetSection("AdministrationDetails"));
+
 builder.Services.AddTransient<IDataSeederService, DataSeederService>();
 
 builder.Services.AddDefaultIdentity<User>(options => {
@@ -27,6 +33,7 @@ builder.Services.AddDefaultIdentity<User>(options => {
     options.Password.RequireNonAlphanumeric = false;
     options.Password.RequireUppercase = false;
 })
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<AMSDbContext>();
 
 builder.Services.AddControllersWithViews();
