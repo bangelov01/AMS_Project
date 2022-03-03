@@ -19,6 +19,8 @@
 
             seeder.SeedConditions();
 
+            seeder.SeedVehicleTypes();
+
             return app;
         }
     }

@@ -31,5 +31,23 @@
 
             dbContext.SaveChanges();
         }
+
+        public void SeedVehicleTypes()
+        {
+            if (dbContext.VehicleTypes.Any())
+            {
+                return;
+            }
+
+            dbContext.VehicleTypes.AddRange(new[]
+            {
+                new VehicleType { Name = "Car" },
+                new VehicleType { Name = "Motorbike" },
+                new VehicleType { Name = "Truck" },
+                new VehicleType { Name = "ATV" }
+            });
+
+            dbContext.SaveChanges();
+        }
     }
 }
