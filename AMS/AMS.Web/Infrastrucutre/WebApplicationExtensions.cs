@@ -1,7 +1,9 @@
 ﻿namespace AMS.Web.Infrastrucutre
 {
-    using AMS.Data;
     using Microsoft.EntityFrameworkCore;
+
+    using AMS.Data;
+    using AMS.Services.Contracts;
 
     public static class WebApplicationExtensions
     {
@@ -11,7 +13,11 @@
 
             var data = scopedServices.ServiceProvider.GetService<AMSDbContext>();
 
+            var seeder = scopedServices.ServiceProvider.GetService<IDataSeederService>();
+
             data.Database.Migrate();
+
+            seeder.SeedConditions();
 
             return app;
         }

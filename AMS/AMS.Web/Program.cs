@@ -3,15 +3,22 @@ using Microsoft.AspNetCore.Identity;
 
 using AMS.Data;
 using AMS.Data.Models;
+using AMS.Services.Contracts;
+using AMS.Services;
+
 using static AMS.Web.Infrastrucutre.WebApplicationExtensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
 builder.Services.AddDbContext<AMSDbContext>(options =>
     options.UseSqlServer(connectionString));
+
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
+builder.Services.AddTransient<IDataSeederService, DataSeederService>();
 
 builder.Services.AddDefaultIdentity<User>(options => {
 
