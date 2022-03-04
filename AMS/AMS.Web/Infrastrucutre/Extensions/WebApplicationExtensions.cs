@@ -1,4 +1,4 @@
-﻿namespace AMS.Web.Infrastrucutre
+﻿namespace AMS.Web.Infrastrucutre.Extensions
 {
     using Microsoft.EntityFrameworkCore;
 

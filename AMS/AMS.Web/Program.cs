@@ -6,9 +6,7 @@ using AMS.Data.Models;
 using AMS.Services.Contracts;
 using AMS.Services;
 using AMS.Services.Models;
-
-using static AMS.Web.Infrastrucutre.WebApplicationExtensions;
-
+using AMS.Web.Infrastrucutre.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 

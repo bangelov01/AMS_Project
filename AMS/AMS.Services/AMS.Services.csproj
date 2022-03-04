@@ -10,8 +10,4 @@
     <ProjectReference Include="..\AMS.Data\AMS.Data.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Infrastructure\" />
-  </ItemGroup>
-
 </Project>
