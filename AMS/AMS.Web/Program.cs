@@ -23,6 +23,8 @@ builder.Services.Configure<AppSettingsServiceModel>(builder
     .GetSection("AdministrationDetails"));
 
 builder.Services.AddTransient<IDataSeederService, DataSeederService>();
+builder.Services.AddTransient<IAuctionService, AuctionService>();
+builder.Services.AddTransient<IAddressService, AddressService>();
 
 builder.Services.AddDefaultIdentity<User>(options => {
 

@@ -2,6 +2,11 @@
 {
     public class DataConstants
     {
+        public class ErrorMessages
+        {
+            public const string StringLengthValidationError = "{0} must be between {2} and {1} characters long!";
+        }
+
         public class UserConstants
         {
             public const int UsernameMinLength = 5;
@@ -21,6 +26,7 @@
         public class AuctionConstants
         {
             public const short DescriptionMaxLength = 255;
+            public const short DescriptionMinLength = 5;
         }
 
         public class AddressConstants
