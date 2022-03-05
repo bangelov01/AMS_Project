@@ -1,0 +1,48 @@
+﻿@model ICollection<UsersServiceModel>;
+
+@{
+    ViewBag.Title = "Manage Users";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-6 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+            <h2 class="heading-margin text-center">@ViewBag.Title</h2>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th class="col-3">User</th>
+                        <th class="col-3">Status</th>
+                        <th class="col-2">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in Model)
+                    {
+                        <tr>
+                            <td>@user.UserName</td>
+                            @if (user.IsSuspended)
+                            {
+                                <td>Suspended</td>
+                            }
+                            else
+                            {
+                                <td>Active</td>
+                            }
+                            <td>
+                                @if (user.IsSuspended)
+                                {
+                                    <a class="btn btn-success btn-sm" asp-area="Admin" asp-controller="Users" asp-action="Allow" asp-route-id="@user.Id">Allow</a>
+                                }
+                                else
+                                {
+                                    <a class="btn btn-danger btn-sm" asp-area="Admin" asp-controller="Users" asp-action="Suspend" asp-route-id="@user.Id">Suspend</a>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

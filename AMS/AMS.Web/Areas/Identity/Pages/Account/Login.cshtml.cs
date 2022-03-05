@@ -15,11 +15,13 @@ namespace AMS.Web.Areas.Identity.Pages.Account
     using AMS.Services.Models;
 
     using static AMS.Data.Constants.DataConstants;
+    using static AMS.Web.Areas.Admin.Constants.AdminConstants;
 
 
     public class LoginModel : PageModel
     {
         private readonly SignInManager<User> signInManager;
+        private readonly UserManager<User> userManager;
         private readonly AppSettingsServiceModel adminDetails;
 
         public LoginModel(SignInManager<User> signInManager,
@@ -27,6 +29,7 @@ namespace AMS.Web.Areas.Identity.Pages.Account
             IOptions<AppSettingsServiceModel> adminDetails)
         {
             this.signInManager = signInManager;
+            this.userManager = userManager;
             this.adminDetails = adminDetails.Value;
         }
 
@@ -75,21 +78,29 @@ namespace AMS.Web.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
+                var user = await userManager.FindByNameAsync(Input.UserName);
+
+                if (user != null)
+                {
+                    if (user.IsSuspended)
+                    {
+                        ModelState.AddModelError(string.Empty, "Your account has been suspended!");
+
+                        return Page();
+                    }
+                }
+
                 var result = await this.signInManager.PasswordSignInAsync(Input.UserName, Input.Password, Input.RememberMe, lockoutOnFailure: false);
 
                 if (result.Succeeded)
                 {
                     if (Input.UserName == adminDetails.Username)
                     {
-                        return RedirectToAction("Index", "Home", new { area = "Admin" });
+                        return RedirectToAction("Index", "Home", new { area = AdminAreaName });
                     }
 
                     return LocalRedirect(returnUrl);
 
-                }
-                if (result.IsLockedOut)
-                {
-                    return RedirectToPage("./Lockout");
                 }
                 else
                 {
