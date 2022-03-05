@@ -29,4 +29,9 @@
     <ProjectReference Include="..\AMS.Services\AMS.Services.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Areas\Admin\Data\" />
+    <Folder Include="Areas\Admin\Views\" />
+  </ItemGroup>
+
 </Project>

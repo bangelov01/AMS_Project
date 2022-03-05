@@ -1,4 +1,4 @@
-﻿namespace AMS.Controllers.Models
+﻿namespace AMS.Web.Areas.Admin.Models
 {
     using System.ComponentModel.DataAnnotations;
 
