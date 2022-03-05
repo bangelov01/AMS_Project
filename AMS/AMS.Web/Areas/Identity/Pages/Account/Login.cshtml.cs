@@ -9,17 +9,25 @@ namespace AMS.Web.Areas.Identity.Pages.Account
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
+    using Microsoft.Extensions.Options;
 
     using AMS.Data.Models;
+    using AMS.Services.Models;
+
     using static AMS.Data.Constants.DataConstants;
+
 
     public class LoginModel : PageModel
     {
         private readonly SignInManager<User> signInManager;
+        private readonly AppSettingsServiceModel adminDetails;
 
-        public LoginModel(SignInManager<User> signInManager)
+        public LoginModel(SignInManager<User> signInManager,
+            UserManager<User> userManager,
+            IOptions<AppSettingsServiceModel> adminDetails)
         {
             this.signInManager = signInManager;
+            this.adminDetails = adminDetails.Value;
         }
 
         [BindProperty]
@@ -71,7 +79,13 @@ namespace AMS.Web.Areas.Identity.Pages.Account
 
                 if (result.Succeeded)
                 {
+                    if (Input.UserName == adminDetails.Username)
+                    {
+                        return RedirectToAction("Index", "Home", new { area = "Admin" });
+                    }
+
                     return LocalRedirect(returnUrl);
+
                 }
                 if (result.IsLockedOut)
                 {
