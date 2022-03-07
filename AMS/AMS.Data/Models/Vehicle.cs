@@ -24,6 +24,9 @@
         public string Description { get; set; }
 
         [Required]
+        public string ImageUrl { get; set; }
+
+        [Required]
         [ForeignKey(nameof(Auction))]
         public string AuctionId { get; init; }
 

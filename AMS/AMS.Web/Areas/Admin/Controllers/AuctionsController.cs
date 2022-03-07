@@ -44,5 +44,10 @@
 
             return RedirectToAction("Index", "Home");
         }
+
+        public IActionResult All()
+        {
+            return View();
+        }
     }
 }

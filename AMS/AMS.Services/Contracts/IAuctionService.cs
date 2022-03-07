@@ -13,5 +13,6 @@
             string addressText);
 
         public bool IsAuctionCreated(int number);
+
     }
 }
