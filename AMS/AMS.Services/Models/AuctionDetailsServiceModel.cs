@@ -3,13 +3,13 @@
     public class AuctionDetailsServiceModel
     {
 
-        public int Number { get; set; }
+        public int Number { get; init; }
 
-        public string Description { get; set; }
+        public string Description { get; init; }
 
-        public DateTime Start { get; set; }
+        public DateTime Start { get; init; }
 
-        public DateTime End { get; set; }
+        public DateTime End { get; init; }
 
         public string Country { get; init; }
 

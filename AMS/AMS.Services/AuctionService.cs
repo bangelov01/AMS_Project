@@ -59,9 +59,11 @@
                 {
                     Id = a.Id,
                     Number = a.Number,
+                    Description = a.Description,
                     Start = a.Start,
                     End = a.End,
                     City = a.Address.City,
+                    Country = a.Address.Country,
                     ListingsCount = a.Vehicles.Count
                 })
                 .ToList();
