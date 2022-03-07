@@ -20,7 +20,6 @@
             return View();
         }
 
-
         [HttpPost]
         public IActionResult Create(AuctionFormModel auction)
         {
@@ -47,7 +46,42 @@
 
         public IActionResult All()
         {
-            return View();
+            var auctions = auctionService.ActiveAuctions();
+
+            return View(auctions);
+        }
+
+        public IActionResult Edit(string Id)
+        {
+            var auction = auctionService.AuctionById(Id);
+
+            var auctionForm = new AuctionFormModel
+            {
+                Number = auction.Number,
+                Description = auction.Description,
+                Start = auction.Start,
+                End = auction.End,
+                Country = auction.Country,
+                City = auction.City,
+                AddressText = auction.AddressText
+            };
+
+            return View(auctionForm);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(string Id, AuctionFormModel auction)
+        {
+            auctionService.Edit(Id,
+                auction.Number,
+                auction.Description,
+                auction.Start,
+                auction.End,
+                auction.Country,
+                auction.City,
+                auction.AddressText);
+
+            return RedirectToAction(nameof(All), "Auctions", new { area = "Admin"});
         }
     }
 }

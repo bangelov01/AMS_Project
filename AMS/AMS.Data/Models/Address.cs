@@ -17,13 +17,13 @@
         public string Id { get; init; }
 
         [Required, MaxLength(AddressConstants.CountryNameMaxLength)]
-        public string Country { get; init; }
+        public string Country { get; set; }
 
         [Required, MaxLength(AddressConstants.CityNameMaxLength)]
-        public string City { get; init; }
+        public string City { get; set; }
 
         [Required, MaxLength(AddressConstants.AddressTextMaxLength)]
-        public string AddressText { get; init; }
+        public string AddressText { get; set; }
 
         public virtual ICollection<Auction> Auctions { get; set; }
 

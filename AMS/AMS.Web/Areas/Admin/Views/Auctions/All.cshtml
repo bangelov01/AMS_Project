@@ -1,0 +1,40 @@
+﻿@model ICollection<AuctionServiceModel>
+
+@{
+    ViewBag.Title = "Manage Auctions";
+}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-auto">
+            <h2 class="heading-margin text-center">Active Auctions</h2>
+            <table class="table table-bordered table table-responsive">
+                <thead>
+                    <tr>
+                        <th class="col">Nº</th>
+                        <th class="col">City</th>
+                        <th class="col">Listings</th>
+                        <th class="col">Start</th>
+                        <th class="col">End</th>
+                        <th class="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var auction in Model)
+                    {
+                        <tr>
+                            <td>@auction.Number</td>
+                            <td>@auction.City</td>
+                            <td>@auction.ListingsCount</td>
+                            <td>@auction.Start</td>
+                            <td>@auction.End</td>
+                            <td>
+                                <a class="btn btn-success btn-sm" asp-area="Admin" asp-controller="Auctions" asp-action="Edit" asp-route-id="@auction.Id">Edit</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

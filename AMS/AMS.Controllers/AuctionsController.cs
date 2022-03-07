@@ -9,5 +9,11 @@
 
     public class AuctionsController : Controller
     {
+        private readonly IAuctionService auctionService;
+
+        public AuctionsController(IAuctionService auctionService)
+        {
+            this.auctionService = auctionService;
+        }
     }
 }
