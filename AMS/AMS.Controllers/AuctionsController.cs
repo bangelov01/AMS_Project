@@ -15,5 +15,12 @@
         {
             this.auctionService = auctionService;
         }
+
+        public IActionResult All()
+        {
+            var auctions = auctionService.ActiveAuctions();
+
+            return View(auctions);
+        }
     }
 }
