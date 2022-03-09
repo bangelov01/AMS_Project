@@ -1,11 +1,11 @@
 ﻿namespace AMS.Controllers
 {
-    using AMS.Controllers.Models;
-    using AMS.Services.Contracts;
-    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
-    using static AMS.Services.Constants.ServicesConstants;
+    using AMS.Controllers.Models;
+    using AMS.Services.Contracts;
+
+    using static AMS.Controllers.Constants.ControllersConstants;
 
     public class AuctionsController : Controller
     {
@@ -16,9 +16,16 @@
             this.auctionService = auctionService;
         }
 
-        public IActionResult All()
+        public IActionResult All(int currentPage = 1)
         {
-            var auctions = auctionService.ActiveAuctions();
+            var query = auctionService.ActiveAuctionsPerPage(currentPage, AuctionsPerPage);
+
+            var auctions = new AllAuctionsViewModel
+            {
+                Auctions = query,
+                CurrentPage = currentPage,
+                TotalAuctions = auctionService.ActiveAuctionsCount()
+            };
 
             return View(auctions);
         }

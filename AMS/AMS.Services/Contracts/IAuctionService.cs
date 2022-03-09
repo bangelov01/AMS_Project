@@ -17,6 +17,10 @@
 
         public ICollection<AuctionServiceModel> ActiveAuctions();
 
+        public ICollection<AuctionServiceModel> ActiveAuctionsPerPage(int currentPage, int auctionsPerPage);
+
+        public int ActiveAuctionsCount();
+
         public AuctionDetailsServiceModel AuctionById(string Id);
 
         public void Edit(string Id,

@@ -69,6 +69,27 @@
                 .ToList();
         }
 
+        public ICollection<AuctionServiceModel> ActiveAuctionsPerPage(int currentPage, int auctionsPerPage)
+        {
+            return dbContext
+                .Auctions
+                .Where(a => a.End > DateTime.UtcNow)
+                .Skip((currentPage - 1) * auctionsPerPage)
+                .Take(auctionsPerPage)
+                .Select(a => new AuctionServiceModel
+                {
+                    Id = a.Id,
+                    Number = a.Number,
+                    Description = a.Description,
+                    Start = a.Start,
+                    End = a.End,
+                    City = a.Address.City,
+                    Country = a.Address.Country,
+                    ListingsCount = a.Vehicles.Count
+                })
+                .ToList();
+        }
+
         public bool IsAuctionCreated(int number)
         {
             var auction = dbContext
@@ -127,6 +148,14 @@
             auction.Address.AddressText = addressText;
 
             dbContext.SaveChanges();
+        }
+
+        public int ActiveAuctionsCount()
+        {
+            return dbContext
+                .Auctions
+                .Where(a => a.End > DateTime.UtcNow)
+                .Count();
         }
     }
 }
