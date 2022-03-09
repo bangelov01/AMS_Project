@@ -8,7 +8,7 @@
     using AMS.Data;
     using AMS.Data.Models;
     using AMS.Services.Contracts;
-    using AMS.Services.Models;
+    using AMS.Services.Models.Auctions;
 
     public class AuctionService : IAuctionService
     {
@@ -53,8 +53,7 @@
         }
 
         public ICollection<AuctionServiceModel> AllActive()
-        {
-            return dbContext
+            => dbContext
                 .Auctions
                 .Where(a => a.End > DateTime.UtcNow)
                 .Select(a => new AuctionServiceModel
@@ -69,11 +68,9 @@
                     ListingsCount = a.Vehicles.Count
                 })
                 .ToList();
-        }
 
         public ICollection<AuctionServiceModel> AllActivePerPage(int currentPage, int auctionsPerPage)
-        {
-            return dbContext
+            => dbContext
                 .Auctions
                 .Where(a => a.End > DateTime.UtcNow)
                 .Skip((currentPage - 1) * auctionsPerPage)
@@ -90,7 +87,6 @@
                     ListingsCount = a.Vehicles.Count
                 })
                 .ToList();
-        }
 
         public bool IsCreated(int number)
         {
@@ -153,11 +149,9 @@
         }
 
         public int AllActiveCount()
-        {
-            return dbContext
+            => dbContext
                 .Auctions
                 .Where(a => a.End > DateTime.UtcNow)
                 .Count();
-        }
     }
 }

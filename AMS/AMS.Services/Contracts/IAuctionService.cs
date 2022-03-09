@@ -1,7 +1,7 @@
 ﻿namespace AMS.Services.Contracts
 {
     using AMS.Data.Models;
-    using AMS.Services.Models;
+    using AMS.Services.Models.Auctions;
 
     public interface IAuctionService
     {

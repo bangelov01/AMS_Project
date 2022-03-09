@@ -32,8 +32,7 @@
         }
 
         public ICollection<UsersServiceModel> All()
-        {
-            var users = dbContext
+            => dbContext
                 .Users
                 .Where(u => u.UserName != adminDetails.Username)
                 .Select(u => new UsersServiceModel
@@ -43,9 +42,6 @@
                     IsSuspended = u.IsSuspended
                 })
                 .ToList();
-
-            return users;
-        }
 
         public void Suspend(string Id)
         {

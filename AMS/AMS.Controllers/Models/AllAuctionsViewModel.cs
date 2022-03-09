@@ -1,6 +1,6 @@
 ﻿namespace AMS.Controllers.Models
 {
-    using AMS.Services.Models;
+    using AMS.Services.Models.Auctions;
 
     public class AllAuctionsViewModel
     {
