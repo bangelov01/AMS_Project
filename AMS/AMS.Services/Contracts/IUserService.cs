@@ -4,10 +4,10 @@
 
     public interface IUserService
     {
-        public ICollection<UsersServiceModel> AllUsers();
+        public ICollection<UsersServiceModel> All();
 
-        public void SuspendUser(string Id);
+        public void Suspend(string Id);
 
-        public void AllowUser(string Id);
+        public void Allow(string Id);
     }
 }

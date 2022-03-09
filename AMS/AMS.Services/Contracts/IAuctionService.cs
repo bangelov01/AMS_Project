@@ -5,7 +5,7 @@
 
     public interface IAuctionService
     {
-        public void CreateAuction(int number,
+        public void Create(int number,
             string Description,
             DateTime start,
             DateTime end,
@@ -13,15 +13,15 @@
             string city,
             string addressText);
 
-        public bool IsAuctionCreated(int number);
+        public bool IsCreated(int number);
 
-        public ICollection<AuctionServiceModel> ActiveAuctions();
+        public ICollection<AuctionServiceModel> AllActive();
 
-        public ICollection<AuctionServiceModel> ActiveAuctionsPerPage(int currentPage, int auctionsPerPage);
+        public ICollection<AuctionServiceModel> AllActivePerPage(int currentPage, int auctionsPerPage);
 
-        public int ActiveAuctionsCount();
+        public int AllActiveCount();
 
-        public AuctionDetailsServiceModel AuctionById(string Id);
+        public AuctionDetailsServiceModel ById(string Id);
 
         public void Edit(string Id,
             int number,

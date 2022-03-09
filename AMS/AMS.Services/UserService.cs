@@ -20,7 +20,7 @@
             this.adminDetails = adminDetails.Value;
         }
 
-        public void AllowUser(string Id)
+        public void Allow(string Id)
         {
             var user = dbContext
                 .Users
@@ -31,7 +31,7 @@
             dbContext.SaveChanges();
         }
 
-        public ICollection<UsersServiceModel> AllUsers()
+        public ICollection<UsersServiceModel> All()
         {
             var users = dbContext
                 .Users
@@ -47,7 +47,7 @@
             return users;
         }
 
-        public void SuspendUser(string Id)
+        public void Suspend(string Id)
         {
             var user = dbContext
                 .Users

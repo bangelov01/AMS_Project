@@ -16,21 +16,21 @@
 
         public IActionResult All()
         {
-            var users = userService.AllUsers();
+            var users = userService.All();
 
             return View(users);
         }
 
         public IActionResult Suspend(string Id)
         {
-            userService.SuspendUser(Id);
+            userService.Suspend(Id);
 
             return RedirectToAction(nameof(All), "Users");
         }
 
         public IActionResult Allow(string Id)
         {
-            userService.AllowUser(Id);
+            userService.Allow(Id);
 
             return RedirectToAction(nameof(All), "Users");
         }

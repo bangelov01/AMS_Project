@@ -23,7 +23,7 @@
         [HttpPost]
         public IActionResult Create(AuctionFormModel auction)
         {
-            if (auctionService.IsAuctionCreated(auction.Number))
+            if (auctionService.IsCreated(auction.Number))
             {
                 this.ModelState.AddModelError(nameof(auction.Number), "Auction with that number already exists!");
             }
@@ -33,7 +33,7 @@
                 return View(auction);
             }
 
-            auctionService.CreateAuction(auction.Number,
+            auctionService.Create(auction.Number,
                 auction.Description,
                 auction.Start,
                 auction.End,
@@ -46,14 +46,14 @@
 
         public IActionResult All()
         {
-            var auctions = auctionService.ActiveAuctions();
+            var auctions = auctionService.AllActive();
 
             return View(auctions);
         }
 
         public IActionResult Edit(string Id)
         {
-            var auction = auctionService.AuctionById(Id);
+            var auction = auctionService.ById(Id);
 
             var auctionForm = new AuctionFormModel
             {

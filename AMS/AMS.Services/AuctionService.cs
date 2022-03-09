@@ -2,11 +2,13 @@
 {
     using System;
     using System.Collections.Generic;
+
+    using Microsoft.EntityFrameworkCore;
+
     using AMS.Data;
     using AMS.Data.Models;
     using AMS.Services.Contracts;
     using AMS.Services.Models;
-    using Microsoft.EntityFrameworkCore;
 
     public class AuctionService : IAuctionService
     {
@@ -20,7 +22,7 @@
             this.addressService = addressService;
         }
 
-        public void CreateAuction(int number,
+        public void Create(int number,
             string description,
             DateTime start,
             DateTime end,
@@ -28,11 +30,11 @@
             string city,
             string addressText)
         {
-            var addressId = addressService.GetAddressId(country, city, addressText);
+            var addressId = addressService.GetId(country, city, addressText);
 
             if (addressId == null)
             {
-                var newAddress = addressService.AddAddress(country, city, addressText);
+                var newAddress = addressService.Add(country, city, addressText);
 
                 addressId = newAddress;
             }
@@ -50,7 +52,7 @@
             dbContext.SaveChanges();
         }
 
-        public ICollection<AuctionServiceModel> ActiveAuctions()
+        public ICollection<AuctionServiceModel> AllActive()
         {
             return dbContext
                 .Auctions
@@ -69,7 +71,7 @@
                 .ToList();
         }
 
-        public ICollection<AuctionServiceModel> ActiveAuctionsPerPage(int currentPage, int auctionsPerPage)
+        public ICollection<AuctionServiceModel> AllActivePerPage(int currentPage, int auctionsPerPage)
         {
             return dbContext
                 .Auctions
@@ -90,7 +92,7 @@
                 .ToList();
         }
 
-        public bool IsAuctionCreated(int number)
+        public bool IsCreated(int number)
         {
             var auction = dbContext
                 .Auctions
@@ -105,7 +107,7 @@
             return true;
         }
 
-        public AuctionDetailsServiceModel AuctionById(string Id)
+        public AuctionDetailsServiceModel ById(string Id)
         {
             var auction = dbContext
                 .Auctions
@@ -150,7 +152,7 @@
             dbContext.SaveChanges();
         }
 
-        public int ActiveAuctionsCount()
+        public int AllActiveCount()
         {
             return dbContext
                 .Auctions

@@ -2,11 +2,11 @@
 {
     public interface IAddressService
     {
-        public string GetAddressId(string country,
+        public string GetId(string country,
             string city,
             string addressText);
 
-        public string AddAddress(string country,
+        public string Add(string country,
             string city,
             string addressText);
     }

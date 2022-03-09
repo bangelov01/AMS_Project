@@ -13,7 +13,7 @@
             this.dbContext = dbContext;
         }
 
-        public string AddAddress(string country,
+        public string Add(string country,
             string city,
             string addressText)
         {
@@ -30,7 +30,7 @@
             return address.Id;
         }
 
-        public string GetAddressId(string country,
+        public string GetId(string country,
             string city,
             string addressText)
         {

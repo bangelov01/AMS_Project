@@ -18,13 +18,13 @@
 
         public IActionResult All(int currentPage = 1)
         {
-            var query = auctionService.ActiveAuctionsPerPage(currentPage, AuctionsPerPage);
+            var query = auctionService.AllActivePerPage(currentPage, AuctionsPerPage);
 
             var auctions = new AllAuctionsViewModel
             {
                 Auctions = query,
                 CurrentPage = currentPage,
-                TotalAuctions = auctionService.ActiveAuctionsCount()
+                TotalAuctions = auctionService.AllActiveCount()
             };
 
             return View(auctions);
