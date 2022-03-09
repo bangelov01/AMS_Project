@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AMS.Data.Migrations
 {
     [DbContext(typeof(AMSDbContext))]
-    [Migration("20220303114700_AddVehicleTypeMigration")]
-    partial class AddVehicleTypeMigration
+    [Migration("20220309143515_ChangeModelMakeKey")]
+    partial class ChangeModelMakeKey
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -124,8 +124,11 @@ namespace AMS.Data.Migrations
 
             modelBuilder.Entity("AMS.Data.Models.Make", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -139,8 +142,11 @@ namespace AMS.Data.Migrations
 
             modelBuilder.Entity("AMS.Data.Models.Model", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -243,13 +249,15 @@ namespace AMS.Data.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
-                    b.Property<string>("MakeId")
+                    b.Property<string>("ImageUrl")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ModelId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("MakeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ModelId")
+                        .HasColumnType("int");
 
                     b.Property<string>("UserId")
                         .IsRequired()

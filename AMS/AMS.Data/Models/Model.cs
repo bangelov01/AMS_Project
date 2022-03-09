@@ -8,12 +8,11 @@
     {
         public Model()
         {
-            this.Id = Guid.NewGuid().ToString();
             this.Vehicles = new HashSet<Vehicle>();
         }
 
         [Key]
-        public string Id { get; init; }
+        public int Id { get; init; }
 
         [Required, MaxLength(VehicleConstants.ModelMaxLength)]
         public string Name { get; set; }

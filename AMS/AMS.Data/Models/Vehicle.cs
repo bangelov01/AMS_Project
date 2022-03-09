@@ -46,13 +46,13 @@
 
         [Required]
         [ForeignKey(nameof(Make))]
-        public string MakeId { get; set; }
+        public int MakeId { get; set; }
 
         public virtual Make Make { get; init; }
 
         [Required]
         [ForeignKey(nameof(Model))]
-        public string ModelId { get; set; }
+        public int ModelId { get; set; }
 
         public virtual Model Model { get; init; }
 

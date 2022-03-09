@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace AMS.Data.Migrations
 {
-    public partial class Initial : Migration
+    public partial class ChangeModelMakeKey : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -53,7 +53,8 @@ namespace AMS.Data.Migrations
                 name: "Makes",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false)
                 },
                 constraints: table =>
@@ -65,12 +66,25 @@ namespace AMS.Data.Migrations
                 name: "Models",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Models", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "VehicleTypes",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_VehicleTypes", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -240,11 +254,13 @@ namespace AMS.Data.Migrations
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Year = table.Column<int>(type: "int", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     AuctionId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ConditionId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    MakeId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ModelId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    MakeId = table.Column<int>(type: "int", nullable: false),
+                    ModelId = table.Column<int>(type: "int", nullable: false),
+                    VehicleTypeId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -277,6 +293,12 @@ namespace AMS.Data.Migrations
                         name: "FK_Vehicles_Models_ModelId",
                         column: x => x.ModelId,
                         principalTable: "Models",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Vehicles_VehicleTypes_VehicleTypeId",
+                        column: x => x.VehicleTypeId,
+                        principalTable: "VehicleTypes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -417,6 +439,11 @@ namespace AMS.Data.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Vehicles_VehicleTypeId",
+                table: "Vehicles",
+                column: "VehicleTypeId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Watchlists_VehicleId",
                 table: "Watchlists",
                 column: "VehicleId");
@@ -465,6 +492,9 @@ namespace AMS.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Models");
+
+            migrationBuilder.DropTable(
+                name: "VehicleTypes");
 
             migrationBuilder.DropTable(
                 name: "Addresses");
