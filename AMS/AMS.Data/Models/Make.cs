@@ -8,7 +8,7 @@
     {
         public Make()
         {
-            this.Vehicles = new HashSet<Vehicle>();
+            this.Models = new HashSet<Model>();
         }
 
         [Key]
@@ -17,6 +17,6 @@
         [Required, MaxLength(VehicleConstants.MakeMaxLength)]
         public string Name { get; set; }
 
-        public virtual ICollection<Vehicle> Vehicles { get; init; }
+        public virtual ICollection<Model> Models { get; init; }
     }
 }

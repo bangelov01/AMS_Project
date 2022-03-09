@@ -1,6 +1,7 @@
 ﻿namespace AMS.Data.Models
 {
     using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
 
     using static AMS.Data.Constants.DataConstants;
 
@@ -16,6 +17,11 @@
 
         [Required, MaxLength(VehicleConstants.ModelMaxLength)]
         public string Name { get; set; }
+
+        [ForeignKey(nameof(Make))]
+        public int MakeId { get; init; }
+
+        public virtual Make Make { get; init; }
 
         public virtual ICollection<Vehicle> Vehicles { get; init; }
     }

@@ -45,12 +45,6 @@
         public virtual Condition Condition { get; init; }
 
         [Required]
-        [ForeignKey(nameof(Make))]
-        public int MakeId { get; set; }
-
-        public virtual Make Make { get; init; }
-
-        [Required]
         [ForeignKey(nameof(Model))]
         public int ModelId { get; set; }
 
