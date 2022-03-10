@@ -26,6 +26,9 @@
         [Required]
         public string ImageUrl { get; set; }
 
+        [Column(TypeName = "decimal(19, 4)")]
+        public decimal Price { get; set; }
+
         [Required]
         [ForeignKey(nameof(Auction))]
         public string AuctionId { get; init; }
