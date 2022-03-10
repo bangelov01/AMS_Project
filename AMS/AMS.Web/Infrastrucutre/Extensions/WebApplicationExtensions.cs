@@ -36,6 +36,10 @@
             seeder.SeedVehicleTypes();
 
             seeder.SeedAdministrator();
+
+            seeder.SeedMakes();
+
+            seeder.SeedMakeVehicleTypes();
         }
     }
 }

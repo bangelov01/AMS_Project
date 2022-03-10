@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AMS.Data.Migrations
 {
     [DbContext(typeof(AMSDbContext))]
-    [Migration("20220309143515_ChangeModelMakeKey")]
-    partial class ChangeModelMakeKey
+    [Migration("20220310090855_CreateModelVehicleTypeTable")]
+    partial class CreateModelVehicleTypeTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -140,6 +140,21 @@ namespace AMS.Data.Migrations
                     b.ToTable("Makes");
                 });
 
+            modelBuilder.Entity("AMS.Data.Models.MakeVehicleType", b =>
+                {
+                    b.Property<int>("MakeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("VehicleTypeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("MakeId", "VehicleTypeId");
+
+                    b.HasIndex("VehicleTypeId");
+
+                    b.ToTable("MakeVehicleTypes");
+                });
+
             modelBuilder.Entity("AMS.Data.Models.Model", b =>
                 {
                     b.Property<int>("Id")
@@ -148,12 +163,17 @@ namespace AMS.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int>("MakeId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("MakeId");
 
                     b.ToTable("Models");
                 });
@@ -253,17 +273,10 @@ namespace AMS.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("MakeId")
-                        .HasColumnType("int");
-
                     b.Property<int>("ModelId")
                         .HasColumnType("int");
 
                     b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("VehicleTypeId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
@@ -276,21 +289,20 @@ namespace AMS.Data.Migrations
 
                     b.HasIndex("ConditionId");
 
-                    b.HasIndex("MakeId");
-
                     b.HasIndex("ModelId");
 
                     b.HasIndex("UserId");
-
-                    b.HasIndex("VehicleTypeId");
 
                     b.ToTable("Vehicles");
                 });
 
             modelBuilder.Entity("AMS.Data.Models.VehicleType", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -484,6 +496,36 @@ namespace AMS.Data.Migrations
                     b.Navigation("Vehicle");
                 });
 
+            modelBuilder.Entity("AMS.Data.Models.MakeVehicleType", b =>
+                {
+                    b.HasOne("AMS.Data.Models.Make", "Make")
+                        .WithMany("MakeVehicleTypes")
+                        .HasForeignKey("MakeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AMS.Data.Models.VehicleType", "VehicleType")
+                        .WithMany("MakeVehicleTypes")
+                        .HasForeignKey("VehicleTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Make");
+
+                    b.Navigation("VehicleType");
+                });
+
+            modelBuilder.Entity("AMS.Data.Models.Model", b =>
+                {
+                    b.HasOne("AMS.Data.Models.Make", "Make")
+                        .WithMany("Models")
+                        .HasForeignKey("MakeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Make");
+                });
+
             modelBuilder.Entity("AMS.Data.Models.User", b =>
                 {
                     b.HasOne("AMS.Data.Models.Address", "Address")
@@ -507,12 +549,6 @@ namespace AMS.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("AMS.Data.Models.Make", "Make")
-                        .WithMany("Vehicles")
-                        .HasForeignKey("MakeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("AMS.Data.Models.Model", "Model")
                         .WithMany("Vehicles")
                         .HasForeignKey("ModelId")
@@ -525,23 +561,13 @@ namespace AMS.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("AMS.Data.Models.VehicleType", "VehicleType")
-                        .WithMany("Vehicles")
-                        .HasForeignKey("VehicleTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Auction");
 
                     b.Navigation("Condition");
 
-                    b.Navigation("Make");
-
                     b.Navigation("Model");
 
                     b.Navigation("User");
-
-                    b.Navigation("VehicleType");
                 });
 
             modelBuilder.Entity("AMS.Data.Models.Watchlist", b =>
@@ -633,7 +659,9 @@ namespace AMS.Data.Migrations
 
             modelBuilder.Entity("AMS.Data.Models.Make", b =>
                 {
-                    b.Navigation("Vehicles");
+                    b.Navigation("MakeVehicleTypes");
+
+                    b.Navigation("Models");
                 });
 
             modelBuilder.Entity("AMS.Data.Models.Model", b =>
@@ -659,7 +687,7 @@ namespace AMS.Data.Migrations
 
             modelBuilder.Entity("AMS.Data.Models.VehicleType", b =>
                 {
-                    b.Navigation("Vehicles");
+                    b.Navigation("MakeVehicleTypes");
                 });
 #pragma warning restore 612, 618
         }

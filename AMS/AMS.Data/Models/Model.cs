@@ -18,6 +18,7 @@
         [Required, MaxLength(VehicleConstants.ModelMaxLength)]
         public string Name { get; set; }
 
+        [Required]
         [ForeignKey(nameof(Make))]
         public int MakeId { get; init; }
 

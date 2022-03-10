@@ -50,12 +50,6 @@
 
         public virtual Model Model { get; init; }
 
-        [Required]
-        [ForeignKey(nameof(VehicleType))]
-        public string VehicleTypeId { get; set; }
-
-        public virtual VehicleType VehicleType { get; init; }
-
         public virtual ICollection<Bid> Bids { get; init; }
 
         public virtual ICollection<Watchlist> Watchlists { get; init; }

@@ -81,6 +81,7 @@
             dbContext.SaveChanges();
         }
 
+
         public void SeedVehicleTypes()
         {
             if (dbContext.VehicleTypes.Any())
@@ -94,6 +95,55 @@
                 new VehicleType { Name = "Motorbike" },
                 new VehicleType { Name = "Truck" },
                 new VehicleType { Name = "ATV" }
+            });
+
+            dbContext.SaveChanges();
+        }
+
+        public void SeedMakes()
+        {
+            if (dbContext.Makes.Any())
+            {
+                return;
+            }
+
+            dbContext.Makes.AddRange(new[]
+            {
+                new Make { Name = "Audi"},
+                new Make { Name = "BMW"},
+                new Make { Name = "Toyota"},
+                new Make { Name = "Mazda"},
+                new Make { Name = "Honda"},
+                new Make { Name = "Kawazaki"},
+                new Make { Name = "MAN"},
+                new Make { Name = "Mercedes"},
+            });
+
+            dbContext.SaveChanges();
+        }
+
+        public void SeedMakeVehicleTypes()
+        {
+            if (dbContext.MakeVehicleTypes.Any())
+            {
+                return;
+            }
+
+            dbContext.MakeVehicleTypes.AddRange(new[]
+            {
+                new MakeVehicleType { MakeId = 1, VehicleTypeId = 1 },
+                new MakeVehicleType { MakeId = 2, VehicleTypeId = 1 },
+                new MakeVehicleType { MakeId = 2, VehicleTypeId = 2 },
+                new MakeVehicleType { MakeId = 3, VehicleTypeId = 1 },
+                new MakeVehicleType { MakeId = 4, VehicleTypeId = 1 },
+                new MakeVehicleType { MakeId = 5, VehicleTypeId = 1 },
+                new MakeVehicleType { MakeId = 5, VehicleTypeId = 2 },
+                new MakeVehicleType { MakeId = 5, VehicleTypeId = 4 },
+                new MakeVehicleType { MakeId = 6, VehicleTypeId = 2 },
+                new MakeVehicleType { MakeId = 6, VehicleTypeId = 4 },
+                new MakeVehicleType { MakeId = 7, VehicleTypeId = 3 },
+                new MakeVehicleType { MakeId = 8, VehicleTypeId = 1 },
+                new MakeVehicleType { MakeId = 8, VehicleTypeId = 3 },
             });
 
             dbContext.SaveChanges();

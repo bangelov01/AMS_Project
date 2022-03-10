@@ -7,16 +7,15 @@
     {
         public VehicleType()
         {
-            this.Id = Guid.NewGuid().ToString();
-            this.Vehicles = new HashSet<Vehicle>();
+            this.MakeVehicleTypes = new HashSet<MakeVehicleType>();
         }
 
         [Key]
-        public string Id { get; init; }
+        public int Id { get; init; }
 
         [Required, MaxLength(VehicleConstants.TypeMaxLength)]
         public string Name { get; set; }
 
-        public virtual ICollection<Vehicle> Vehicles { get; init; }
+        public virtual ICollection<MakeVehicleType> MakeVehicleTypes { get; init;}
     }
 }

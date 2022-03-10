@@ -138,6 +138,21 @@ namespace AMS.Data.Migrations
                     b.ToTable("Makes");
                 });
 
+            modelBuilder.Entity("AMS.Data.Models.MakeVehicleType", b =>
+                {
+                    b.Property<int>("MakeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("VehicleTypeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("MakeId", "VehicleTypeId");
+
+                    b.HasIndex("VehicleTypeId");
+
+                    b.ToTable("MakeVehicleTypes");
+                });
+
             modelBuilder.Entity("AMS.Data.Models.Model", b =>
                 {
                     b.Property<int>("Id")
@@ -263,10 +278,6 @@ namespace AMS.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("VehicleTypeId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<int>("Year")
                         .HasColumnType("int");
 
@@ -280,15 +291,16 @@ namespace AMS.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.HasIndex("VehicleTypeId");
-
                     b.ToTable("Vehicles");
                 });
 
             modelBuilder.Entity("AMS.Data.Models.VehicleType", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -482,6 +494,25 @@ namespace AMS.Data.Migrations
                     b.Navigation("Vehicle");
                 });
 
+            modelBuilder.Entity("AMS.Data.Models.MakeVehicleType", b =>
+                {
+                    b.HasOne("AMS.Data.Models.Make", "Make")
+                        .WithMany("MakeVehicleTypes")
+                        .HasForeignKey("MakeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AMS.Data.Models.VehicleType", "VehicleType")
+                        .WithMany("MakeVehicleTypes")
+                        .HasForeignKey("VehicleTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Make");
+
+                    b.Navigation("VehicleType");
+                });
+
             modelBuilder.Entity("AMS.Data.Models.Model", b =>
                 {
                     b.HasOne("AMS.Data.Models.Make", "Make")
@@ -528,12 +559,6 @@ namespace AMS.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("AMS.Data.Models.VehicleType", "VehicleType")
-                        .WithMany("Vehicles")
-                        .HasForeignKey("VehicleTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Auction");
 
                     b.Navigation("Condition");
@@ -541,8 +566,6 @@ namespace AMS.Data.Migrations
                     b.Navigation("Model");
 
                     b.Navigation("User");
-
-                    b.Navigation("VehicleType");
                 });
 
             modelBuilder.Entity("AMS.Data.Models.Watchlist", b =>
@@ -634,6 +657,8 @@ namespace AMS.Data.Migrations
 
             modelBuilder.Entity("AMS.Data.Models.Make", b =>
                 {
+                    b.Navigation("MakeVehicleTypes");
+
                     b.Navigation("Models");
                 });
 
@@ -660,7 +685,7 @@ namespace AMS.Data.Migrations
 
             modelBuilder.Entity("AMS.Data.Models.VehicleType", b =>
                 {
-                    b.Navigation("Vehicles");
+                    b.Navigation("MakeVehicleTypes");
                 });
 #pragma warning restore 612, 618
         }
