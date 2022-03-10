@@ -7,5 +7,6 @@
         public void SeedAdministrator();
         public void SeedMakes();
         public void SeedMakeVehicleTypes();
+        public void SeedModels();
     }
 }

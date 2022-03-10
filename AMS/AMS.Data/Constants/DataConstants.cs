@@ -9,8 +9,8 @@
 
         public class UserConstants
         {
-            public const int UsernameMinLength = 5;
-            public const int UsernameMaxLength = 30;
+            public const byte UsernameMinLength = 5;
+            public const byte UsernameMaxLength = 30;
         }
 
         public class VehicleConstants
@@ -19,7 +19,12 @@
             public const byte MakeMaxLength = 30;
             public const byte TypeMaxLength = 30;
             public const byte ModelMaxLength = 50;
+            public const short DescriptionMinLength = 5;
             public const short DescriptionMaxLength = 255;
+            public const int YearMinValue = 1800;
+            public const int YearMaxValue = 2023;
+            public const string PriceDecimalRangeMinValue = "0";
+            public const string PriceDecimalRangeMaxValue = "79228162514264337593543950335";
 
         }
 

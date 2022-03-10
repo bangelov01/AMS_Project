@@ -148,5 +148,23 @@
 
             dbContext.SaveChanges();
         }
+
+        public void SeedModels()
+        {
+            if (dbContext.Models.Any())
+            {
+                return;
+            }
+
+            dbContext.Models.AddRange(new[]
+            {
+                new Model {MakeId = 1, Name = "A2"},
+                new Model {MakeId = 1, Name = "A4"},
+                new Model {MakeId = 2, Name = "330d"},
+                new Model {MakeId = 2, Name = "630d"},
+            });
+
+            dbContext.SaveChanges();
+        }
     }
 }
