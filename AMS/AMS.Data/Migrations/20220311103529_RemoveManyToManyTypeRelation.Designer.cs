@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AMS.Data.Migrations
 {
     [DbContext(typeof(AMSDbContext))]
-    [Migration("20220310090855_CreateModelVehicleTypeTable")]
-    partial class CreateModelVehicleTypeTable
+    [Migration("20220311103529_RemoveManyToManyTypeRelation")]
+    partial class RemoveManyToManyTypeRelation
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -140,21 +140,6 @@ namespace AMS.Data.Migrations
                     b.ToTable("Makes");
                 });
 
-            modelBuilder.Entity("AMS.Data.Models.MakeVehicleType", b =>
-                {
-                    b.Property<int>("MakeId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("VehicleTypeId")
-                        .HasColumnType("int");
-
-                    b.HasKey("MakeId", "VehicleTypeId");
-
-                    b.HasIndex("VehicleTypeId");
-
-                    b.ToTable("MakeVehicleTypes");
-                });
-
             modelBuilder.Entity("AMS.Data.Models.Model", b =>
                 {
                     b.Property<int>("Id")
@@ -171,9 +156,14 @@ namespace AMS.Data.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<int>("VehicleTypeId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("MakeId");
+
+                    b.HasIndex("VehicleTypeId");
 
                     b.ToTable("Models");
                 });
@@ -275,6 +265,9 @@ namespace AMS.Data.Migrations
 
                     b.Property<int>("ModelId")
                         .HasColumnType("int");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -496,25 +489,6 @@ namespace AMS.Data.Migrations
                     b.Navigation("Vehicle");
                 });
 
-            modelBuilder.Entity("AMS.Data.Models.MakeVehicleType", b =>
-                {
-                    b.HasOne("AMS.Data.Models.Make", "Make")
-                        .WithMany("MakeVehicleTypes")
-                        .HasForeignKey("MakeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("AMS.Data.Models.VehicleType", "VehicleType")
-                        .WithMany("MakeVehicleTypes")
-                        .HasForeignKey("VehicleTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Make");
-
-                    b.Navigation("VehicleType");
-                });
-
             modelBuilder.Entity("AMS.Data.Models.Model", b =>
                 {
                     b.HasOne("AMS.Data.Models.Make", "Make")
@@ -523,7 +497,15 @@ namespace AMS.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("AMS.Data.Models.VehicleType", "VehicleType")
+                        .WithMany("Models")
+                        .HasForeignKey("VehicleTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Make");
+
+                    b.Navigation("VehicleType");
                 });
 
             modelBuilder.Entity("AMS.Data.Models.User", b =>
@@ -659,8 +641,6 @@ namespace AMS.Data.Migrations
 
             modelBuilder.Entity("AMS.Data.Models.Make", b =>
                 {
-                    b.Navigation("MakeVehicleTypes");
-
                     b.Navigation("Models");
                 });
 
@@ -687,7 +667,7 @@ namespace AMS.Data.Migrations
 
             modelBuilder.Entity("AMS.Data.Models.VehicleType", b =>
                 {
-                    b.Navigation("MakeVehicleTypes");
+                    b.Navigation("Models");
                 });
 #pragma warning restore 612, 618
         }

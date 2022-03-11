@@ -94,7 +94,6 @@
                 new VehicleType { Name = "Car" },
                 new VehicleType { Name = "Motorbike" },
                 new VehicleType { Name = "Truck" },
-                new VehicleType { Name = "ATV" }
             });
 
             dbContext.SaveChanges();
@@ -122,33 +121,6 @@
             dbContext.SaveChanges();
         }
 
-        public void SeedMakeVehicleTypes()
-        {
-            if (dbContext.MakeVehicleTypes.Any())
-            {
-                return;
-            }
-
-            dbContext.MakeVehicleTypes.AddRange(new[]
-            {
-                new MakeVehicleType { MakeId = 1, VehicleTypeId = 1 },
-                new MakeVehicleType { MakeId = 2, VehicleTypeId = 1 },
-                new MakeVehicleType { MakeId = 2, VehicleTypeId = 2 },
-                new MakeVehicleType { MakeId = 3, VehicleTypeId = 1 },
-                new MakeVehicleType { MakeId = 4, VehicleTypeId = 1 },
-                new MakeVehicleType { MakeId = 5, VehicleTypeId = 1 },
-                new MakeVehicleType { MakeId = 5, VehicleTypeId = 2 },
-                new MakeVehicleType { MakeId = 5, VehicleTypeId = 4 },
-                new MakeVehicleType { MakeId = 6, VehicleTypeId = 2 },
-                new MakeVehicleType { MakeId = 6, VehicleTypeId = 4 },
-                new MakeVehicleType { MakeId = 7, VehicleTypeId = 3 },
-                new MakeVehicleType { MakeId = 8, VehicleTypeId = 1 },
-                new MakeVehicleType { MakeId = 8, VehicleTypeId = 3 },
-            });
-
-            dbContext.SaveChanges();
-        }
-
         public void SeedModels()
         {
             if (dbContext.Models.Any())
@@ -158,10 +130,30 @@
 
             dbContext.Models.AddRange(new[]
             {
-                new Model {MakeId = 1, Name = "A2"},
-                new Model {MakeId = 1, Name = "A4"},
-                new Model {MakeId = 2, Name = "330d"},
-                new Model {MakeId = 2, Name = "630d"},
+                new Model { VehicleTypeId = 1, MakeId = 1, Name = "A3"},
+                new Model { VehicleTypeId = 1, MakeId = 1, Name = "A4"},
+                new Model { VehicleTypeId = 1, MakeId = 2, Name = "330d"},
+                new Model { VehicleTypeId = 1, MakeId = 2, Name = "630d"},
+                new Model { VehicleTypeId = 1, MakeId = 3, Name = "Avensis"},
+                new Model { VehicleTypeId = 1, MakeId = 3, Name = "Supra"},
+                new Model { VehicleTypeId = 1, MakeId = 4, Name = "3"},
+                new Model { VehicleTypeId = 1, MakeId = 4, Name = "Miata"},
+                new Model { VehicleTypeId = 1, MakeId = 5, Name = "Accord"},
+                new Model { VehicleTypeId = 1, MakeId = 5, Name = "Civic"},
+                new Model { VehicleTypeId = 1, MakeId = 8, Name = "S Class"},
+                new Model { VehicleTypeId = 1, MakeId = 8, Name = "C Class"},
+
+                new Model { VehicleTypeId = 2, MakeId = 2, Name = "R 1250 RS"},
+                new Model { VehicleTypeId = 2, MakeId = 2, Name = "R 2000 RS"},
+
+                new Model { VehicleTypeId = 2, MakeId = 5, Name = "X-ADV"},
+                new Model { VehicleTypeId = 2, MakeId = 5, Name = "CB1000R"},
+
+                new Model { VehicleTypeId = 3, MakeId = 7, Name = "TGS"},
+                new Model { VehicleTypeId = 3, MakeId = 7, Name = "TGM"},
+
+                new Model { VehicleTypeId = 3, MakeId = 8, Name = "Actros L"},
+                new Model { VehicleTypeId = 3, MakeId = 8, Name = "Unimog"},
             });
 
             dbContext.SaveChanges();

@@ -24,6 +24,12 @@
 
         public virtual Make Make { get; init; }
 
+        [Required]
+        [ForeignKey(nameof(VehicleType))]
+        public int VehicleTypeId { get; init; }
+
+        public virtual VehicleType VehicleType { get; init; }
+
         public virtual ICollection<Vehicle> Vehicles { get; init; }
     }
 }

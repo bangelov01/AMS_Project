@@ -39,8 +39,6 @@
 
             seeder.SeedMakes();
 
-            seeder.SeedMakeVehicleTypes();
-
             seeder.SeedModels();
         }
     }

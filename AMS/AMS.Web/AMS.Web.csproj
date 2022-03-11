@@ -29,4 +29,8 @@
     <ProjectReference Include="..\AMS.Services\AMS.Services.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\Listings\" />
+  </ItemGroup>
+
 </Project>

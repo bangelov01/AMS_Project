@@ -19,7 +19,6 @@
         public virtual DbSet<Make> Makes { get; init; }
         public virtual DbSet<Model> Models { get; init; }
         public virtual DbSet<VehicleType> VehicleTypes { get; init; }
-        public virtual DbSet<MakeVehicleType> MakeVehicleTypes { get; init; }
         public virtual DbSet<Vehicle> Vehicles { get; init; }
         public virtual DbSet<Watchlist> Watchlists { get; init; }
 
@@ -27,9 +26,6 @@
         {
             builder.Entity<Watchlist>()
                 .HasKey(k => new { k.UserId, k.VehicleId });
-
-            builder.Entity<MakeVehicleType>()
-                .HasKey(k => new { k.MakeId, k.VehicleTypeId });
 
             builder.Entity<User>()
                 .HasOne<Address>(u => u.Address)

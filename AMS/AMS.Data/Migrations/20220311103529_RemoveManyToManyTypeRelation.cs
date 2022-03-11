@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace AMS.Data.Migrations
 {
-    public partial class CreateModelVehicleTypeTable : Migration
+    public partial class RemoveManyToManyTypeRelation : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -157,7 +157,8 @@ namespace AMS.Data.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    MakeId = table.Column<int>(type: "int", nullable: false)
+                    MakeId = table.Column<int>(type: "int", nullable: false),
+                    VehicleTypeId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -168,26 +169,8 @@ namespace AMS.Data.Migrations
                         principalTable: "Makes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "MakeVehicleTypes",
-                columns: table => new
-                {
-                    MakeId = table.Column<int>(type: "int", nullable: false),
-                    VehicleTypeId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_MakeVehicleTypes", x => new { x.MakeId, x.VehicleTypeId });
                     table.ForeignKey(
-                        name: "FK_MakeVehicleTypes_Makes_MakeId",
-                        column: x => x.MakeId,
-                        principalTable: "Makes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_MakeVehicleTypes_VehicleTypes_VehicleTypeId",
+                        name: "FK_Models_VehicleTypes_VehicleTypeId",
                         column: x => x.VehicleTypeId,
                         principalTable: "VehicleTypes",
                         principalColumn: "Id",
@@ -287,6 +270,7 @@ namespace AMS.Data.Migrations
                     Year = table.Column<int>(type: "int", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(19,4)", nullable: false),
                     AuctionId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ConditionId = table.Column<string>(type: "nvarchar(450)", nullable: false),
@@ -432,14 +416,14 @@ namespace AMS.Data.Migrations
                 column: "VehicleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MakeVehicleTypes_VehicleTypeId",
-                table: "MakeVehicleTypes",
-                column: "VehicleTypeId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Models_MakeId",
                 table: "Models",
                 column: "MakeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Models_VehicleTypeId",
+                table: "Models",
+                column: "VehicleTypeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Vehicles_AuctionId",
@@ -488,16 +472,10 @@ namespace AMS.Data.Migrations
                 name: "Bids");
 
             migrationBuilder.DropTable(
-                name: "MakeVehicleTypes");
-
-            migrationBuilder.DropTable(
                 name: "Watchlists");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
-
-            migrationBuilder.DropTable(
-                name: "VehicleTypes");
 
             migrationBuilder.DropTable(
                 name: "Vehicles");
@@ -519,6 +497,9 @@ namespace AMS.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Makes");
+
+            migrationBuilder.DropTable(
+                name: "VehicleTypes");
         }
     }
 }

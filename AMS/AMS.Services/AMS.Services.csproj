@@ -10,4 +10,8 @@
     <ProjectReference Include="..\AMS.Data\AMS.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\Listings\" />
+  </ItemGroup>
+
 </Project>
