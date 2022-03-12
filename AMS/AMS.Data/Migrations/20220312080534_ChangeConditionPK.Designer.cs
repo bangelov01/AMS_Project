@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AMS.Data.Migrations
 {
     [DbContext(typeof(AMSDbContext))]
-    [Migration("20220311103529_RemoveManyToManyTypeRelation")]
-    partial class RemoveManyToManyTypeRelation
+    [Migration("20220312080534_ChangeConditionPK")]
+    partial class ChangeConditionPK
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -109,8 +109,11 @@ namespace AMS.Data.Migrations
 
             modelBuilder.Entity("AMS.Data.Models.Condition", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -250,9 +253,8 @@ namespace AMS.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("ConditionId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("ConditionId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .IsRequired()

@@ -43,7 +43,7 @@
 
         [Required]
         [ForeignKey(nameof(Condition))]
-        public string ConditionId { get; set; }
+        public int ConditionId { get; set; }
 
         public virtual Condition Condition { get; init; }
 

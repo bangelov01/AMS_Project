@@ -23,8 +23,8 @@
             public const short DescriptionMaxLength = 255;
             public const int YearMinValue = 1800;
             public const int YearMaxValue = 2023;
-            public const string PriceDecimalRangeMinValue = "0";
-            public const string PriceDecimalRangeMaxValue = "79228162514264337593543950335";
+            public const double PriceMinValue = 0.0;
+            public const double PriceMaxValue = double.MaxValue;
 
         }
 

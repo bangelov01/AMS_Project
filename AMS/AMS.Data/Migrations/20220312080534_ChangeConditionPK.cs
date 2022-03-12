@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace AMS.Data.Migrations
 {
-    public partial class RemoveManyToManyTypeRelation : Migration
+    public partial class ChangeConditionPK : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -41,7 +41,8 @@ namespace AMS.Data.Migrations
                 name: "Conditions",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false)
                 },
                 constraints: table =>
@@ -273,7 +274,7 @@ namespace AMS.Data.Migrations
                     Price = table.Column<decimal>(type: "decimal(19,4)", nullable: false),
                     AuctionId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ConditionId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ConditionId = table.Column<int>(type: "int", nullable: false),
                     ModelId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
