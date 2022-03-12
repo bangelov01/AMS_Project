@@ -26,7 +26,8 @@ builder.Services.AddTransient<IDataSeederService, DataSeederService>();
 builder.Services.AddTransient<IAuctionService, AuctionService>();
 builder.Services.AddTransient<IAddressService, AddressService>();
 builder.Services.AddTransient<IUserService, UserService>();
-builder.Services.AddTransient<IVehicleService, VehicleService>();
+builder.Services.AddTransient<IListingService, ListingService>();
+builder.Services.AddTransient<IValidatorService, ValidatorService>();
 
 builder.Services.AddDefaultIdentity<User>(options => {
 

@@ -28,7 +28,7 @@
                     <a class="btn btn-light" asp-controller="Listings" asp-action="All" asp-route-id="@auction.Id">View Listings</a>
                     @if (User.Id() != null)
                     {
-                        <a class="btn btn-light" asp-controller="Listings" asp-action="Create" asp-route-id="@auction.Id">Add Listing</a>
+                        <a class="btn btn-light" asp-controller="Listings" asp-action="Create" asp-route-auctionId="@auction.Id">Add Listing</a>
                     }
                 </div>
             </div>
