@@ -11,12 +11,18 @@
     {
         private readonly IListingService listingService;
         private readonly IValidatorService validatorService;
+        private readonly IAuctionService auctionService;
+        private readonly IUserService userService;
 
         public ListingsController(IListingService listingService,
-            IValidatorService validatorService)
+            IValidatorService validatorService,
+            IAuctionService auctionService,
+            IUserService userService)
         {
             this.listingService = listingService;
             this.validatorService = validatorService;
+            this.auctionService = auctionService;
+            this.userService = userService;
         }
 
         [Authorize]
@@ -64,17 +70,29 @@
                 listing.ModelId,
                 this.User.Id());
 
-            return RedirectToAction(nameof(All), "Listings");
+            return RedirectToAction(nameof(All), new { auctionId = auctionId });
         }
 
-        public IActionResult All(string auctionId)
+        public IActionResult All(string auctionId, int currentPage = 1)
         {
             if (!validatorService.IsAuctionValid(auctionId))
             {
                 return BadRequest();
             }
 
-            return View();
+            var currentAuction = auctionService.ById(auctionId);
+
+            var listings = new AllListingsViewModel
+            {
+                Listings = listingService.AllForAuction(auctionId),
+                Number = currentAuction.Number,
+                Start = currentAuction.Start,
+                End = currentAuction.End,
+                City = currentAuction.City,
+                CurrentPage = currentPage
+            };
+
+            return View(listings);
         }
     }
 }

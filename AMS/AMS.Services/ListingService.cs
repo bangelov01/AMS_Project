@@ -3,6 +3,8 @@
     using AMS.Data;
     using AMS.Data.Models;
     using AMS.Services.Contracts;
+    using AMS.Services.Models.Auctions;
+    using AMS.Services.Models.Bids;
     using AMS.Services.Models.Listings;
     using System.Collections.Generic;
 
@@ -38,6 +40,34 @@
 
             dbContext.Vehicles.Add(vehicle);
             dbContext.SaveChanges();
+        }
+
+        public ICollection<ListingsServiceModel> AllForAuction(string auctionId)
+        {
+            var listings = dbContext
+                .Vehicles
+                .Where(v => v.AuctionId == auctionId)
+                .Select(v => new ListingsServiceModel
+                {
+                    Id = v.Id,
+                    Year = v.Year,
+                    Description = v.Description,
+                    ImageUrl = v.ImageUrl,
+                    Price = v.Price,
+                    Make = v.Model.Make.Name,
+                    Model = v.Model.Name,
+                    CreatorId = v.UserId,
+                    CreatorName = v.User.UserName,
+                    Bids = v.Bids.Select(b => new BidServiceModel {
+                        Number = b.Number,
+                        Amount = b.Amount,
+                        User = v.User.UserName
+                    })
+                    .ToArray()
+                })
+                .ToList();
+
+            return listings;
         }
 
         public IEnumerable<ListingsConditionsServiceModel> Conditions()

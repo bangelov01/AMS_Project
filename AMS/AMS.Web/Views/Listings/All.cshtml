@@ -1,1 +1,19 @@
-﻿
+﻿@model AllListingsViewModel
+
+<h1>#@Model.Number</h1>
+<h1>#@Model.Start</h1>
+<h1>#@Model.End</h1>
+<h1>#@Model.City</h1>
+
+@foreach (var listing in Model.Listings)
+{
+    <h2>@listing.CreatorId</h2>
+    <h2>@listing.CreatorName</h2>
+
+    <h2>@listing.Make - @listing.Model</h2>
+    <h2>@listing.Price</h2>
+    <h2>@listing.ImageUrl</h2>
+    <h2>@listing.Description</h2>
+    <h2>@listing.Bids.Count</h2>
+
+}

@@ -25,7 +25,7 @@
                     <p class="card-text"><strong>Location: </strong>@auction.Country, @auction.City</p>
                     <p class="card-text"><strong>Listings: </strong>@auction.ListingsCount</p>
                     <p class="card-text"><strong>Time remaining: </strong>@timeString</p>
-                    <a class="btn btn-light" asp-controller="Listings" asp-action="All" asp-route-id="@auction.Id">View Listings</a>
+                    <a class="btn btn-light" asp-controller="Listings" asp-action="All" asp-route-auctionId="@auction.Id">View Listings</a>
                     @if (User.Id() != null)
                     {
                         <a class="btn btn-light" asp-controller="Listings" asp-action="Create" asp-route-auctionId="@auction.Id">Add Listing</a>

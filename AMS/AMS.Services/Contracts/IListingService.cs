@@ -12,6 +12,8 @@
             string auctionId,
             int modelId,
             string userId);
+
+        public ICollection<ListingsServiceModel> AllForAuction(string auctionId);
         public IEnumerable<ListingsConditionsServiceModel> Conditions();
         public IEnumerable<ListingsTypesServiceModel> Types();
         public IEnumerable<ListingsMakesServiceModel> Makes();

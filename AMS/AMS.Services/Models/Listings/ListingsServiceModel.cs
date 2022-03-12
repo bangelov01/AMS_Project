@@ -18,6 +18,10 @@
 
         public decimal Price { get; init; }
 
+        public string CreatorId { get; init; }
+
+        public string CreatorName { get; init; }
+
         public ICollection<BidServiceModel> Bids { get; init; }
     }
 }
