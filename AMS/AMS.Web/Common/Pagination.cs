@@ -1,4 +1,4 @@
-﻿namespace AMS.Web.Views.Common
+﻿namespace AMS.Web.Common
 {
     public static class Pagination
     {

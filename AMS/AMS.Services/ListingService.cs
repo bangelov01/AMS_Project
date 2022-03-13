@@ -42,7 +42,7 @@
             dbContext.SaveChanges();
         }
 
-        public ICollection<ListingsServiceModel> AllForAuction(string auctionId)
+        public ICollection<Models.Listings.ListingsServiceModel> AllForAuction(string auctionId)
         {
             var listings = dbContext
                 .Vehicles

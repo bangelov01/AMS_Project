@@ -54,11 +54,11 @@
             dbContext.SaveChanges();
         }
 
-        public ICollection<AuctionServiceModel> AllActive()
+        public ICollection<AllAuctionsServiceModel> AllActive()
             => dbContext
                 .Auctions
                 .Where(a => a.End > DateTime.UtcNow)
-                .Select(a => new AuctionServiceModel
+                .Select(a => new AllAuctionsServiceModel
                 {
                     Id = a.Id,
                     Number = a.Number,
@@ -71,13 +71,13 @@
                 })
                 .ToList();
 
-        public ICollection<AuctionServiceModel> AllActivePerPage(int currentPage, int auctionsPerPage)
+        public ICollection<AllAuctionsServiceModel> AllActivePerPage(int currentPage, int auctionsPerPage)
             => dbContext
                 .Auctions
                 .Where(a => a.End > DateTime.UtcNow)
                 .Skip((currentPage - 1) * auctionsPerPage)
                 .Take(auctionsPerPage)
-                .Select(a => new AuctionServiceModel
+                .Select(a => new AllAuctionsServiceModel
                 {
                     Id = a.Id,
                     Number = a.Number,
@@ -105,12 +105,12 @@
             return true;
         }
 
-        public AuctionDetailsServiceModel DetailsById(string Id)
+        public AdminEditServiceModel DetailsById(string Id)
         {
             var auction = dbContext
                 .Auctions
                 .Where(a => a.Id == Id)
-                .Select(a => new AuctionDetailsServiceModel
+                .Select(a => new AdminEditServiceModel
                 {
                     Number = a.Number,
                     Description = a.Description,
