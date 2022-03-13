@@ -53,7 +53,7 @@
 
         public IActionResult Edit(string Id)
         {
-            var auction = auctionService.ById(Id);
+            var auction = auctionService.DetailsById(Id);
 
             var auctionForm = new AuctionFormModel
             {

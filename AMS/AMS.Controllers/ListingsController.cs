@@ -6,6 +6,7 @@
     using Microsoft.AspNetCore.Mvc;
 
     using static AMS.Services.Infrastructure.Extensions.ClaimsPrincipleExtensions;
+    using static AMS.Controllers.Constants.ControllersConstants;
 
     public class ListingsController : Controller
     {
@@ -80,11 +81,13 @@
                 return BadRequest();
             }
 
-            var currentAuction = auctionService.ById(auctionId);
+            var currentAuction = auctionService.DetailsListingsPerPage(auctionId, currentPage, ListingsPerPage);
 
             var listings = new AllListingsViewModel
             {
-                Listings = listingService.AllForAuction(auctionId),
+                Listings = currentAuction.Listings,
+                Id = auctionId,
+                TotalListings = listingService.Count(),
                 Number = currentAuction.Number,
                 Start = currentAuction.Start,
                 End = currentAuction.End,

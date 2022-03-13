@@ -1,19 +1,59 @@
 ﻿@model AllListingsViewModel
 
-<h1>#@Model.Number</h1>
-<h1>#@Model.Start</h1>
-<h1>#@Model.End</h1>
-<h1>#@Model.City</h1>
+@{
+    ViewBag.Title = "All Listings";
 
-@foreach (var listing in Model.Listings)
+    var span = Model.End.Subtract(DateTime.UtcNow);
+    var timeString = $"{span.Days} days, {span.Hours} hours, {span.Minutes} minutes.";
+}
+
+<div class="text-center mt-4">
+    <h1 class="display-4">Auction #@Model.Number</h1>
+    <h1 class="display-6">Location: @Model.City</h1>
+    <h1 class="display-6">Time Remaining: @timeString</h1>
+    <hr class="w-50 offset-3" />
+</div>
+
+<div class="row row-cols-3 row-cols-md-3 g-4 mt-2">
+    @foreach (var listing in Model.Listings)
+    {
+        <div class="col col-4">
+            <div class="card h-100 border-primary shadow rounded">
+                <img src="@listing.ImageUrl" class="card-img-top" style="height: 100%!important; ">
+                <div class="card-body">
+                    <h5 class="card-title">@listing.Make - @listing.Model</h5>
+                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted">Last updated 3 mins ago</small>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@{
+
+    (int previousPage, double maxPageShow, bool shouldButtonBeDisabled) = Pagination.Setup(@Model.CurrentPage,
+        @Model.TotalListings,
+        ControllersConstants.ListingsPerPage,
+        @Model.Listings.Count);
+}
+
+@if (Model.Listings.Any())
 {
-    <h2>@listing.CreatorId</h2>
-    <h2>@listing.CreatorName</h2>
-
-    <h2>@listing.Make - @listing.Model</h2>
-    <h2>@listing.Price</h2>
-    <h2>@listing.ImageUrl</h2>
-    <h2>@listing.Description</h2>
-    <h2>@listing.Bids.Count</h2>
-
+    <nav aria-label="...">
+        <ul class="pagination justify-content-center mt-5">
+            <li class="page-item @(Model.CurrentPage == 1 ? "disabled" : string.Empty)">
+                <a class="page-link" asp-controller="Listings" asp-action="All" asp-route-currentPage="@previousPage" asp-route-auctionId="@Model.Id">Previous</a>
+            </li>
+            @for (int i = 1; i <= maxPageShow; i++)
+            {
+                <li class="page-item @(Model.CurrentPage == i ? "active" : string.Empty)"><a class="page-link" asp-controller="Listings" asp-action="All" asp-route-currentPage="@i" asp-route-auctionId="@Model.Id">@i</a></li>
+            }
+            <li class="page-item @(shouldButtonBeDisabled ? "disabled" : string.Empty)">
+                <a class="page-link" asp-controller="Listings" asp-action="All" asp-route-currentPage="@(Model.CurrentPage + 1)" asp-route-auctionId="@Model.Id">Next</a>
+            </li>
+        </ul>
+    </nav>
 }

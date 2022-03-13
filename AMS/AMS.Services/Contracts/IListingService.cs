@@ -13,6 +13,7 @@
             int modelId,
             string userId);
 
+        public int Count();
         public ICollection<ListingsServiceModel> AllForAuction(string auctionId);
         public IEnumerable<ListingsConditionsServiceModel> Conditions();
         public IEnumerable<ListingsTypesServiceModel> Types();

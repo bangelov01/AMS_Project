@@ -37,24 +37,10 @@
 </div>
 
 @{
-    var previousPage = Model.CurrentPage - 1;
-
-    double maxPageShow = 3;
-
-    var maxPage = Math.Ceiling((double)Model.TotalAuctions / ControllersConstants.AuctionsPerPage);
-
-    var shouldButtonBeDisabled = Model.CurrentPage == maxPage ||
-                             !Model.Auctions.Any();
-
-    if (previousPage < 1)
-    {
-        previousPage = 1;
-    }
-
-    if (maxPage < maxPageShow)
-    {
-        maxPageShow = maxPage;
-    }
+    (int previousPage, double maxPageShow, bool shouldButtonBeDisabled) = Pagination.Setup(@Model.CurrentPage,
+        @Model.TotalAuctions,
+        ControllersConstants.AuctionsPerPage,
+        @Model.Auctions.Count);
 }
 
 @if (Model.Auctions.Any())

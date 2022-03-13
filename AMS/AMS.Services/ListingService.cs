@@ -109,5 +109,8 @@
                 Name = x.Name
             })
             .ToList();
+
+        public int Count()
+            => dbContext.Vehicles.Count();
     }
 }
