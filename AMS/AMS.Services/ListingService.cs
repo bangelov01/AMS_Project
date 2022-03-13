@@ -3,7 +3,6 @@
     using AMS.Data;
     using AMS.Data.Models;
     using AMS.Services.Contracts;
-    using AMS.Services.Models.Auctions;
     using AMS.Services.Models.Bids;
     using AMS.Services.Models.Listings;
     using System.Collections.Generic;
@@ -70,40 +69,40 @@
             return listings;
         }
 
-        public IEnumerable<ListingsConditionsServiceModel> Conditions()
+        public IEnumerable<ListingPropertyServiceModel> Conditions()
             => dbContext
             .Conditions
-            .Select(x => new ListingsConditionsServiceModel
+            .Select(x => new ListingPropertyServiceModel
             {
                 Id = x.Id,
                 Name = x.Name 
             })
             .ToList();
 
-        public IEnumerable<ListingsMakesServiceModel> Makes()
+        public IEnumerable<ListingPropertyServiceModel> Makes()
             => dbContext
             .Makes
-            .Select(x => new ListingsMakesServiceModel
+            .Select(x => new ListingPropertyServiceModel
             {
                 Id = x.Id,
                 Name= x.Name
             })
             .ToList();
 
-        public IEnumerable<ListingsModelsServiceModel> Models()
+        public IEnumerable<ListingPropertyServiceModel> Models()
             => dbContext
             .Models
-            .Select(x => new ListingsModelsServiceModel
+            .Select(x => new ListingPropertyServiceModel
             {
                 Id = x.Id,
                 Name = x.Name
             })
             .ToList();
 
-        public IEnumerable<ListingsTypesServiceModel> Types()
+        public IEnumerable<ListingPropertyServiceModel> Types()
             => dbContext
             .VehicleTypes
-            .Select(x => new ListingsTypesServiceModel
+            .Select(x => new ListingPropertyServiceModel
             {
                 Id = x.Id,
                 Name = x.Name

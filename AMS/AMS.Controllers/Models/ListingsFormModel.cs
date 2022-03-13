@@ -9,19 +9,19 @@
     {
         [Display(Name = "Condition")]
         public int ConditionId { get; init; }
-        public IEnumerable<ListingsConditionsServiceModel> Conditions { get; set; }
+        public IEnumerable<ListingPropertyServiceModel> Conditions { get; set; }
 
         [Display(Name = "Vehicle Type")]
         public int TypeId { get; init; }
-        public IEnumerable<ListingsTypesServiceModel> Types { get; set; }
+        public IEnumerable<ListingPropertyServiceModel> Types { get; set; }
 
         [Display(Name = "Make")]
         public int MakeId { get; init; }
-        public IEnumerable<ListingsMakesServiceModel> Makes { get; set; }
+        public IEnumerable<ListingPropertyServiceModel> Makes { get; set; }
 
         [Display(Name = "Model")]
         public int ModelId { get; init; }
-        public IEnumerable<ListingsModelsServiceModel> Models { get; set; }
+        public IEnumerable<ListingPropertyServiceModel> Models { get; set; }
 
         [Range(YearMinValue, YearMaxValue)]
         public int Year { get; init; }

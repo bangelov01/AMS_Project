@@ -15,9 +15,9 @@
 
         public int Count();
         public ICollection<ListingsServiceModel> AllForAuction(string auctionId);
-        public IEnumerable<ListingsConditionsServiceModel> Conditions();
-        public IEnumerable<ListingsTypesServiceModel> Types();
-        public IEnumerable<ListingsMakesServiceModel> Makes();
-        public IEnumerable<ListingsModelsServiceModel> Models();
+        public IEnumerable<ListingPropertyServiceModel> Conditions();
+        public IEnumerable<ListingPropertyServiceModel> Types();
+        public IEnumerable<ListingPropertyServiceModel> Makes();
+        public IEnumerable<ListingPropertyServiceModel> Models();
     }
 }
