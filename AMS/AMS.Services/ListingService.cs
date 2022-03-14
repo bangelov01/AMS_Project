@@ -3,6 +3,7 @@
     using AMS.Data;
     using AMS.Data.Models;
     using AMS.Services.Contracts;
+    using AMS.Services.Models.Auctions;
     using AMS.Services.Models.Bids;
     using AMS.Services.Models.Listings;
     using System.Collections.Generic;
@@ -34,39 +35,12 @@
                 AuctionId = auctionId,
                 UserId = userId,
                 ConditionId = conditionId,
-                ModelId = modelId
+                ModelId = modelId,
+                IsApproved = false
             };
 
             dbContext.Vehicles.Add(vehicle);
             dbContext.SaveChanges();
-        }
-
-        public ICollection<Models.Listings.ListingsServiceModel> AllForAuction(string auctionId)
-        {
-            var listings = dbContext
-                .Vehicles
-                .Where(v => v.AuctionId == auctionId)
-                .Select(v => new ListingsServiceModel
-                {
-                    Id = v.Id,
-                    Year = v.Year,
-                    Description = v.Description,
-                    ImageUrl = v.ImageUrl,
-                    Price = v.Price,
-                    Make = v.Model.Make.Name,
-                    Model = v.Model.Name,
-                    CreatorId = v.UserId,
-                    CreatorName = v.User.UserName,
-                    Bids = v.Bids.Select(b => new BidServiceModel {
-                        Number = b.Number,
-                        Amount = b.Amount,
-                        User = v.User.UserName
-                    })
-                    .ToArray()
-                })
-                .ToList();
-
-            return listings;
         }
 
         public IEnumerable<ListingPropertyServiceModel> Conditions()
@@ -109,7 +83,103 @@
             })
             .ToList();
 
-        public int Count()
-            => dbContext.Vehicles.Count();
+        public int Count(string auctionId)
+            => dbContext
+            .Vehicles
+            .Where(v => v.IsApproved == true && v.Auction.Id == auctionId)
+            .Count();
+
+
+        public AuctionListingsServiceModel DetailsListingsPerPage(string Id, int currentPage, int listingsPerPage)
+        {
+            var auction = dbContext
+                .Auctions
+                .Where(a => a.Id == Id)
+                .Select(a => new AuctionListingsServiceModel
+                {
+                    Number = a.Number,
+                    Start = a.Start,
+                    End = a.End,
+                    City = a.Address.City,
+                    Listings = a.Vehicles
+                    .Where(v => v.IsApproved == true)
+                    .Skip((currentPage - 1) * listingsPerPage)
+                    .Take(listingsPerPage)
+                    .Select(v => new AllListingsServiceModel
+                    {
+                        Id = v.Id,
+                        Description = v.Description,
+                        Make = v.Model.Make.Name,
+                        Model = v.Model.Name,
+                        ImageUrl = v.ImageUrl,
+                        Price = v.Price,
+                        Year = v.Year,
+                        CreatorName = v.User.UserName,
+                        Bids = v.Bids.Select(b => new BidServiceModel
+                        {
+                            Amount = b.Amount,
+                            Number = b.Number,
+                            User = b.UserId
+                        })
+                        .ToArray()
+                    })
+                    .ToArray()
+                })
+                .FirstOrDefault();
+
+            return auction;
+        }
+
+        public IEnumerable<AdminListingsServiceModel> NotApproved()
+            => dbContext
+            .Vehicles
+            .Where(v => v.IsApproved == false)
+            .Select(v => new AdminListingsServiceModel
+            {
+                Id = v.Id,
+                CreatorName = v.User.UserName,
+                ImageUrl = v.ImageUrl,
+                Year = v.Year,
+                Make = v.Model.Make.Name,
+                Model = v.Model.Name,
+                Description = v.Description,
+                IsUserSuspended = v.User.IsSuspended,
+                BidsCount = v.Bids.Count,
+            })
+            .ToList();
+
+        public bool Delete(string Id)
+        {
+            var listing = dbContext
+                .Vehicles
+                .Find(Id);
+
+            if(listing == null)
+            {
+                return false;
+            }
+
+            dbContext.Vehicles.Remove(listing);
+            dbContext.SaveChanges();
+
+            return true;
+        }
+
+        public bool Approve(string Id)
+        {
+            var listing = dbContext
+                .Vehicles
+                .Find(Id);
+
+            if (listing == null)
+            {
+                return false;
+            }
+
+            listing.IsApproved = true;
+            dbContext.SaveChanges();
+
+            return true;
+        }
     }
 }

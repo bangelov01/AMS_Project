@@ -5,7 +5,7 @@
 
     public class AllListingsViewModel
     {
-        public ICollection<ListingsServiceModel> Listings { get; init; }
+        public ICollection<AllListingsServiceModel> Listings { get; init; }
 
         public string Id { get; init; }
 

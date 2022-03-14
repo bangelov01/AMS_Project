@@ -9,8 +9,6 @@
     using AMS.Data.Models;
     using AMS.Services.Contracts;
     using AMS.Services.Models.Auctions;
-    using AMS.Services.Models.Listings;
-    using AMS.Services.Models.Bids;
 
     public class AuctionService : IAuctionService
     {
@@ -86,7 +84,7 @@
                     End = a.End,
                     City = a.Address.City,
                     Country = a.Address.Country,
-                    ListingsCount = a.Vehicles.Count
+                    ListingsCount = a.Vehicles.Count(v => v.IsApproved == true)
                 })
                 .ToList();
 
@@ -155,44 +153,5 @@
                 .Auctions
                 .Where(a => a.End > DateTime.UtcNow)
                 .Count();
-
-        public AuctionListingsServiceModel DetailsListingsPerPage(string Id, int currentPage, int listingsPerPage)
-        {
-            var auction = dbContext
-                .Auctions
-                .Where(a => a.Id == Id)
-                .Select(a => new AuctionListingsServiceModel
-                {
-                    Number = a.Number,
-                    Start = a.Start,
-                    End = a.End,
-                    City = a.Address.City,
-                    Listings = a.Vehicles
-                    .Skip((currentPage - 1) * listingsPerPage)
-                    .Take(listingsPerPage)
-                    .Select(v => new ListingsServiceModel
-                    {
-                        Id = v.Id,
-                        Description = v.Description,
-                        Make = v.Model.Make.Name,
-                        Model = v.Model.Name,
-                        ImageUrl = v.ImageUrl,
-                        Price = v.Price,
-                        Year = v.Year,
-                        CreatorName = v.User.UserName,
-                        Bids = v.Bids.Select(b => new BidServiceModel
-                        {
-                            Amount = b.Amount,
-                            Number = b.Number,
-                            User = b.UserId
-                        })
-                        .ToArray()
-                    })
-                    .ToArray()
-                })
-                .FirstOrDefault();
-
-            return auction;
-        }
     }
 }

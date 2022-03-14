@@ -5,6 +5,6 @@
 
     public class AuctionListingsServiceModel : AuctionServiceModel
     {
-        public ICollection<ListingsServiceModel> Listings { get; init; }
+        public ICollection<AllListingsServiceModel> Listings { get; init; }
     }
 }

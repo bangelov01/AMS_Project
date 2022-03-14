@@ -29,6 +29,8 @@
         [Column(TypeName = "decimal(19, 4)")]
         public decimal Price { get; set; }
 
+        public bool IsApproved { get; set; }
+
         [Required]
         [ForeignKey(nameof(Auction))]
         public string AuctionId { get; init; }

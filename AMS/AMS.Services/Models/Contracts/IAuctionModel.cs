@@ -1,4 +1,4 @@
-﻿namespace AMS.Services.Models.Auctions.Contracts
+﻿namespace AMS.Services.Models.Contracts
 {
     public interface IAuctionModel
     {
@@ -10,8 +10,5 @@
 
         public string City { get; }
 
-        public string Description { get; }
-
-        public string Country { get; }
     }
 }

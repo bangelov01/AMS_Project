@@ -14,30 +14,37 @@
     <hr class="w-50 offset-3" />
 </div>
 
-<div class="row row-cols-3 row-cols-md-3 g-4 mt-2">
-    @foreach (var listing in Model.Listings)
-    {
-        <div class="col col-4">
-            <div class="card h-100 border-primary shadow rounded">
-                <img src="@listing.ImageUrl" class="card-img-top" style="height: 100%!important; ">
-                <div class="card-body">
-                    <h5 class="card-title">@listing.Make - @listing.Model</h5>
-                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                </div>
-                <div class="card-footer">
-                    <small class="text-muted">Last updated 3 mins ago</small>
+@if (!Model.Listings.Any())
+{
+    <h1 class="display-6 text-danger text-center">No current approved listings for this auction!</h1>
+}
+else
+{
+    <div class="row row-cols-3 row-cols-md-3 g-4 mt-2">
+        @foreach (var listing in Model.Listings)
+        {
+            <div class="col col-4 @(Model.Listings.Count == 1 ? "offset-4" : string.Empty)">
+                <div class="card h-100 border-primary shadow rounded">
+                    <img src="@listing.ImageUrl" class="card-img-top" style="height: 100%!important; ">
+                    <div class="card-body">
+                        <h5 class="card-title">@listing.Make - @listing.Model</h5>
+                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted">Last updated 3 mins ago</small>
+                    </div>
                 </div>
             </div>
-        </div>
-    }
-</div>
+        }
+    </div>
+}
 
 @{
 
     (int previousPage, double maxPageShow, bool shouldButtonBeDisabled) = Pagination.Setup(@Model.CurrentPage,
-        @Model.TotalListings,
-        ControllersConstants.ListingsPerPage,
-        @Model.Listings.Count);
+                @Model.TotalListings,
+                ControllersConstants.ListingsPerPage,
+                @Model.Listings.Count);
 }
 
 @if (Model.Listings.Any())

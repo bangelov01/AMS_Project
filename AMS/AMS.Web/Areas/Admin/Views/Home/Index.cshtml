@@ -1,7 +1,87 @@
-﻿@{
-    ViewData["Title"] = "Admin Home Page";
+﻿@model IEnumerable<AdminListingsServiceModel>
+
+@{
+    ViewBag.Title = "Manage Listings";
+
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome to Admin Page</h1>
+<h2 class="heading-margin text-center">Listings awaiting approval</h2>
+
+
+<div class="row row-cols-3 row-cols-md-3 g-4 mt-2">
+    @foreach (var listing in Model)
+    {
+        <div class="col col-4 @(Model.Count() == 1 ? "offset-4" : string.Empty)">
+            <div class="card h-100">
+                <img src="@listing.ImageUrl" class="card-img-top" style="height: 100%!important; ">
+                <div class="card-body">
+                    <h5 class="card-title">@listing.Make - @listing.Model</h5>
+                    <p class="card-text">Creator: @listing.CreatorName</p>
+                    <p class="card-text">Creator Status: @(listing.IsUserSuspended ? "Suspended" : "Active")</p>
+                    <p class="card-text">Year: @listing.Year</p>
+                    <p class="card-text">Description: @listing.Description</p>
+                    <p class="card-text">Bids: @listing.BidsCount</p>
+                </div>
+                <div class="card-footer">
+                    <a class="btn btn-success btn-sm" asp-area="Admin" asp-controller="Home" asp-action="Approve" asp-route-id="@listing.Id">Approve</a>
+                    <a class="btn btn-danger btn-sm" asp-area="Admin" asp-controller="Home" asp-action="Delete" asp-route-id="@listing.Id">Delete</a>
+                </div>
+            </div>
+        </div>
+    }
 </div>
+
+@*
+    <div class="row row-cols-3 row-cols-md-3 g-4 mt-2">
+    @foreach (var listing in Model)
+    {
+
+    <div class="col col-4">
+    <div class="card h-100">
+    <img class="card-img-top" src="@listing.ImageUrl" style="height: 100%!important; ">
+    <div class="card-body">
+    <h5 class="card-title">@listing.Make - @listing.Model</h5>
+    <p class="card-text">Creator: @listing.CreatorName</p>
+    <p class="card-text">Creator Status: @(listing.IsUserSuspended ? "Suspended" : "Active")</p>
+    <p class="card-text">Year: @listing.Year</p>
+    <p class="card-text">Description: @listing.Description</p>
+    <p class="card-text">Bids: @listing.BidsCount</p>
+    <a class="btn btn-success btn-sm" asp-area="Admin" asp-controller="Home" asp-action="Approve" asp-route-id="@listing.Id">Approve</a>
+    <a class="btn btn-danger btn-sm" asp-area="Admin" asp-controller="Home" asp-action="Delete" asp-route-id="@listing.Id">Delete</a>
+    </div>
+    </div>
+    </div>
+    }
+    </div>*@
+
+@*            <table class="table table-bordered table table-responsive">
+    <thead>
+    <tr>
+    <th class="col">Creator</th>
+    <th class="col">Creator Status</th>
+    <th class="col">Make</th>
+    <th class="col">Model</th>
+    <th class="col">Year</th>
+    <th class="col">Description</th>
+    <th class="col">Bids</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var listing in Model)
+    {
+    <tr>
+    <td>@listing.CreatorName</td>
+    <td>@(listing.IsUserSuspended ? "Suspended" : "Active")</td>
+    <td>@listing.Make</td>
+    <td>@listing.Model</td>
+    <td>@listing.Year</td>
+    <td>@listing.Description</td>
+    <td>@listing.BidsCount</td>
+    <td>
+    <a class="btn btn-success btn-sm" asp-area="Admin" asp-controller="Home" asp-action="Approve" asp-route-id="@listing.Id">Approve</a>
+    <a class="btn btn-danger btn-sm" asp-area="Admin" asp-controller="Home" asp-action="Delete" asp-route-id="@listing.Id">Delete</a>
+    </td>
+    </tr>
+    }
+    </tbody>
+    </table>*@

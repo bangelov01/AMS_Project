@@ -6,6 +6,10 @@
     {
         public string Id { get; init; }
 
+        public string Country { get; init; }
+
+        public string Description { get; init; }
+
         public int ListingsCount { get; init; }
     }
 }

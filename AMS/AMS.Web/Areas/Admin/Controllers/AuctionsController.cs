@@ -9,10 +9,13 @@
     public class AuctionsController : AdminController
     {
         private readonly IAuctionService auctionService;
+        private readonly IValidatorService validatorService;
 
-        public AuctionsController(IAuctionService auctionService)
+        public AuctionsController(IAuctionService auctionService,
+            IValidatorService validatorService)
         {
             this.auctionService = auctionService;
+            this.validatorService = validatorService;
         }
 
         public IActionResult Create()
@@ -72,6 +75,11 @@
         [HttpPost]
         public IActionResult Edit(string Id, AuctionFormModel auction)
         {
+            if (!validatorService.IsAuctionValid(Id))
+            {
+                return BadRequest();
+            }
+
             auctionService.Edit(Id,
                 auction.Number,
                 auction.Description,

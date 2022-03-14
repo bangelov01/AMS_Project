@@ -12,17 +12,14 @@
     {
         private readonly IListingService listingService;
         private readonly IValidatorService validatorService;
-        private readonly IAuctionService auctionService;
         private readonly IUserService userService;
 
         public ListingsController(IListingService listingService,
             IValidatorService validatorService,
-            IAuctionService auctionService,
             IUserService userService)
         {
             this.listingService = listingService;
             this.validatorService = validatorService;
-            this.auctionService = auctionService;
             this.userService = userService;
         }
 
@@ -49,7 +46,7 @@
         {
             if (!validatorService.IsListingValid(listing.TypeId, listing.ConditionId, listing.MakeId, listing.ModelId))
             {
-                ModelState.AddModelError(nameof(listing.ConditionId), "One or more vehicle properties are invalid!");
+                return BadRequest();
             }
 
             if (!ModelState.IsValid)
@@ -76,22 +73,22 @@
 
         public IActionResult All(string auctionId, int currentPage = 1)
         {
-            if (!validatorService.IsAuctionValid(auctionId))
+            var auctionListings = listingService.DetailsListingsPerPage(auctionId, currentPage, ListingsPerPage);
+
+            if (auctionListings == null)
             {
                 return BadRequest();
             }
 
-            var currentAuction = auctionService.DetailsListingsPerPage(auctionId, currentPage, ListingsPerPage);
-
             var listings = new AllListingsViewModel
             {
-                Listings = currentAuction.Listings,
+                Listings = auctionListings.Listings,
                 Id = auctionId,
-                TotalListings = listingService.Count(),
-                Number = currentAuction.Number,
-                Start = currentAuction.Start,
-                End = currentAuction.End,
-                City = currentAuction.City,
+                TotalListings = listingService.Count(auctionId),
+                Number = auctionListings.Number,
+                Start = auctionListings.Start,
+                End = auctionListings.End,
+                City = auctionListings.City,
                 CurrentPage = currentPage
             };
 

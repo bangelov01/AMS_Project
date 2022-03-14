@@ -22,8 +22,6 @@
 
         public AdminEditServiceModel DetailsById(string Id);
 
-        public AuctionListingsServiceModel DetailsListingsPerPage(string Id, int currentPage, int listingsPerPage);
-
         public void Edit(string Id,
             int number,
             string Description,
