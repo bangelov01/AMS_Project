@@ -20,11 +20,19 @@
         {
             var query = auctionService.AllActivePerPage(currentPage, AuctionsPerPage);
 
+
+
             var auctions = new AllAuctionsViewModel
             {
                 Auctions = query,
-                CurrentPage = currentPage,
-                TotalAuctions = auctionService.AllActiveCount()
+                Pagination = new PaginationViewModel
+                {
+                    CurrentPage = currentPage,
+                    TotalItems = auctionService.AllActiveCount(),
+                    ItemsCount = query.Count(),
+                    ItemsPerPage = AuctionsPerPage,
+                    ControllerName = this.ControllerContext.RouteData.Values["controller"].ToString(),
+                }
             };
 
             return View(auctions);

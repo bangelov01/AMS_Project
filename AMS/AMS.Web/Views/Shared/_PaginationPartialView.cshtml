@@ -1,29 +1,27 @@
-﻿ @model dynamic
+﻿ @model PaginationViewModel
 
  @{
-    var a = @Model.totalItems;
+    var test = Model.ControllerName;
 
-    (int previousPage, double maxPageShow, bool shouldButtonBeDisabled) = ((int, double, bool))Pagination.Setup(@Model.currentPage,
-                @Model.totalItems,
-                @Model.itemsPerPage,
-                @Model.itemsCount);
+    (int previousPage, double maxPageShow, bool shouldButtonBeDisabled) = ((int, double, bool))Pagination.Setup(@Model.CurrentPage,
+                @Model.TotalItems,
+                @Model.ItemsPerPage,
+                @Model.ItemsCount);
 
-    var hasId = @Model.GetType().GetProperty("id") != null;
-
-    ;
+    var hasId = @Model.Id != null;
 }
 
 <nav aria-label="...">
     <ul class="pagination justify-content-center mt-5">
-        <li class="page-item @(Model.currentPage == 1 ? "disabled" : string.Empty)">
-            <a class="page-link" asp-controller="@Model.controllerName" asp-action="All" asp-route-currentPage="@previousPage" asp-route-Id="@(hasId ? Model.id : string.Empty)">Previous</a>
+        <li class="page-item @(Model.CurrentPage == 1 ? "disabled" : string.Empty)">
+            <a class="page-link" asp-controller="@Model.ControllerName" asp-action="All" asp-route-currentPage="@previousPage" asp-route-Id="@(hasId ? Model.Id : string.Empty)">Previous</a>
         </li>
         @for (int i = 1; i <= maxPageShow; i++)
         {
-            <li class="page-item @(Model.currentPage == i ? "active" : string.Empty)"><a class="page-link" asp-controller="@Model.controllerName" asp-action="All" asp-route-currentPage="@i" asp-route-Id="@(hasId ? Model.id : string.Empty)">@i</a></li>
+            <li class="page-item @(Model.CurrentPage == i ? "active" : string.Empty)"><a class="page-link" asp-controller="@Model.ControllerName" asp-action="All" asp-route-currentPage="@i" asp-route-Id="@(hasId ? Model.Id : string.Empty)">@i</a></li>
         }
         <li class="page-item @(shouldButtonBeDisabled ? "disabled" : string.Empty)">
-            <a class="page-link" asp-controller="@Model.controllerName" asp-action="All" asp-route-currentPage="@(Model.currentPage + 1)" asp-route-Id="@(hasId ? Model.id : string.Empty)">Next</a>
+            <a class="page-link" asp-controller="@Model.ControllerName" asp-action="All" asp-route-currentPage="@(Model.CurrentPage + 1)" asp-route-Id="@(hasId ? Model.Id : string.Empty)">Next</a>
         </li>
     </ul>
 </nav>

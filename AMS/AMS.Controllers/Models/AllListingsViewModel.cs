@@ -7,11 +7,7 @@
     {
         public ICollection<AllListingsServiceModel> Listings { get; init; }
 
-        public string Id { get; init; }
-
-        public int CurrentPage { get; init; }
-
-        public int TotalListings { get; init; }
+        public PaginationViewModel Pagination { get; init; }
 
         public int Number { get; init; }
 

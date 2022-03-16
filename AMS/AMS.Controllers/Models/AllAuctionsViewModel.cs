@@ -6,8 +6,6 @@
     {
         public ICollection<AllAuctionsServiceModel> Auctions { get; init; }
 
-        public int CurrentPage { get; init; }
-
-        public int TotalAuctions { get; init; }
+        public PaginationViewModel Pagination { get; init; }
     }
 }

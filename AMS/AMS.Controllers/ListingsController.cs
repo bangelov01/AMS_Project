@@ -85,13 +85,19 @@
             var listings = new AllListingsViewModel
             {
                 Listings = auctionListings.Listings,
-                Id = Id,
-                TotalListings = totalListings,
+                Pagination = new PaginationViewModel
+                {
+                    Id = Id,
+                    CurrentPage = currentPage,
+                    TotalItems = totalListings,
+                    ItemsCount = auctionListings.Listings.Count,
+                    ItemsPerPage = ListingsPerPage,
+                    ControllerName = this.ControllerContext.RouteData.Values["controller"].ToString()
+                },
                 Number = auctionListings.Number,
                 Start = auctionListings.Start,
                 End = auctionListings.End,
                 City = auctionListings.City,
-                CurrentPage = currentPage
             };
 
             return View(listings);

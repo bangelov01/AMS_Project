@@ -6,7 +6,7 @@
 
 <div class="text-center mt-4">
     <h1 class="display-4 font-weight-bold">Auctions</h1>
-    <h1 class="display-6">Currently Available - @Model.TotalAuctions</h1>
+    <h1 class="display-6">Currently Available - @Model.Pagination.TotalItems</h1>
     <hr class="w-50 offset-3" />
 </div>
 
@@ -42,9 +42,11 @@ else
         }
     </div>
 
+        <partial name="_PaginationPartialView" model="@Model.Pagination" />
+@*
     <partial name="_PaginationPartialView" model="@new {currentPage = Model.CurrentPage,
                                                         totalItems = Model.TotalAuctions,
                                                         itemsPerPage = ControllersConstants.AuctionsPerPage,
                                                         itemsCount = Model.Auctions.Count,
-                                                        controllerName = nameof(Model.Auctions)}" />
+                                                        controllerName = nameof(Model.Auctions)}" />*@
 }
