@@ -7,6 +7,7 @@
 
     using static AMS.Services.Infrastructure.Extensions.ClaimsPrincipleExtensions;
     using static AMS.Controllers.Constants.ControllersConstants;
+    using AMS.Services.Models.Auctions.Base;
 
     public class ListingsController : Controller
     {
@@ -77,7 +78,9 @@
 
             var totalListings = listingService.Count(Id);
 
-            if (auctionListings == null || currentPage > Math.Ceiling((double)totalListings / ListingsPerPage))
+            var maxPage =  Math.Ceiling((double)totalListings / ListingsPerPage);
+
+            if (auctionListings == null || currentPage > maxPage)
             {
                 return BadRequest();
             }
@@ -85,19 +88,21 @@
             var listings = new AllListingsViewModel
             {
                 Listings = auctionListings.Listings,
+                Auction = new AuctionServiceModel
+                {
+                    Number = auctionListings.Number,
+                    Start = auctionListings.Start,
+                    End = auctionListings.End,
+                    City = auctionListings.City,
+                },
                 Pagination = new PaginationViewModel
                 {
                     Id = Id,
                     CurrentPage = currentPage,
-                    TotalItems = totalListings,
                     ItemsCount = auctionListings.Listings.Count,
-                    ItemsPerPage = ListingsPerPage,
+                    MaxPage = maxPage,
                     ControllerName = this.ControllerContext.RouteData.Values["controller"].ToString()
-                },
-                Number = auctionListings.Number,
-                Start = auctionListings.Start,
-                End = auctionListings.End,
-                City = auctionListings.City,
+                }
             };
 
             return View(listings);

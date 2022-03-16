@@ -1,4 +1,4 @@
-﻿namespace AMS.Services.Models.Base.Auctions
+﻿namespace AMS.Services.Models.Auctions.Base
 {
     using AMS.Services.Models.Contracts;
 

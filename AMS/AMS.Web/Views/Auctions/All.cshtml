@@ -6,7 +6,7 @@
 
 <div class="text-center mt-4">
     <h1 class="display-4 font-weight-bold">Auctions</h1>
-    <h1 class="display-6">Currently Available - @Model.Pagination.TotalItems</h1>
+    <h1 class="display-6">Currently Available - @Model.Total</h1>
     <hr class="w-50 offset-3" />
 </div>
 
@@ -41,5 +41,6 @@ else
             </div>
         }
     </div>
-    <partial name="_PaginationPartialView" model="@Model.Pagination" />
+
+    <partial name="_PaginationPartial" model="@Model.Pagination" />
 }

@@ -2,17 +2,9 @@
 
 @{
     ViewBag.Title = "All Listings";
-
-    var span = Model.End.Subtract(DateTime.UtcNow);
-    var timeString = $"{span.Days} days, {span.Hours} hours, {span.Minutes} minutes.";
 }
 
-<div class="text-center mt-4">
-    <h1 class="display-4">Auction #@Model.Number</h1>
-    <h1 class="display-6">Location: @Model.City</h1>
-    <h1 class="display-6">Time Remaining: @timeString</h1>
-    <hr class="w-50 offset-3" />
-</div>
+<partial name="_ListingAuctionPartial" model="@Model.Auction" />
 
 @if (!Model.Listings.Any())
 {
@@ -44,5 +36,6 @@ else
             </div>
         }
     </div>
-    <partial name="_PaginationPartialView" model="@Model.Pagination" />
+
+    <partial name="_PaginationPartial" model="@Model.Pagination" />
 }

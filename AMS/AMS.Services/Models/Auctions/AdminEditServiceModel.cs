@@ -1,6 +1,6 @@
 ﻿namespace AMS.Services.Models.Auctions
 {
-    using AMS.Services.Models.Base.Auctions;
+    using AMS.Services.Models.Auctions.Base;
 
     public class AdminEditServiceModel : AuctionServiceModel
     {
