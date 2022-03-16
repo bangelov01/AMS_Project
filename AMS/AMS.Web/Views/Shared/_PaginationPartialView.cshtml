@@ -1,12 +1,24 @@
 ﻿ @model PaginationViewModel
 
  @{
-    var test = Model.ControllerName;
+    var previousPage = Model.CurrentPage - 1;
 
-    (int previousPage, double maxPageShow, bool shouldButtonBeDisabled) = ((int, double, bool))Pagination.Setup(@Model.CurrentPage,
-                @Model.TotalItems,
-                @Model.ItemsPerPage,
-                @Model.ItemsCount);
+    double maxPageShow = 3;
+
+    var maxPage = Math.Ceiling((double)Model.TotalItems / Model.ItemsPerPage);
+
+    var shouldButtonBeDisabled = Model.CurrentPage == maxPage ||
+                             Model.ItemsCount == 0;
+
+    if (previousPage < 1)
+    {
+        previousPage = 1;
+    }
+
+    if (maxPage < maxPageShow)
+    {
+        maxPageShow = maxPage;
+    }
 
     var hasId = @Model.Id != null;
 }

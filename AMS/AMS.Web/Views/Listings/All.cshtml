@@ -44,13 +44,5 @@ else
             </div>
         }
     </div>
-
-        <partial name="_PaginationPartialView" model="@Model.Pagination" />
-
-@*    <partial name="_PaginationPartialView" model="@new {currentPage = Model.CurrentPage,
-                                                        totalItems = Model.TotalListings,
-                                                        itemsPerPage = ControllersConstants.ListingsPerPage,
-                                                        itemsCount = Model.Listings.Count,
-                                                        controllerName = nameof(Model.Listings),
-                                                        id = Model.Id}" />*@
+    <partial name="_PaginationPartialView" model="@Model.Pagination" />
 }
