@@ -42,7 +42,7 @@
 
         [Authorize]
         [HttpPost]
-        public IActionResult Create(string auctionId, ListingsFormModel listing)
+        public IActionResult Create(string Id, ListingsFormModel listing)
         {
             if (!validatorService.IsListingValid(listing.TypeId, listing.ConditionId, listing.MakeId, listing.ModelId))
             {
@@ -64,18 +64,20 @@
                 listing.Description,
                 listing.ImageUrl,
                 listing.ConditionId,
-                auctionId,
+                Id,
                 listing.ModelId,
                 this.User.Id());
 
-            return RedirectToAction(nameof(All), new { auctionId = auctionId });
+            return RedirectToAction(nameof(All), new { auctionId = Id });
         }
 
-        public IActionResult All(string auctionId, int currentPage = 1)
+        public IActionResult All(string Id, int currentPage = 1)
         {
-            var auctionListings = listingService.DetailsListingsPerPage(auctionId, currentPage, ListingsPerPage);
+            var auctionListings = listingService.DetailsListingsPerPage(Id, currentPage, ListingsPerPage);
 
-            if (auctionListings == null)
+            var totalListings = listingService.Count(Id);
+
+            if (auctionListings == null || currentPage > Math.Ceiling((double)totalListings / ListingsPerPage))
             {
                 return BadRequest();
             }
@@ -83,8 +85,8 @@
             var listings = new AllListingsViewModel
             {
                 Listings = auctionListings.Listings,
-                Id = auctionId,
-                TotalListings = listingService.Count(auctionId),
+                Id = Id,
+                TotalListings = totalListings,
                 Number = auctionListings.Number,
                 Start = auctionListings.Start,
                 End = auctionListings.End,

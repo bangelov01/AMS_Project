@@ -10,53 +10,41 @@
     <hr class="w-50 offset-3" />
 </div>
 
-<div class="row mt-3">
-    @foreach (var auction in Model.Auctions)
-    {
+@if (!Model.Auctions.Any())
+{
+    <h1 class="display-6 text-danger text-center">No current active auctions!</h1>
+}
+else
+{
+    <div class="row mt-3">
+        @foreach (var auction in Model.Auctions)
+        {
 
-        var span = auction.End.Subtract(DateTime.UtcNow);
-        var timeString = $"{span.Days} days, {span.Hours} hours, {span.Minutes} minutes.";
+            var span = auction.End.Subtract(DateTime.UtcNow);
+            var timeString = $"{span.Days} days, {span.Hours} hours, {span.Minutes} minutes.";
 
-        <div class="col-sm-6 @(Model.Auctions.Count == 1 ? "offset-3" : string.Empty)">
-            <div class="card text-white bg-primary mb-3 mt-4">
-                <div class="card-header"><h3>Auction #@auction.Number</h3></div>
-                <div class="card-body shadow-lg rounded">
-                    <p class="card-text"><strong>Description: </strong>@auction.Description</p>
-                    <p class="card-text"><strong>Location: </strong>@auction.Country, @auction.City</p>
-                    <p class="card-text"><strong>Listings: </strong>@auction.ListingsCount</p>
-                    <p class="card-text"><strong>Time remaining: </strong>@timeString</p>
-                    <a class="btn btn-light" asp-controller="Listings" asp-action="All" asp-route-auctionId="@auction.Id">View Listings</a>
-                    @if (User.Id() != null)
-                    {
-                        <a class="btn btn-light" asp-controller="Listings" asp-action="Create" asp-route-auctionId="@auction.Id">Add Listing</a>
-                    }
+            <div class="col-sm-6 col-centered">
+                <div class="card text-white bg-primary mb-3 mt-4">
+                    <div class="card-header"><h3>Auction #@auction.Number</h3></div>
+                    <div class="card-body shadow-lg rounded">
+                        <p class="card-text"><strong>Description: </strong>@auction.Description</p>
+                        <p class="card-text"><strong>Location: </strong>@auction.Country, @auction.City</p>
+                        <p class="card-text"><strong>Listings: </strong>@auction.ListingsCount</p>
+                        <p class="card-text"><strong>Time remaining: </strong>@timeString</p>
+                        <a class="btn btn-light" asp-controller="Listings" asp-action="All" asp-route-Id="@auction.Id">View Listings</a>
+                        @if (User.Id() != null)
+                        {
+                            <a class="btn btn-light" asp-controller="Listings" asp-action="Create" asp-route-Id="@auction.Id">Add Listing</a>
+                        }
+                    </div>
                 </div>
             </div>
-        </div>
-    }
-</div>
+        }
+    </div>
 
-@{
-    (int previousPage, double maxPageShow, bool shouldButtonBeDisabled) = Pagination.Setup(@Model.CurrentPage,
-        @Model.TotalAuctions,
-        ControllersConstants.AuctionsPerPage,
-        @Model.Auctions.Count);
-}
-
-@if (Model.Auctions.Any())
-{
-    <nav aria-label="...">
-        <ul class="pagination justify-content-center mt-5">
-            <li class="page-item @(Model.CurrentPage == 1 ? "disabled" : string.Empty)">
-                <a class="page-link" asp-controller="Auctions" asp-action="All" asp-route-currentPage="@previousPage">Previous</a>
-            </li>
-            @for (int i = 1; i <= maxPageShow; i++)
-            {
-                <li class="page-item @(Model.CurrentPage == i ? "active" : string.Empty)"><a class="page-link" asp-controller="Auctions" asp-action="All" asp-route-currentPage="@i">@i</a></li>
-            }
-            <li class="page-item @(shouldButtonBeDisabled ? "disabled" : string.Empty)">
-                <a class="page-link" asp-controller="Auctions" asp-action="All" asp-route-currentPage="@(Model.CurrentPage + 1)">Next</a>
-            </li>
-        </ul>
-    </nav>
+    <partial name="_PaginationPartialView" model="@new {currentPage = Model.CurrentPage,
+                                                        totalItems = Model.TotalAuctions,
+                                                        itemsPerPage = ControllersConstants.AuctionsPerPage,
+                                                        itemsCount = Model.Auctions.Count,
+                                                        controllerName = nameof(Model.Auctions)}" />
 }

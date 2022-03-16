@@ -58,6 +58,11 @@
         {
             var auction = auctionService.DetailsById(Id);
 
+            if (auction == null)
+            {
+                return BadRequest();
+            }
+
             var auctionForm = new AuctionFormModel
             {
                 Number = auction.Number,
@@ -75,11 +80,6 @@
         [HttpPost]
         public IActionResult Edit(string Id, AuctionFormModel auction)
         {
-            if (!validatorService.IsAuctionValid(Id))
-            {
-                return BadRequest();
-            }
-
             auctionService.Edit(Id,
                 auction.Number,
                 auction.Description,

@@ -1,0 +1,29 @@
+﻿ @model dynamic
+
+ @{
+    var a = @Model.totalItems;
+
+    (int previousPage, double maxPageShow, bool shouldButtonBeDisabled) = ((int, double, bool))Pagination.Setup(@Model.currentPage,
+                @Model.totalItems,
+                @Model.itemsPerPage,
+                @Model.itemsCount);
+
+    var hasId = @Model.GetType().GetProperty("id") != null;
+
+    ;
+}
+
+<nav aria-label="...">
+    <ul class="pagination justify-content-center mt-5">
+        <li class="page-item @(Model.currentPage == 1 ? "disabled" : string.Empty)">
+            <a class="page-link" asp-controller="@Model.controllerName" asp-action="All" asp-route-currentPage="@previousPage" asp-route-Id="@(hasId ? Model.id : string.Empty)">Previous</a>
+        </li>
+        @for (int i = 1; i <= maxPageShow; i++)
+        {
+            <li class="page-item @(Model.currentPage == i ? "active" : string.Empty)"><a class="page-link" asp-controller="@Model.controllerName" asp-action="All" asp-route-currentPage="@i" asp-route-Id="@(hasId ? Model.id : string.Empty)">@i</a></li>
+        }
+        <li class="page-item @(shouldButtonBeDisabled ? "disabled" : string.Empty)">
+            <a class="page-link" asp-controller="@Model.controllerName" asp-action="All" asp-route-currentPage="@(Model.currentPage + 1)" asp-route-Id="@(hasId ? Model.id : string.Empty)">Next</a>
+        </li>
+    </ul>
+</nav>

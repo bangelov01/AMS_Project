@@ -2,8 +2,8 @@
 {
     public class ControllersConstants
     {
-        public const int AuctionsPerPage = 2;
+        public const int AuctionsPerPage = 1;
 
-        public const int ListingsPerPage = 2;
+        public const int ListingsPerPage = 3;
     }
 }

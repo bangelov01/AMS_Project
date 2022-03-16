@@ -23,44 +23,32 @@ else
     <div class="row row-cols-3 row-cols-md-3 g-4 mt-2">
         @foreach (var listing in Model.Listings)
         {
-            <div class="col col-4 @(Model.Listings.Count == 1 ? "offset-4" : string.Empty)">
+            <div class="col-centered">
                 <div class="card h-100 border-primary shadow rounded">
-                    <img src="@listing.ImageUrl" class="card-img-top" style="height: 100%!important; ">
+                    <img src="@listing.ImageUrl" class="card-img-top" style="height: 100%!important;">
                     <div class="card-body">
-                        <h5 class="card-title">@listing.Make - @listing.Model</h5>
-                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                        <h4 class="card-title text-center">@listing.Make - @listing.Model</h4>
+                        <hr class="w-50 col-centered" />
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item"><h6 class="d-inline">Condition:</h6> @listing.Condition</li>
+                            <li class="list-group-item"><h6 class="d-inline">Year:</h6> @listing.Year</li>
+                            <li class="list-group-item"><h6 class="d-inline">Description:</h6> @listing.Description</li>
+                        </ul>
                     </div>
                     <div class="card-footer">
-                        <small class="text-muted">Last updated 3 mins ago</small>
+                        <div class="container offset-3 mt-2 mb-2">
+                            <a class="btn btn-primary btn-md d-inline" asp-controller="Listings" asp-action="Details" asp-route-id="@listing.Id">Further Details</a>
+                        </div>
                     </div>
                 </div>
             </div>
         }
     </div>
-}
 
-@{
-
-    (int previousPage, double maxPageShow, bool shouldButtonBeDisabled) = Pagination.Setup(@Model.CurrentPage,
-                @Model.TotalListings,
-                ControllersConstants.ListingsPerPage,
-                @Model.Listings.Count);
-}
-
-@if (Model.Listings.Any())
-{
-    <nav aria-label="...">
-        <ul class="pagination justify-content-center mt-5">
-            <li class="page-item @(Model.CurrentPage == 1 ? "disabled" : string.Empty)">
-                <a class="page-link" asp-controller="Listings" asp-action="All" asp-route-currentPage="@previousPage" asp-route-auctionId="@Model.Id">Previous</a>
-            </li>
-            @for (int i = 1; i <= maxPageShow; i++)
-            {
-                <li class="page-item @(Model.CurrentPage == i ? "active" : string.Empty)"><a class="page-link" asp-controller="Listings" asp-action="All" asp-route-currentPage="@i" asp-route-auctionId="@Model.Id">@i</a></li>
-            }
-            <li class="page-item @(shouldButtonBeDisabled ? "disabled" : string.Empty)">
-                <a class="page-link" asp-controller="Listings" asp-action="All" asp-route-currentPage="@(Model.CurrentPage + 1)" asp-route-auctionId="@Model.Id">Next</a>
-            </li>
-        </ul>
-    </nav>
+    <partial name="_PaginationPartialView" model="@new {currentPage = Model.CurrentPage,
+                                                        totalItems = Model.TotalListings,
+                                                        itemsPerPage = ControllersConstants.ListingsPerPage,
+                                                        itemsCount = Model.Listings.Count,
+                                                        controllerName = nameof(Model.Listings),
+                                                        id = Model.Id}" />
 }

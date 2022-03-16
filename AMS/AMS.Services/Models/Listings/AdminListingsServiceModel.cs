@@ -6,6 +6,10 @@
     {
         public string Id { get; init; }
 
+        public string Description { get; init; }
+
+        public string CreatorName { get; init; }
+
         public int BidsCount { get; init; }
 
         public bool IsUserSuspended { get; init; }

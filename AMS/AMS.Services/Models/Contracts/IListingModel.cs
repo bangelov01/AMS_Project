@@ -8,8 +8,8 @@
 
         public string Model { get; }
 
-        public string Description { get; }
+        public string Condition { get; }
 
-        public string CreatorName { get; }
+        public string ImageUrl { get; }
     }
 }

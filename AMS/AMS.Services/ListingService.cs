@@ -4,7 +4,6 @@
     using AMS.Data.Models;
     using AMS.Services.Contracts;
     using AMS.Services.Models.Auctions;
-    using AMS.Services.Models.Bids;
     using AMS.Services.Models.Listings;
     using System.Collections.Generic;
 
@@ -109,19 +108,11 @@
                     {
                         Id = v.Id,
                         Description = v.Description,
+                        Condition = v.Condition.Name,
                         Make = v.Model.Make.Name,
                         Model = v.Model.Name,
                         ImageUrl = v.ImageUrl,
-                        Price = v.Price,
-                        Year = v.Year,
-                        CreatorName = v.User.UserName,
-                        Bids = v.Bids.Select(b => new BidServiceModel
-                        {
-                            Amount = b.Amount,
-                            Number = b.Number,
-                            User = b.UserId
-                        })
-                        .ToArray()
+                        Year = v.Year
                     })
                     .ToArray()
                 })
