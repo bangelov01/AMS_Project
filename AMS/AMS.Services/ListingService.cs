@@ -172,5 +172,35 @@
 
             return true;
         }
+
+        public IEnumerable<SearchListingsServiceModel> Search(string searchString)
+        {
+            var listingQuery = dbContext
+                .Vehicles
+                .AsQueryable();
+
+            listingQuery = listingQuery.Where(l =>
+            l.IsApproved && (l.Model.Name.ToLower().Contains(searchString.ToLower()) ||
+            l.Model.Make.Name.ToLower().Contains(searchString.ToLower()) ||
+            l.Condition.Name.ToLower().Contains(searchString.ToLower())));
+
+            var listings = listingQuery
+                .OrderByDescending(l => l.Id)
+                .Select(l => new SearchListingsServiceModel
+                {
+                    AuctionId = l.AuctionId,
+                    AuctionNumber = l.Auction.Number,
+                    Id = l.Id,
+                    Make = l.Model.Make.Name,
+                    Model = l.Model.Name,
+                    Condition = l.Condition.Name,
+                    Description = l.Description,
+                    ImageUrl = l.ImageUrl,
+                    Year = l.Year,
+                })
+                .ToList();
+
+            return listings;
+        }
     }
 }

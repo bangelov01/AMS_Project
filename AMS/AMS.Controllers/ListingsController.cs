@@ -9,6 +9,7 @@
     using static AMS.Controllers.Constants.ControllersConstants;
     using AMS.Services.Models.Auctions.Base;
 
+
     public class ListingsController : Controller
     {
         private readonly IListingService listingService;
@@ -78,7 +79,7 @@
 
             var totalListings = listingService.Count(Id);
 
-            var maxPage =  Math.Ceiling((double)totalListings / ListingsPerPage);
+            var maxPage = Math.Ceiling((double)totalListings / ListingsPerPage);
 
             if (auctionListings == null || currentPage > maxPage)
             {
@@ -106,6 +107,30 @@
             };
 
             return View(listings);
+        }
+
+        public IActionResult Find(string orderBy, string searchTerm)
+        {
+
+            if (string.IsNullOrEmpty(searchTerm))
+            {
+                return NotFound();
+            }
+
+            var listings = listingService.Search(searchTerm.Trim());
+
+            if (!string.IsNullOrEmpty(orderBy) && OrderParams.Contains(orderBy))
+            {
+
+                listings = listings.OrderByDescending(l => l.GetType().GetProperty(orderBy).GetValue(l));
+
+            }
+
+            return View(new SearchListingsViewModel
+            {
+                Listings = listings,
+                SearchTerm = searchTerm
+            });
         }
     }
 }

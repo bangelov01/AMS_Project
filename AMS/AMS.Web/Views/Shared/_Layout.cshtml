@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - AMS.Web</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="~/favicon.png" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/custom.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/AMS.Web.styles.css" asp-append-version="true" />
@@ -13,7 +14,8 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <div class="navbar-brand">Auctioneer.com</div>
+                <img src="~/favicon.png" width="40" height="40"></img>
+                <div class="navbar-brand" style="user-select: none; margin-left: 10px; margin-bottom: 2px;">Auctioneer.com</div>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -29,9 +31,13 @@
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Auctions" asp-action="All">All Auctions</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="">Find Listing</a>
+                                <a class="nav-link text-dark" asp-controller="Listings" asp-action="Find">Find Listing</a>
                             </li>
                         }
+                        <form id="search" class="d-flex" asp-controller="Listings" asp-action="Find" method="get" onsubmit="return validate()">
+                            <input class="form-control me-2" name="SearchTerm" placeholder="Search" aria-label="Search">
+                            <button class="btn btn-outline-primary" type="submit">Search</button>
+                        </form>
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>
@@ -52,6 +58,17 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+
+        function validate() {
+          let val = document.getElementById('search').children[0].value;
+
+          if (!val || val.length == 0) {
+            alert("Invalid search input!");
+            return false;
+          }
+        }
+    </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

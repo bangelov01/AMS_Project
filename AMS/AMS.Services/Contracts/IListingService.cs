@@ -21,6 +21,7 @@
         public IEnumerable<ListingPropertyServiceModel> Makes();
         public IEnumerable<ListingPropertyServiceModel> Models();
         public IEnumerable<AdminListingsServiceModel> NotApproved();
+        public IEnumerable<SearchListingsServiceModel> Search(string searchString);
         public bool Delete(string Id);
         public bool Approve(string Id);
     }
