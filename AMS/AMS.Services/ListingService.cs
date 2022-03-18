@@ -180,10 +180,10 @@
 
             var listingQuery = dbContext
                 .Vehicles
+                .Where(v => v.IsApproved == true)
                 .AsQueryable();
 
-            listingQuery = listingQuery.Where(l =>
-            l.IsApproved && (l.Model.Make.Name + l.Model.Name).ToLower().Contains(string.Join("", terms).ToLower()) ||
+            listingQuery = listingQuery.Where(l => (l.Model.Make.Name + l.Model.Name).ToLower().Contains(string.Join("", terms).ToLower()) ||
                             (l.Model.Name + l.Model.Make.Name).ToLower().Contains(string.Join("", terms).ToLower()));
 
             var listings = listingQuery

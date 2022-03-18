@@ -4,7 +4,8 @@
 
         if (!validateInput()) {
             e.preventDefault();
-            alert("Invalid Input!")
+            $(e.currentTarget).children().first().val("");
+            alert("Invalid Input!");
         }
     });
 
@@ -21,6 +22,9 @@
     }
 
     $("#listingCreate").on("submit", function () {
-        alert("Listing awaits approval from Admin!")
+
+        if ($(this).valid()) {
+            alert("Listing awaits approval from Admin!");
+        }
     });
 });
