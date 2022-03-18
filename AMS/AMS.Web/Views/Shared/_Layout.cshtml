@@ -30,14 +30,11 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Auctions" asp-action="All">All Auctions</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Listings" asp-action="Find">Find Listing</a>
-                            </li>
+                            <form id="search" class="d-flex" asp-controller="Listings" asp-action="Find" method="get">
+                                <input class="form-control me-2" name="SearchTerm" placeholder="Make, Model..." aria-label="Search">
+                                <button class="btn btn-outline-primary" type="submit">Search</button>
+                            </form>
                         }
-                        <form id="search" class="d-flex" asp-controller="Listings" asp-action="Find" method="get" onsubmit="return validate()">
-                            <input class="form-control me-2" name="SearchTerm" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-primary" type="submit">Search</button>
-                        </form>
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>
@@ -58,17 +55,6 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    <script>
-
-        function validate() {
-          let val = document.getElementById('search').children[0].value;
-
-          if (!val || val.length == 0) {
-            alert("Invalid search input!");
-            return false;
-          }
-        }
-    </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

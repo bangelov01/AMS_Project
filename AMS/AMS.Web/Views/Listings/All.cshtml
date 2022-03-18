@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "All Listings";
+    var listingsCount = Model.Listings.Count();
 }
 
 <partial name="_ListingAuctionPartial" model="@Model.Auction" />
@@ -15,7 +16,7 @@ else
     <div class="row row-cols-3 row-cols-md-3 g-4 mt-2">
         @foreach (var listing in Model.Listings)
         {
-            <div class="col-centered">
+            <div class="@(listingsCount < 3 ? "col-centered" : "col")">
                 <div class="card h-100 border-primary shadow rounded">
                     <img src="@listing.ImageUrl" class="card-img-top" style="height: 100%!important;">
                     <div class="card-body">
@@ -27,8 +28,8 @@ else
                             <li class="list-group-item"><h6 class="d-inline">Description:</h6> @listing.Description</li>
                         </ul>
                     </div>
-                    <div class="card-footer">
-                        <div class="container offset-3 mt-2 mb-2">
+                    <div class="card-footer text-center">
+                        <div class="container mt-2 mb-2">
                             <a class="btn btn-primary btn-md d-inline" asp-controller="Listings" asp-action="Details" asp-route-id="@listing.Id">Further Details</a>
                         </div>
                     </div>

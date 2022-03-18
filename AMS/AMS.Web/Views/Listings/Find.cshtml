@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "Find Vehicle";
+    var listingsCount = Model.Listings.Count();
 }
 
 @if (!Model.Listings.Any())
@@ -11,31 +12,29 @@
 else
 {
     <h1 class="display-4 font-weight-bold text-center">Results:</h1>
-    <form method="get">
-        <div class="dropdown">
-            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Order By:
-            </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" asp-controller="Listings"
-                asp-action="Find"
-                asp-route-orderBy="Model"
-                asp-route-searchTerm="@Model.SearchTerm">Model</a>
-                <a class="dropdown-item"  asp-controller="Listings"
-                asp-action="Find"
-                asp-route-orderBy="Model"
-                asp-route-searchTerm="@Model.SearchTerm">Make</a>
-                <a class="dropdown-item"  asp-controller="Listings"
-                asp-action="Find"
-                asp-route-orderBy="Year"
-                asp-route-searchTerm="@Model.SearchTerm">Year</a>
-            </div>
+    <div class="dropdown text-center mt-3">
+        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Order By:
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" asp-controller="Listings"
+           asp-action="Find"
+           asp-route-orderBy="Model"
+           asp-route-searchTerm="@Model.SearchTerm">Model</a>
+            <a class="dropdown-item" asp-controller="Listings"
+           asp-action="Find"
+           asp-route-orderBy="Model"
+           asp-route-searchTerm="@Model.SearchTerm">Make</a>
+            <a class="dropdown-item" asp-controller="Listings"
+           asp-action="Find"
+           asp-route-orderBy="Year"
+           asp-route-searchTerm="@Model.SearchTerm">Year</a>
         </div>
-    </form>
-    <div class="row row-cols-3 row-cols-md-3 g-4 mt-2">
+    </div>
+    <div class="row row-cols-3 row-cols-md-3 g-4 mt-1">
         @foreach (var listing in Model.Listings)
         {
-            <div class="col">
+            <div class="@(listingsCount < 3 ? "col-centered" : "col")">
                 <div class="card h-100 border-primary shadow rounded">
                     <img src="@listing.ImageUrl" class="card-img-top" style="height: 100%!important;">
                     <div class="card-body">
@@ -51,8 +50,8 @@ else
                             <li class="list-group-item"><h6 class="d-inline">Description:</h6> @listing.Description</li>
                         </ul>
                     </div>
-                    <div class="card-footer">
-                        <div class="container offset-3 mt-2 mb-2">
+                    <div class="card-footer text-center">
+                        <div class="container mt-2 mb-2">
                             <a class="btn btn-primary btn-md d-inline" asp-controller="Listings" asp-action="Details" asp-route-id="@listing.Id">Further Details</a>
                         </div>
                     </div>

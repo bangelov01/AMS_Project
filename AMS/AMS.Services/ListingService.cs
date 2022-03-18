@@ -5,6 +5,7 @@
     using AMS.Services.Contracts;
     using AMS.Services.Models.Auctions;
     using AMS.Services.Models.Listings;
+    using Microsoft.EntityFrameworkCore;
     using System.Collections.Generic;
 
     public class ListingService : IListingService
@@ -175,14 +176,15 @@
 
         public IEnumerable<SearchListingsServiceModel> Search(string searchString)
         {
+            var terms = searchString.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
             var listingQuery = dbContext
                 .Vehicles
                 .AsQueryable();
 
             listingQuery = listingQuery.Where(l =>
-            l.IsApproved && (l.Model.Name.ToLower().Contains(searchString.ToLower()) ||
-            l.Model.Make.Name.ToLower().Contains(searchString.ToLower()) ||
-            l.Condition.Name.ToLower().Contains(searchString.ToLower())));
+            l.IsApproved && (l.Model.Make.Name + l.Model.Name).ToLower().Contains(string.Join("", terms).ToLower()) ||
+                            (l.Model.Name + l.Model.Make.Name).ToLower().Contains(string.Join("", terms).ToLower()));
 
             var listings = listingQuery
                 .OrderByDescending(l => l.Id)

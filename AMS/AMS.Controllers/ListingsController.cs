@@ -26,9 +26,9 @@
         }
 
         [Authorize]
-        public IActionResult Create(string auctionId)
+        public IActionResult Create(string Id)
         {
-            if (!validatorService.IsAuctionValid(auctionId))
+            if (!validatorService.IsAuctionValid(Id))
             {
                 return BadRequest();
             }
@@ -70,7 +70,7 @@
                 listing.ModelId,
                 this.User.Id());
 
-            return RedirectToAction(nameof(All), new { auctionId = Id });
+            return RedirectToAction(nameof(All), new { Id = Id });
         }
 
         public IActionResult All(string Id, int currentPage = 1)
@@ -121,9 +121,7 @@
 
             if (!string.IsNullOrEmpty(orderBy) && OrderParams.Contains(orderBy))
             {
-
                 listings = listings.OrderByDescending(l => l.GetType().GetProperty(orderBy).GetValue(l));
-
             }
 
             return View(new SearchListingsViewModel
