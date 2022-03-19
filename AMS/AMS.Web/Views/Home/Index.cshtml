@@ -2,7 +2,75 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="text-center mt-4">
+    <h1 class="display-4">Auction #Number</h1>
+    <h1 class="display-6">Location: City</h1>
+    <h1 class="display-6">Time Remaining: asd</h1>
+    <hr class="w-50 offset-3" />
+</div>
+
+<div id="carouselExampleIndicators" class="carousel slide col-centered " data-bs-ride="carousel" style="width: 640px; height: 360px;">
+    <div class="carousel-indicators">
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    </div>
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/2019-mercedes-benz-a220-4matic-108-1544471119.jpg?crop=0.675xw:0.505xh;0.0442xw,0.464xh&resize=640:*" class="d-block w-100 h-100" alt="...">
+        </div>
+        <div class="carousel-item">
+            <img src="..." class="d-block w-100" alt="...">
+        </div>
+        <div class="carousel-item">
+            <img src="..." class="d-block w-100" alt="...">
+        </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+<div class="row align-items-md-stretch">
+    <div class="col-md-6">
+        <div class="card h-100 border-primary shadow rounded">
+            <div class="card-body">
+                <h3 class="card-title text-center">Listing Details:</h3>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><h6 class="d-inline">Condition: </h6>Condition</li>
+                    <li class="list-group-item"><h6 class="d-inline">Make: </h6>Condition</li>
+                    <li class="list-group-item"><h6 class="d-inline">Model: </h6>Condition</li>
+                    <li class="list-group-item"><h6 class="d-inline">Year: </h6>Year</li>
+                    <li class="list-group-item"><h6 class="d-inline">Description: </h6>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</li>
+                    <div class="container text-center mt-3">
+                        <a class="btn btn-primary btn-md" asp-controller="Listings" asp-action="Details" asp-route-id="">Watch</a>
+                    </div>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card border-primary shadow rounded">
+            <div class="card-body">
+                <h3 class="card-title text-center">Bid Details:</h3>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><h6 class="d-inline">Starting Price: </h6>Condition</li>
+                    <li class="list-group-item"><h6 class="d-inline">Current Bid: </h6>Year</li>
+                    <li class="list-group-item"><h6 class="d-inline">Bidder: </h6>Description</li>
+                </ul>
+            </div>
+            <form class="row g-3" style="margin-left: 30px">
+                <div class="col-auto">
+                    <input type="password" class="form-control" id="inputPassword2" placeholder="Place your bid here..">
+                </div>
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-primary mb-3">Bid</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>

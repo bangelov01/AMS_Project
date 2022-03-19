@@ -1,11 +1,11 @@
 ﻿namespace AMS.Controllers.Models
 {
     using AMS.Services.Models.Auctions.Base;
-    using AMS.Services.Models.Listings;
+    using AMS.Services.Models.Listings.Base;
 
     public class AllListingsViewModel
     {
-        public ICollection<AllListingsServiceModel> Listings { get; init; }
+        public IEnumerable<ListingsServiceModel> Listings { get; init; }
 
         public AuctionServiceModel Auction { get; init; }
 

@@ -1,11 +1,14 @@
 ﻿namespace AMS.Controllers.Constants
 {
+    using AMS.Data.Models;
+
     public class ControllersConstants
     {
         public const int AuctionsPerPage = 2;
 
         public const int ListingsPerPage = 3;
 
-        public readonly static string[] OrderParams = new string[] { "Year", "Model", "Make" };
+        public const string DefaultOrderParam = nameof(Make);
+
     }
 }

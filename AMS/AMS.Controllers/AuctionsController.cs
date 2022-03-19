@@ -18,13 +18,13 @@
 
         public IActionResult All(int currentPage = 1)
         {
-            var auctionsPerPage = auctionService.AllActivePerPage(currentPage, AuctionsPerPage);
+            var auctionsPerPage = auctionService.ActivePerPage(currentPage, AuctionsPerPage);
 
-            var totalAuctions = auctionService.AllActiveCount();
+            var totalAuctions = auctionService.ActiveCount();
 
             var maxPage = Math.Ceiling((double)totalAuctions / AuctionsPerPage);
 
-            if (currentPage > maxPage)
+            if (auctionsPerPage == null || currentPage > maxPage)
             {
                 return BadRequest();
             }

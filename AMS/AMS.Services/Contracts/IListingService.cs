@@ -2,6 +2,7 @@
 {
     using AMS.Services.Models.Auctions;
     using AMS.Services.Models.Listings;
+    using AMS.Services.Models.Listings.Base;
 
     public interface IListingService
     {
@@ -15,7 +16,8 @@
             string userId);
 
         public int Count(string auctionId);
-        public AuctionListingsServiceModel DetailsListingsPerPage(string Id, int currentPage, int listingsPerPage);
+        public IEnumerable<ListingsServiceModel> ApprovedPerPage(string Id, int currentPage, int listingsPerPage);
+        public ListingDetailsServiceModel Details(string id);
         public IEnumerable<ListingPropertyServiceModel> Conditions();
         public IEnumerable<ListingPropertyServiceModel> Types();
         public IEnumerable<ListingPropertyServiceModel> Makes();

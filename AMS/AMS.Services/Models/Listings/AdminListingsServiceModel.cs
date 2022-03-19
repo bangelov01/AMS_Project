@@ -4,8 +4,6 @@
 
     public class AdminListingsServiceModel : ListingsServiceModel
     {
-        public string Id { get; init; }
-
         public string Description { get; init; }
 
         public string CreatorName { get; init; }

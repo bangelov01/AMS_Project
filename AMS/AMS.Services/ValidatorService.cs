@@ -1,6 +1,7 @@
 ﻿namespace AMS.Services
 {
     using AMS.Data;
+    using AMS.Data.Models;
     using AMS.Services.Contracts;
 
     public class ValidatorService : IValidatorService
@@ -52,5 +53,17 @@
             => dbContext
              .Models
              .Any(x => x.Id == modelId);
+
+        public bool IsOrderParamValid(string orderParam)
+        {
+            if (orderParam == nameof(Make) ||
+                orderParam == nameof(Model) ||
+                orderParam == nameof(Vehicle.Year))
+            {
+                return true;
+            }
+
+            return false;
+        }
     }
 }

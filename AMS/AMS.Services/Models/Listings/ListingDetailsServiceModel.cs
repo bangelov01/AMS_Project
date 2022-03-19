@@ -1,12 +1,11 @@
 ﻿namespace AMS.Services.Models.Listings
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
+    using AMS.Services.Models.Listings.Base;
 
-    public class ListingDetailsServiceModel
+    public class ListingDetailsServiceModel : ListingsServiceModel
     {
+        public string Type { get; init; }
+
+        public string Description { get; init; }
     }
 }

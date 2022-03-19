@@ -8,5 +8,7 @@
                  int modelId);
 
         public bool IsAuctionValid(string auctionId);
+
+        public bool IsOrderParamValid(string orderParam);
     }
 }

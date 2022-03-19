@@ -25,12 +25,14 @@ else
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item"><h6 class="d-inline">Condition:</h6> @listing.Condition</li>
                             <li class="list-group-item"><h6 class="d-inline">Year:</h6> @listing.Year</li>
-                            <li class="list-group-item"><h6 class="d-inline">Description:</h6> @listing.Description</li>
                         </ul>
                     </div>
                     <div class="card-footer text-center">
                         <div class="container mt-2 mb-2">
-                            <a class="btn btn-primary btn-md d-inline" asp-controller="Listings" asp-action="Details" asp-route-id="@listing.Id">Further Details</a>
+                            <a class="btn btn-primary btn-md d-inline" asp-controller="Listings"
+                            asp-action="Details"
+                            asp-route-listingId="@listing.Id"
+                            asp-route-auctionId="@Model.Pagination.Id">Further Details</a>
                         </div>
                     </div>
                 </div>

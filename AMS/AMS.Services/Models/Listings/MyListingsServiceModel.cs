@@ -5,8 +5,6 @@
 
     public class MyListingsServiceModel : ListingsServiceModel
     {
-        public string Id { get; init; }
-
         public decimal Price { get; init; }
 
         public BidServiceModel Bid { get; init; }

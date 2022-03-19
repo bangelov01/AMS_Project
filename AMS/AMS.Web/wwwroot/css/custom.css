@@ -3,3 +3,9 @@
     margin-right: auto;
     margin-left: auto;
 }
+
+.carousel-inner {
+    border-radius: 10px;
+    background-color: rgba(0,0,0,0);
+    overflow: hidden;
+}

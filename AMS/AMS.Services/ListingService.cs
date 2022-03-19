@@ -3,9 +3,8 @@
     using AMS.Data;
     using AMS.Data.Models;
     using AMS.Services.Contracts;
-    using AMS.Services.Models.Auctions;
     using AMS.Services.Models.Listings;
-    using Microsoft.EntityFrameworkCore;
+    using AMS.Services.Models.Listings.Base;
     using System.Collections.Generic;
 
     public class ListingService : IListingService
@@ -90,37 +89,22 @@
             .Count();
 
 
-        public AuctionListingsServiceModel DetailsListingsPerPage(string Id, int currentPage, int listingsPerPage)
-        {
-            var auction = dbContext
-                .Auctions
-                .Where(a => a.Id == Id)
-                .Select(a => new AuctionListingsServiceModel
-                {
-                    Number = a.Number,
-                    Start = a.Start,
-                    End = a.End,
-                    City = a.Address.City,
-                    Listings = a.Vehicles
-                    .Where(v => v.IsApproved == true)
+        public IEnumerable<ListingsServiceModel> ApprovedPerPage(string Id, int currentPage, int listingsPerPage)
+            => dbContext
+                    .Vehicles
+                    .Where(v => v.AuctionId == Id && v.IsApproved == true)
                     .Skip((currentPage - 1) * listingsPerPage)
                     .Take(listingsPerPage)
-                    .Select(v => new AllListingsServiceModel
+                    .Select(v => new ListingsServiceModel
                     {
                         Id = v.Id,
-                        Description = v.Description,
                         Condition = v.Condition.Name,
                         Make = v.Model.Make.Name,
                         Model = v.Model.Name,
                         ImageUrl = v.ImageUrl,
                         Year = v.Year
                     })
-                    .ToArray()
-                })
-                .FirstOrDefault();
-
-            return auction;
-        }
+                    .ToList();
 
         public IEnumerable<AdminListingsServiceModel> NotApproved()
             => dbContext
@@ -196,7 +180,6 @@
                     Make = l.Model.Make.Name,
                     Model = l.Model.Name,
                     Condition = l.Condition.Name,
-                    Description = l.Description,
                     ImageUrl = l.ImageUrl,
                     Year = l.Year,
                 })
@@ -204,5 +187,22 @@
 
             return listings;
         }
+
+        public ListingDetailsServiceModel Details(string id)
+            => dbContext
+            .Vehicles
+            .Where(v => v.Id == id)
+            .Select(v => new ListingDetailsServiceModel
+            {
+                Id = v.Id,
+                Type = v.Model.VehicleType.Name,
+                Condition = v.Condition.Name,
+                ImageUrl = v.ImageUrl,
+                Make = v.Model.Make.Name,
+                Model = v.Model.Name,
+                Description = v.Description,
+                Year = v.Year
+            })
+            .FirstOrDefault();
     }
 }

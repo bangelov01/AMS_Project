@@ -9,6 +9,7 @@
     using AMS.Data.Models;
     using AMS.Services.Contracts;
     using AMS.Services.Models.Auctions;
+    using AMS.Services.Models.Auctions.Base;
 
     public class AuctionService : IAuctionService
     {
@@ -52,7 +53,7 @@
             dbContext.SaveChanges();
         }
 
-        public ICollection<AllAuctionsServiceModel> AllActive()
+        public ICollection<AllAuctionsServiceModel> Active()
             => dbContext
                 .Auctions
                 .Where(a => a.End > DateTime.UtcNow)
@@ -69,7 +70,7 @@
                 })
                 .ToList();
 
-        public ICollection<AllAuctionsServiceModel> AllActivePerPage(int currentPage, int auctionsPerPage)
+        public ICollection<AllAuctionsServiceModel> ActivePerPage(int currentPage, int auctionsPerPage)
             => dbContext
                 .Auctions
                 .Where(a => a.End > DateTime.UtcNow)
@@ -103,9 +104,8 @@
             return true;
         }
 
-        public AdminEditServiceModel DetailsById(string Id)
-        {
-            var auction = dbContext
+        public AdminEditServiceModel AdminDetailsById(string Id)
+            => dbContext
                 .Auctions
                 .Where(a => a.Id == Id)
                 .Select(a => new AdminEditServiceModel
@@ -120,8 +120,6 @@
                 })
                 .FirstOrDefault();
 
-            return auction;
-        }
 
         public void Edit(string Id,
             int number,
@@ -148,10 +146,23 @@
             dbContext.SaveChanges();
         }
 
-        public int AllActiveCount()
+        public int ActiveCount()
             => dbContext
                 .Auctions
                 .Where(a => a.End > DateTime.UtcNow)
                 .Count();
+
+        public AuctionServiceModel DetailsById(string Id)
+            => dbContext
+            .Auctions
+            .Where(a => a.Id == Id)
+            .Select(a => new AuctionServiceModel
+            {
+                City = a.Address.City,
+                Number = a.Number,
+                Start = a.Start,
+                End = a.End
+            })
+            .FirstOrDefault();
     }
 }

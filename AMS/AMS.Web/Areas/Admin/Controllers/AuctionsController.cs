@@ -49,14 +49,14 @@
 
         public IActionResult All()
         {
-            var auctions = auctionService.AllActive();
+            var auctions = auctionService.Active();
 
             return View(auctions);
         }
 
         public IActionResult Edit(string Id)
         {
-            var auction = auctionService.DetailsById(Id);
+            var auction = auctionService.AdminDetailsById(Id);
 
             if (auction == null)
             {

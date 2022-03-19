@@ -7,22 +7,20 @@
 
     using static AMS.Services.Infrastructure.Extensions.ClaimsPrincipleExtensions;
     using static AMS.Controllers.Constants.ControllersConstants;
-    using AMS.Services.Models.Auctions.Base;
-
 
     public class ListingsController : Controller
     {
         private readonly IListingService listingService;
         private readonly IValidatorService validatorService;
-        private readonly IUserService userService;
+        private readonly IAuctionService auctionService;
 
         public ListingsController(IListingService listingService,
             IValidatorService validatorService,
-            IUserService userService)
+            IAuctionService auctionService)
         {
             this.listingService = listingService;
             this.validatorService = validatorService;
-            this.userService = userService;
+            this.auctionService = auctionService;
         }
 
         [Authorize]
@@ -75,60 +73,74 @@
 
         public IActionResult All(string Id, int currentPage = 1)
         {
-            var auctionListings = listingService.DetailsListingsPerPage(Id, currentPage, ListingsPerPage);
+            var auction = auctionService.DetailsById(Id);
+
+            var listings = listingService.ApprovedPerPage(Id, currentPage, ListingsPerPage);
 
             var totalListings = listingService.Count(Id);
 
             var maxPage = Math.Ceiling((double)totalListings / ListingsPerPage);
 
-            if (auctionListings == null || currentPage > maxPage)
+            if (auction == null || listings == null || currentPage > maxPage)
             {
                 return BadRequest();
             }
 
-            var listings = new AllListingsViewModel
+            var model = new AllListingsViewModel
             {
-                Listings = auctionListings.Listings,
-                Auction = new AuctionServiceModel
-                {
-                    Number = auctionListings.Number,
-                    Start = auctionListings.Start,
-                    End = auctionListings.End,
-                    City = auctionListings.City,
-                },
+                Listings = listings,
+                Auction = auction,
                 Pagination = new PaginationViewModel
                 {
                     Id = Id,
                     CurrentPage = currentPage,
-                    ItemsCount = auctionListings.Listings.Count,
+                    ItemsCount = listings.Count(),
                     MaxPage = maxPage,
                     ControllerName = this.ControllerContext.RouteData.Values["controller"].ToString()
                 }
             };
 
-            return View(listings);
+            return View(model);
         }
 
-        public IActionResult Find(string orderBy, string searchTerm)
+        public IActionResult Find(string searchTerm, string orderBy = DefaultOrderParam)
         {
 
-            if (string.IsNullOrEmpty(searchTerm))
+            if (string.IsNullOrEmpty(searchTerm) || !validatorService.IsOrderParamValid(orderBy))
             {
                 return NotFound();
             }
 
             var listings = listingService.Search(searchTerm.Trim());
 
-            if (!string.IsNullOrEmpty(orderBy) && OrderParams.Contains(orderBy))
-            {
-                listings = listings.OrderByDescending(l => l.GetType().GetProperty(orderBy).GetValue(l));
-            }
+            listings = listings.OrderByDescending(l => l.GetType().GetProperty(orderBy).GetValue(l));
 
             return View(new SearchListingsViewModel
             {
                 Listings = listings,
                 SearchTerm = searchTerm
             });
+        }
+
+        [Authorize]
+        public IActionResult Details(string audtionId, string listingId)
+        {
+            var auction = auctionService.DetailsById(audtionId);
+
+            var listing = listingService.Details(listingId);
+
+            if (auction == null || listing == null)
+            {
+                return BadRequest();
+            }
+
+            //var model = new ListingViewModel
+            //{
+            //    Auction = auction,
+            //    Listing = listing
+            //}
+
+            return View();
         }
     }
 }
