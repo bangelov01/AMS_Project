@@ -13,7 +13,7 @@
             this.dbContext = dbContext;
         }
 
-        public bool IsListingValid(int typeId,
+        public bool AreListingParamsValid(int typeId,
                int conditionId,
                int makeId,
                int modelId)
@@ -29,10 +29,10 @@
             return true;
         }
 
-        public bool IsAuctionValid(string auctionId)
+        public bool IsAuctionValid(string Id)
             => dbContext
             .Auctions
-            .Any(x => x.Id == auctionId);
+            .Any(x => x.Id == Id);
 
         private bool TypeExists(int typeId)
             => dbContext
@@ -65,5 +65,10 @@
 
             return false;
         }
+
+        public bool IsListingValid(string Id)
+            => dbContext
+            .Vehicles
+            .Any(x => x.Id == Id);
     }
 }

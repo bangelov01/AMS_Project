@@ -2,7 +2,7 @@
 {
     public class BidServiceModel
     {
-        public decimal Amount { get; init; }
         public string User { get; init; }
+        public decimal Amount { get; init; }
     }
 }

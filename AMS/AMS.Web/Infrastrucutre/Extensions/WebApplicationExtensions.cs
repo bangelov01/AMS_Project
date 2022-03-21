@@ -4,6 +4,7 @@
 
     using AMS.Data;
     using AMS.Services.Contracts;
+    using AMS.Services;
 
     public static class WebApplicationExtensions
     {
@@ -18,6 +19,19 @@
             Seed(serviceProvider);
 
             return app;
+        }
+
+        public static WebApplicationBuilder AddTransient(this WebApplicationBuilder builder)
+        {
+            builder.Services.AddTransient<IDataSeederService, DataSeederService>();
+            builder.Services.AddTransient<IAuctionService, AuctionService>();
+            builder.Services.AddTransient<IAddressService, AddressService>();
+            builder.Services.AddTransient<IUserService, UserService>();
+            builder.Services.AddTransient<IListingService, ListingService>();
+            builder.Services.AddTransient<IValidatorService, ValidatorService>();
+            builder.Services.AddTransient<IBidService, BidService>();
+
+            return builder;
         }
 
         private static void Migrate(IServiceProvider provider)

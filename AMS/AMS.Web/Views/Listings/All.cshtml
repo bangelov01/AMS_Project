@@ -13,10 +13,17 @@
 }
 else
 {
-    <div class="row row-cols-3 row-cols-md-3 g-4 mt-2">
+    if (User.Id() == null)
+    {
+        <div class="text-center mb-4">
+            <a class="btn btn-outline-danger" asp-area="Identity"
+       asp-page="/Account/Login">Login to view details!</a>
+        </div>
+    }
+    <div class="row row-cols-3 align-items-md-stretch">
         @foreach (var listing in Model.Listings)
         {
-            <div class="@(listingsCount < 3 ? "col-centered" : "col")">
+            <div class="col-sm-4 col-centered">
                 <div class="card h-100 border-primary shadow rounded">
                     <img src="@listing.ImageUrl" class="card-img-top" style="height: 100%!important;">
                     <div class="card-body">
@@ -27,14 +34,17 @@ else
                             <li class="list-group-item"><h6 class="d-inline">Year:</h6> @listing.Year</li>
                         </ul>
                     </div>
-                    <div class="card-footer text-center">
-                        <div class="container mt-2 mb-2">
-                            <a class="btn btn-primary btn-md d-inline" asp-controller="Listings"
-                            asp-action="Details"
-                            asp-route-listingId="@listing.Id"
-                            asp-route-auctionId="@Model.Pagination.Id">Further Details</a>
+                    @if (User.Id() != null)
+                    {
+                        <div class="card-footer text-center">
+                            <div class="container mt-2 mb-2">
+                                <a class="btn btn-primary btn-md d-inline" asp-controller="Listings"
+                       asp-action="Details"
+                       asp-route-listingId="@listing.Id"
+                       asp-route-auctionId="@Model.Pagination.Id">Further Details</a>
+                            </div>
                         </div>
-                    </div>
+                    }
                 </div>
             </div>
         }

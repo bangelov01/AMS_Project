@@ -195,13 +195,15 @@
             .Select(v => new ListingDetailsServiceModel
             {
                 Id = v.Id,
+                UserId = v.UserId,
                 Type = v.Model.VehicleType.Name,
                 Condition = v.Condition.Name,
                 ImageUrl = v.ImageUrl,
                 Make = v.Model.Make.Name,
                 Model = v.Model.Name,
                 Description = v.Description,
-                Year = v.Year
+                Year = v.Year,
+                Price = v.Price
             })
             .FirstOrDefault();
     }

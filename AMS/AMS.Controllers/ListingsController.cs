@@ -13,14 +13,17 @@
         private readonly IListingService listingService;
         private readonly IValidatorService validatorService;
         private readonly IAuctionService auctionService;
+        private readonly IBidService bidService;
 
         public ListingsController(IListingService listingService,
             IValidatorService validatorService,
-            IAuctionService auctionService)
+            IAuctionService auctionService,
+            IBidService bidService)
         {
             this.listingService = listingService;
             this.validatorService = validatorService;
             this.auctionService = auctionService;
+            this.bidService = bidService;
         }
 
         [Authorize]
@@ -44,7 +47,7 @@
         [HttpPost]
         public IActionResult Create(string Id, ListingsFormModel listing)
         {
-            if (!validatorService.IsListingValid(listing.TypeId, listing.ConditionId, listing.MakeId, listing.ModelId))
+            if (!validatorService.AreListingParamsValid(listing.TypeId, listing.ConditionId, listing.MakeId, listing.ModelId))
             {
                 return BadRequest();
             }
@@ -123,24 +126,27 @@
         }
 
         [Authorize]
-        public IActionResult Details(string audtionId, string listingId)
+        public IActionResult Details(string auctionId, string listingId)
         {
-            var auction = auctionService.DetailsById(audtionId);
+            var auction = auctionService.DetailsById(auctionId);
 
             var listing = listingService.Details(listingId);
+
+            var bid = bidService.HighestForListing(listingId);
 
             if (auction == null || listing == null)
             {
                 return BadRequest();
             }
 
-            //var model = new ListingViewModel
-            //{
-            //    Auction = auction,
-            //    Listing = listing
-            //}
+            var model = new ListingViewModel
+            {
+                AuctionId = auctionId,
+                Auction = auction,
+                Listing = listing,
+            };
 
-            return View();
+            return View(model);
         }
     }
 }
