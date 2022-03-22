@@ -20,8 +20,13 @@
             this.validatorService = validatorService;
         }
 
-        public JsonResult GetBid(string listingId)
+        public IActionResult GetBid(string listingId)
         {
+            if (string.IsNullOrEmpty(listingId))
+            {
+                return BadRequest();
+            }
+
             var bid = bidService.HighestForListing(listingId);
 
             return Json(bid);
@@ -30,7 +35,9 @@
         [HttpPost]
         public IActionResult PostBid(BidInfoModel bid)
         {
-            if (!ModelState.IsValid || !validatorService.IsListingValid(bid.ListingId))
+            if (!ModelState.IsValid ||
+                !validatorService.IsListingValid(bid.ListingId) ||
+                bidService.HighestForListing(bid.ListingId).Amount >= bid.Amount)
             {
                 return BadRequest();
             }
@@ -41,7 +48,7 @@
 
             bidService.Create(this.User.Id(), bid.ListingId, bid.Amount, number);
 
-            return Json(new { Success = true});
+            return Json(new { Success = true });
         }
     }
 }

@@ -132,8 +132,6 @@
 
             var listing = listingService.Details(listingId);
 
-            var bid = bidService.HighestForListing(listingId);
-
             if (auction == null || listing == null)
             {
                 return BadRequest();

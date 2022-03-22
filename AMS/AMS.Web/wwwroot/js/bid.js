@@ -6,7 +6,7 @@
 
     update();
 
-    $('#form').children().first().on('submit', function (e) {
+    $('#form').on('submit', function (e) {
 
         let formData = {
             amount: $('#amount').val(),
@@ -20,18 +20,15 @@
                 type: "post",
                 data: formData,
                 dataType: 'json',
-                success: function (response) {
+                success: function () {
                     update();
                 },
-                statusCode: {
-                    400: function () {
-                        alert("400 Bad Request")
-                    }
+                error: function () {
+                    alert('Something went wrong!')
                 }
             });
         }
-
-        $('#inputBid').val('');
+        $('#amount').val('');
         e.preventDefault();
     })
 
@@ -50,31 +47,26 @@
                 } else {
                     console.log(response.amount)
                     maxSum = response.amount;
-                    $('#current').text(response.amount);
+                    $('#current').text(response.amount + '$');
                     $('#bidName').text(response.user);
                 }
             },
-            error: function (xhr) {
-                $('#msg').removeClass('d-none')
-                $('#form').html('');
+            error: function () {
+                alert('Something went wrong!')
             }
         });
     }
 
     function validateInput(amount) {
 
-        //let fieldValue = $('#amount').val();
-
-        //console.log(maxSum);
-
-        //if (!$.isNumeric(amount)) {
-        //    alert("Bid must be a number!")
-        //    return false;
-        //}
-        //else if (amount <= maxSum) {
-        //    alert('Bid must be higher than current!')
-        //    return false;
-        //}
+        if (!$.isNumeric(amount)) {
+            alert("Bid must be a number!")
+            return false;
+        }
+        else if (amount <= maxSum) {
+            alert('Bid must be higher than current!')
+            return false;
+        }
 
         return true;
     }

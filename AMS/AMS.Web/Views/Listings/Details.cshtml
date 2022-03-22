@@ -1,7 +1,7 @@
 ﻿@model ListingViewModel
 
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Details Page";
 
     bool isOwnListing = User.Id() == Model.Listing.UserId;
 }
@@ -65,19 +65,18 @@
             <div class="card-body">
                 <h3 class="card-title text-center">Bid Details:</h3>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item"><h6 class="d-inline">Starting Price: </h6>@Model.Listing.Price.ToString("f2")</li>
+                    <li class="list-group-item"><h6 class="d-inline">Starting Price: </h6>@Model.Listing.Price.ToString("f1")$</li>
                     <li class="list-group-item"><h6 class="d-inline">Current Bid: </h6><span id="current"></span></li>
                     <li class="list-group-item"><h6 class="d-inline">Bidder: </h6><span id="bidName"></span></li>
                 </ul>
             </div>
-            <h6 id="msg" class="text-danger text-center mb-3 d-none">Bids are not working at the moment!</h6>
             <input type="hidden" id="listingId" name="listingId" value="@Model.Listing.Id">
-            <div id="form">
+            <div>
                 @if (!isOwnListing)
                 {
-                    <form method="post" class="row g-3" style="margin-left: 30px">
+                    <form id="form" method="post" class="row g-3" style="margin-left: 30px">
                         <div class="col-auto">
-                            <input id="amount" name="amount" type="number" class="form-control" placeholder="Place your bid here..">
+                            <input id="amount" name="amount" type="number" class="form-control" placeholder="Place your bid here.." step=".01">
                         </div>
                         <div class="col-auto bid">
                             <button type="submit" class="btn btn-primary mb-3">Bid</button>

@@ -9,6 +9,7 @@
         [Range(PriceMinValue, PriceMaxValue)]
         public decimal Amount { get; init; }
 
+        [Required]
         public string ListingId { get; init; }
     }
 }
