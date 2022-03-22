@@ -42,7 +42,7 @@
             dbContext.SaveChanges();
         }
 
-        public IEnumerable<ListingPropertyServiceModel> Conditions()
+        public ICollection<ListingPropertyServiceModel> Conditions()
             => dbContext
             .Conditions
             .Select(x => new ListingPropertyServiceModel
@@ -52,7 +52,7 @@
             })
             .ToList();
 
-        public IEnumerable<ListingPropertyServiceModel> Makes()
+        public ICollection<ListingPropertyServiceModel> Makes()
             => dbContext
             .Makes
             .Select(x => new ListingPropertyServiceModel
@@ -62,7 +62,7 @@
             })
             .ToList();
 
-        public IEnumerable<ListingPropertyServiceModel> Models()
+        public ICollection<ListingPropertyServiceModel> Models()
             => dbContext
             .Models
             .Select(x => new ListingPropertyServiceModel
@@ -72,7 +72,7 @@
             })
             .ToList();
 
-        public IEnumerable<ListingPropertyServiceModel> Types()
+        public ICollection<ListingPropertyServiceModel> Types()
             => dbContext
             .VehicleTypes
             .Select(x => new ListingPropertyServiceModel

@@ -13,14 +13,9 @@
             this.dbContext = dbContext;
         }
 
-        public bool AreListingParamsValid(int typeId,
-               int conditionId,
-               int makeId,
-               int modelId)
+        public bool AreListingParamsValid(int conditionId, int modelId)
         {
-            if (!TypeExists(typeId) ||
-                !ConditionExists(conditionId) ||
-                !MakeExists(makeId) ||
+            if (!ConditionExists(conditionId) ||
                 !ModelExists(modelId))
             {
                 return false;
@@ -34,20 +29,10 @@
             .Auctions
             .Any(x => x.Id == Id);
 
-        private bool TypeExists(int typeId)
-            => dbContext
-            .VehicleTypes
-            .Any(c => c.Id == typeId);
-
         private bool ConditionExists(int conditionId)
             => dbContext
             .Conditions
             .Any(x => x.Id == conditionId);
-
-        private bool MakeExists(int makeId)
-            => dbContext
-            .Makes
-            .Any(x => x.Id == makeId);
 
         private bool ModelExists(int modelId)
             => dbContext
@@ -70,5 +55,10 @@
             => dbContext
             .Vehicles
             .Any(x => x.Id == Id);
+
+        public bool DoesWatchlistExist(string listingId, string userId)
+            => dbContext
+            .Watchlists
+            .Any(w => w.VehicleId == listingId && w.UserId == userId);
     }
 }

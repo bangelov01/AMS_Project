@@ -1,0 +1,12 @@
+﻿@model IEnumerable<SearchListingsServiceModel>
+
+<div class="text-center mt-4">
+    <h1 class="display-4 font-weight-bold">My Watchlist</h1>
+    <h1 class="display-6">All favorites are shown here.</h1>
+    <hr class="w-50 offset-3" />
+</div>
+
+@if (!Model.Any())
+{
+    <h1 class="display-6 text-danger text-center">You currently have no items in your watchlist.</h1>
+}

@@ -49,7 +49,7 @@
                     @if (!isOwnListing)
                     {
                         <div class="container text-center mt-3">
-                            <a class="btn btn-primary btn-md" asp-controller="Listings" asp-action="Details" asp-route-id="">Watch</a>
+                            <a class="btn btn-primary btn-md" asp-controller="Watchlists" asp-action="Watch" asp-route-id="@Model.Listing.Id">Watch</a>
                         </div>
                     }
                     else

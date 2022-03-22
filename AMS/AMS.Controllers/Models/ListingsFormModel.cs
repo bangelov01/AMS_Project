@@ -7,21 +7,29 @@
 
     public class ListingsFormModel
     {
+        public ListingsFormModel()
+        {
+            Conditions = new List<ListingPropertyServiceModel>();
+            Types = new List<ListingPropertyServiceModel>();
+            Makes = new List<ListingPropertyServiceModel>();
+            Models = new List<ListingPropertyServiceModel>();
+        }
+
         [Display(Name = "Condition")]
         public int ConditionId { get; init; }
-        public IEnumerable<ListingPropertyServiceModel> Conditions { get; set; }
+        public ICollection<ListingPropertyServiceModel> Conditions { get; set; }
 
         [Display(Name = "Vehicle Type")]
         public int TypeId { get; init; }
-        public IEnumerable<ListingPropertyServiceModel> Types { get; set; }
+        public ICollection<ListingPropertyServiceModel> Types { get; set; }
 
         [Display(Name = "Make")]
         public int MakeId { get; init; }
-        public IEnumerable<ListingPropertyServiceModel> Makes { get; set; }
+        public ICollection<ListingPropertyServiceModel> Makes { get; set; }
 
         [Display(Name = "Model")]
         public int ModelId { get; init; }
-        public IEnumerable<ListingPropertyServiceModel> Models { get; set; }
+        public ICollection<ListingPropertyServiceModel> Models { get; set; }
 
         [Range(YearMinValue, YearMaxValue)]
         public int Year { get; init; }

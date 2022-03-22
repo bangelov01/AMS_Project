@@ -18,10 +18,10 @@
         public int Count(string auctionId);
         public IEnumerable<ListingsServiceModel> ApprovedPerPage(string Id, int currentPage, int listingsPerPage);
         public ListingDetailsServiceModel Details(string id);
-        public IEnumerable<ListingPropertyServiceModel> Conditions();
-        public IEnumerable<ListingPropertyServiceModel> Types();
-        public IEnumerable<ListingPropertyServiceModel> Makes();
-        public IEnumerable<ListingPropertyServiceModel> Models();
+        public ICollection<ListingPropertyServiceModel> Conditions();
+        public ICollection<ListingPropertyServiceModel> Types();
+        public ICollection<ListingPropertyServiceModel> Makes();
+        public ICollection<ListingPropertyServiceModel> Models();
         public IEnumerable<AdminListingsServiceModel> NotApproved();
         public IEnumerable<SearchListingsServiceModel> Search(string searchString);
         public bool Delete(string Id);

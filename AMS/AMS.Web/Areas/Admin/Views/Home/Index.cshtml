@@ -8,10 +8,10 @@
 <h2 class="heading-margin text-center">Listings awaiting approval</h2>
 
 
-<div class="row row-cols-3 row-cols-md-3 g-4 mt-2">
+<div class="row row-cols-3 align-items-md-stretch">
     @foreach (var listing in Model)
     {
-        <div class="col col-4 @(Model.Count() == 1 ? "offset-4" : string.Empty)">
+        <div class="col-sm-4 @(Model.Count() < 3 ? "col-centered" : string.Empty) mt-4">
             <div class="card h-100">
                 <img src="@listing.ImageUrl" class="card-img-top" style="height: 100%!important; ">
                 <div class="card-body">

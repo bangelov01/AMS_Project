@@ -47,7 +47,7 @@
         [HttpPost]
         public IActionResult Create(string Id, ListingsFormModel listing)
         {
-            if (!validatorService.AreListingParamsValid(listing.TypeId, listing.ConditionId, listing.MakeId, listing.ModelId))
+            if (!validatorService.AreListingParamsValid(listing.ConditionId, listing.ModelId))
             {
                 return BadRequest();
             }

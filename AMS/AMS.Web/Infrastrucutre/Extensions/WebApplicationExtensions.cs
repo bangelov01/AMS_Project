@@ -30,6 +30,7 @@
             builder.Services.AddTransient<IListingService, ListingService>();
             builder.Services.AddTransient<IValidatorService, ValidatorService>();
             builder.Services.AddTransient<IBidService, BidService>();
+            builder.Services.AddTransient<IWatchlistService, WatchlistService>();
 
             return builder;
         }
