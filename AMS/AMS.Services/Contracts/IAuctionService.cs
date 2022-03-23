@@ -33,7 +33,5 @@
             string country,
             string city,
             string addressText);
-
-        public bool Delete(string Id);
     }
 }

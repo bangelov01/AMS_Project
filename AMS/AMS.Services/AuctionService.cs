@@ -163,26 +163,5 @@
                 End = a.End
             })
             .FirstOrDefault();
-
-        public bool Delete(string Id)
-        {
-            var auction = dbContext
-                .Auctions
-                .Include(a => a.Vehicles)
-                .Where(a => a.Id == Id)
-                .FirstOrDefault();
-
-            if(auction == null)
-            {
-                return false;
-            }
-
-            dbContext.Vehicles.RemoveRange(auction.Vehicles);
-            dbContext.Auctions.Remove(auction);
-
-            dbContext.SaveChanges();
-
-            return true;
-        }
     }
 }

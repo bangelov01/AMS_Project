@@ -91,17 +91,5 @@
 
             return RedirectToAction(nameof(All), "Auctions", new { area = "Admin"});
         }
-
-        public IActionResult Delete(string Id)
-        {
-            bool isDeleted = auctionService.Delete(Id);
-
-            if (!isDeleted)
-            {
-                return BadRequest();
-            }
-
-            return RedirectToAction(nameof(All));
-        }
     }
 }
