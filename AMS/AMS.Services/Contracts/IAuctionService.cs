@@ -17,7 +17,7 @@
 
         public AuctionServiceModel DetailsById(string Id);
 
-        public ICollection<AllAuctionsServiceModel> Active();
+        public ICollection<AllAuctionsServiceModel> All();
 
         public ICollection<AllAuctionsServiceModel> ActivePerPage(int currentPage, int auctionsPerPage);
 
@@ -33,5 +33,7 @@
             string country,
             string city,
             string addressText);
+
+        public bool Delete(string Id);
     }
 }

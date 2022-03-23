@@ -1,6 +1,5 @@
 ﻿namespace AMS.Controllers
 {
-    using AMS.Controllers.Models;
     using AMS.Services.Contracts;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
@@ -35,6 +34,18 @@
             }
 
             watchlistService.Create(Id, this.User.Id());
+
+            return RedirectToAction(nameof(All));
+        }
+
+        public IActionResult Delete(string Id)
+        {
+            bool isDeleted = watchlistService.Delete(Id, this.User.Id());
+
+            if (!isDeleted)
+            {
+                return BadRequest();
+            }
 
             return RedirectToAction(nameof(All));
         }

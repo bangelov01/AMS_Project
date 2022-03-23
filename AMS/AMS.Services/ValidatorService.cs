@@ -27,7 +27,7 @@
         public bool IsAuctionValid(string Id)
             => dbContext
             .Auctions
-            .Any(x => x.Id == Id);
+            .Any(x => x.Id == Id && x.End > DateTime.UtcNow);
 
         private bool ConditionExists(int conditionId)
             => dbContext
@@ -54,7 +54,7 @@
         public bool IsListingValid(string Id)
             => dbContext
             .Vehicles
-            .Any(x => x.Id == Id);
+            .Any(x => x.Id == Id && x.Auction.End > DateTime.UtcNow);
 
         public bool DoesWatchlistExist(string listingId, string userId)
             => dbContext

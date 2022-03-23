@@ -3,8 +3,6 @@
     using AMS.Data;
     using AMS.Data.Models;
     using AMS.Services.Contracts;
-    using AMS.Services.Models;
-    using AMS.Services.Models.Bids;
     using AMS.Services.Models.Listings;
     using System.Collections.Generic;
 
@@ -29,11 +27,30 @@
             dbContext.SaveChanges();
         }
 
+        public bool Delete(string listingId, string userId)
+        {
+            var watch = dbContext
+                .Watchlists
+                .Where(w => w.VehicleId == listingId && w.UserId == userId)
+                .FirstOrDefault();
+
+            if (watch == null)
+            {
+                return false;
+            }
+
+            dbContext.Watchlists.Remove(watch);
+            dbContext.SaveChanges();
+
+            return true;
+        }
+
         public IEnumerable<SearchListingsServiceModel> ListingsForUser(string Id)
         {
             var listings = dbContext
                 .Watchlists
-                .Where(w => w.UserId == Id)
+                .Where(w => w.UserId == Id && w.Vehicle.Auction.End > DateTime.UtcNow)
+
                 .Select(w => new SearchListingsServiceModel
                 {
                     AuctionId = w.Vehicle.AuctionId,

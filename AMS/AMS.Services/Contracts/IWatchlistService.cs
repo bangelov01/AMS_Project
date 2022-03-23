@@ -6,6 +6,8 @@
     {
         public void Create(string listingId, string userId);
 
+        public bool Delete(string listingId, string userId);
+
         public IEnumerable<SearchListingsServiceModel> ListingsForUser(string Id);
     }
 }

@@ -4,7 +4,38 @@
 
     let maxSum = 0;
 
-    update();
+    let delay = 100;
+
+    let timeId = setTimeout(function request() {
+
+        let get = $.ajax({
+            url: '/Bids/GetBid',
+            type: "get",
+            data: {
+                listingId: id
+            }
+        });
+
+        get.done(function (response) {
+            delay = 1000;
+            if (response == null) {
+                $('#current').text('None');
+                $('#bidName').text('None');
+            } else {
+                maxSum = response.amount;
+                $('#current').text(response.amount + '$');
+                $('#bidName').text(response.user);
+            }
+        });
+
+        get.fail(function () {
+            alert('Something went wrong!');
+            clearTimeout(timeId);
+        })
+
+        timeId = setTimeout(request, delay);
+
+    }, delay);
 
     $('#form').on('submit', function (e) {
 
@@ -20,9 +51,6 @@
                 type: "post",
                 data: formData,
                 dataType: 'json',
-                success: function () {
-                    update();
-                },
                 error: function () {
                     alert('Something went wrong!')
                 }
@@ -31,31 +59,6 @@
         $('#amount').val('');
         e.preventDefault();
     })
-
-    function update() {
-        $.ajax({
-            url: '/Bids/GetBid',
-            type: "get",
-            data: {
-                listingId: id
-            },
-            success: function (response) {
-
-                if (response == null) {
-                    $('#current').text('None');
-                    $('#bidName').text('None');
-                } else {
-                    console.log(response.amount)
-                    maxSum = response.amount;
-                    $('#current').text(response.amount + '$');
-                    $('#bidName').text(response.user);
-                }
-            },
-            error: function () {
-                alert('Something went wrong!')
-            }
-        });
-    }
 
     function validateInput(amount) {
 

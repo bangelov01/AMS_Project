@@ -92,7 +92,8 @@
         public IEnumerable<ListingsServiceModel> ApprovedPerPage(string Id, int currentPage, int listingsPerPage)
             => dbContext
                     .Vehicles
-                    .Where(v => v.AuctionId == Id && v.IsApproved == true)
+                    .Where(v => v.AuctionId == Id 
+                             && v.IsApproved == true)
                     .Skip((currentPage - 1) * listingsPerPage)
                     .Take(listingsPerPage)
                     .Select(v => new ListingsServiceModel
@@ -164,7 +165,7 @@
 
             var listingQuery = dbContext
                 .Vehicles
-                .Where(v => v.IsApproved == true)
+                .Where(v => v.IsApproved == true && v.Auction.End > DateTime.UtcNow)
                 .AsQueryable();
 
             listingQuery = listingQuery.Where(l => (l.Model.Make.Name + l.Model.Name).ToLower().Contains(string.Join("", terms).ToLower()) ||
@@ -188,10 +189,10 @@
             return listings;
         }
 
-        public ListingDetailsServiceModel Details(string id)
+        public ListingDetailsServiceModel Details(string listingId, string userId)
             => dbContext
             .Vehicles
-            .Where(v => v.Id == id)
+            .Where(v => v.Id == listingId)
             .Select(v => new ListingDetailsServiceModel
             {
                 Id = v.Id,
@@ -203,7 +204,8 @@
                 Model = v.Model.Name,
                 Description = v.Description,
                 Year = v.Year,
-                Price = v.Price
+                Price = v.Price,
+                IsWatched = v.Watchlists.Any(w => w.VehicleId == listingId && w.UserId == userId),
             })
             .FirstOrDefault();
     }

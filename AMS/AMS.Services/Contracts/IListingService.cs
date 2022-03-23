@@ -17,7 +17,7 @@
 
         public int Count(string auctionId);
         public IEnumerable<ListingsServiceModel> ApprovedPerPage(string Id, int currentPage, int listingsPerPage);
-        public ListingDetailsServiceModel Details(string id);
+        public ListingDetailsServiceModel Details(string listingId, string userId);
         public ICollection<ListingPropertyServiceModel> Conditions();
         public ICollection<ListingPropertyServiceModel> Types();
         public ICollection<ListingPropertyServiceModel> Makes();

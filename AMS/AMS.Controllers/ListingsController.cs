@@ -13,17 +13,14 @@
         private readonly IListingService listingService;
         private readonly IValidatorService validatorService;
         private readonly IAuctionService auctionService;
-        private readonly IBidService bidService;
 
         public ListingsController(IListingService listingService,
             IValidatorService validatorService,
-            IAuctionService auctionService,
-            IBidService bidService)
+            IAuctionService auctionService)
         {
             this.listingService = listingService;
             this.validatorService = validatorService;
             this.auctionService = auctionService;
-            this.bidService = bidService;
         }
 
         [Authorize]
@@ -84,7 +81,9 @@
 
             var maxPage = Math.Ceiling((double)totalListings / ListingsPerPage);
 
-            if (auction == null || listings == null || currentPage > maxPage)
+            if (auction == null ||
+                listings == null ||
+                (currentPage > maxPage && totalListings != 0))
             {
                 return BadRequest();
             }
@@ -130,7 +129,7 @@
         {
             var auction = auctionService.DetailsById(auctionId);
 
-            var listing = listingService.Details(listingId);
+            var listing = listingService.Details(listingId, this.User.Id());
 
             if (auction == null || listing == null)
             {

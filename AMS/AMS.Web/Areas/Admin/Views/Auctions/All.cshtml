@@ -18,6 +18,7 @@
                         <th class="col">Listings</th>
                         <th class="col">Start</th>
                         <th class="col">End</th>
+                        <th class="col">Status</th>
                         <th class="col">Actions</th>
                     </tr>
                 </thead>
@@ -32,8 +33,10 @@
                             <td>@auction.ListingsCount</td>
                             <td>@auction.Start</td>
                             <td>@auction.End</td>
+                            <td>@(auction.End > DateTime.UtcNow ? "Active" : "Expired")</td>
                             <td>
                                 <a class="btn btn-success btn-sm" asp-area="Admin" asp-controller="Auctions" asp-action="Edit" asp-route-id="@auction.Id">Edit</a>
+                                <a class="btn btn-danger btn-sm" asp-area="Admin" asp-controller="Auctions" asp-action="Delete" asp-route-id="@auction.Id">Delete</a>
                             </td>
                         </tr>
                     }

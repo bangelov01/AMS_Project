@@ -38,39 +38,39 @@ else
        asp-page="/Account/Login">Login to view details!</a>
         </div>
     }
-    <div class="row row-cols-3 align-items-md-stretch">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 align-items-stretch g-4 py-5">
         @foreach (var listing in Model.Listings)
         {
-            <div class="col-sm-4 @(listingsCount < 3 ? "col-centered" : string.Empty) mt-4">
+            <div class="col-sm-4 @(listingsCount == 1 ? "col-centered" : string.Empty)">
                 <div class="card h-100 border-primary shadow rounded">
                     <img src="@listing.ImageUrl" class="card-img-top" style="height: 100%!important;">
                     <div class="card-body">
                         <h4 class="card-title text-center">@listing.Make - @listing.Model</h4>
                         <hr class="w-50 col-centered" />
                         <ul class="list-group list-group-flush">
-                            <li class="list-group-item">
-                                <h6 class="d-inline">Auction #@listing.AuctionNumber:</h6>
-                                <a asp-controller="Listings"
-                           asp-action="All"
-                           asp-route-Id="@listing.AuctionId">Go to Auction</a>
-                            </li>
+                            <li class="list-group-item"><h6 class="d-inline">Auction #:</h6> @listing.AuctionNumber</li>
                             <li class="list-group-item"><h6 class="d-inline">Condition:</h6> @listing.Condition</li>
                             <li class="list-group-item"><h6 class="d-inline">Year:</h6> @listing.Year</li>
                         </ul>
-                    </div>
-                    @if (User.Id() != null)
-                    {
-                        <div class="card-footer text-center">
-
-                            <div class="container mt-2 mb-2">
-                                <a class="btn btn-primary btn-md d-inline" asp-controller="Listings"
-                       asp-action="Details"
-                       asp-route-auctionId="@listing.AuctionId"
-                       asp-route-listingId="@listing.Id">Further Details</a>
-                            </div>
-
+                        <div class="d-flex justify-content-between align-items-center mt-3">
+                            @if (User.Id() != null)
+                            {
+                                <div class="btn-group col-centered">
+                                    <a type="button" class="btn btn-outline-primary" asp-controller="Listings"
+                                asp-action="Details"
+                                asp-route-listingId="@listing.Id"
+                                asp-route-auctionId="@listing.AuctionId">
+                                        Details
+                                    </a>
+                                    <a type="button" class="btn btn-outline-primary" asp-controller="Listings"
+                                asp-action="All"
+                                asp-route-Id="@listing.AuctionId">
+                                        Auction
+                                    </a>
+                                </div>
+                            }
                         </div>
-                    }
+                    </div>
                 </div>
             </div>
         }

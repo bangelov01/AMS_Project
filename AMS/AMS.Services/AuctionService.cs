@@ -53,10 +53,9 @@
             dbContext.SaveChanges();
         }
 
-        public ICollection<AllAuctionsServiceModel> Active()
+        public ICollection<AllAuctionsServiceModel> All()
             => dbContext
                 .Auctions
-                .Where(a => a.End > DateTime.UtcNow)
                 .Select(a => new AllAuctionsServiceModel
                 {
                     Id = a.Id,
@@ -155,7 +154,7 @@
         public AuctionServiceModel DetailsById(string Id)
             => dbContext
             .Auctions
-            .Where(a => a.Id == Id)
+            .Where(a => a.Id == Id && a.End > DateTime.UtcNow)
             .Select(a => new AuctionServiceModel
             {
                 City = a.Address.City,
@@ -164,5 +163,26 @@
                 End = a.End
             })
             .FirstOrDefault();
+
+        public bool Delete(string Id)
+        {
+            var auction = dbContext
+                .Auctions
+                .Include(a => a.Vehicles)
+                .Where(a => a.Id == Id)
+                .FirstOrDefault();
+
+            if(auction == null)
+            {
+                return false;
+            }
+
+            dbContext.Vehicles.RemoveRange(auction.Vehicles);
+            dbContext.Auctions.Remove(auction);
+
+            dbContext.SaveChanges();
+
+            return true;
+        }
     }
 }

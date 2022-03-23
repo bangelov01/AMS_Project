@@ -48,9 +48,16 @@
                     <li class="list-group-item"><h6 class="d-inline">Description: </h6>@Model.Listing.Description</li>
                     @if (!isOwnListing)
                     {
-                        <div class="container text-center mt-3">
-                            <a class="btn btn-primary btn-md" asp-controller="Watchlists" asp-action="Watch" asp-route-id="@Model.Listing.Id">Watch</a>
-                        </div>
+                        @if (!Model.Listing.IsWatched)
+                        {
+                            <div class="container text-center mt-3">
+                                <a class="btn btn-primary btn-md" asp-controller="Watchlists" asp-action="Watch" asp-route-id="@Model.Listing.Id">Watch</a>
+                            </div>
+                        }
+                        else
+                        {
+                            <h6 class="text-danger text-center mt-3">Listing already in Watchlist!</h6>
+                        }
                     }
                     else
                     {

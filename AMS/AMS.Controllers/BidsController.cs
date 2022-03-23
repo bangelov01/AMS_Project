@@ -35,9 +35,15 @@
         [HttpPost]
         public IActionResult PostBid(BidInfoModel bid)
         {
-            if (!ModelState.IsValid ||
-                !validatorService.IsListingValid(bid.ListingId) ||
-                bidService.HighestForListing(bid.ListingId).Amount >= bid.Amount)
+            
+            if (!ModelState.IsValid || !validatorService.IsListingValid(bid.ListingId))
+            {
+                return BadRequest();
+            }
+
+            var highestBid = bidService.HighestForListing(bid.ListingId);
+
+            if (highestBid != null && highestBid.Amount >= bid.Amount)
             {
                 return BadRequest();
             }
