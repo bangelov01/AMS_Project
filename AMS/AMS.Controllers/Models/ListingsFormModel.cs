@@ -42,6 +42,7 @@
 
         [Display(Name = "Starting Price")]
         [Range(PriceMinValue, PriceMaxValue)]
+        [DataType(DataType.Currency)]
         public decimal Price { get; init; }
 
         [Required, Url, Display(Name = "Image URL")]

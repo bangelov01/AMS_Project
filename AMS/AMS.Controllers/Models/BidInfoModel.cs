@@ -7,6 +7,7 @@
     public class BidInfoModel
     {
         [Range(PriceMinValue, PriceMaxValue)]
+        [DataType(DataType.Currency)]
         public decimal Amount { get; init; }
 
         [Required]
