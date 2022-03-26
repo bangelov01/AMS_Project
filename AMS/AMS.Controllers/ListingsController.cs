@@ -13,14 +13,17 @@
         private readonly IListingService listingService;
         private readonly IValidatorService validatorService;
         private readonly IAuctionService auctionService;
+        private readonly IBidService bidService;
 
         public ListingsController(IListingService listingService,
             IValidatorService validatorService,
-            IAuctionService auctionService)
+            IAuctionService auctionService,
+            IBidService bidService)
         {
             this.listingService = listingService;
             this.validatorService = validatorService;
             this.auctionService = auctionService;
+            this.bidService = bidService;
         }
 
         [Authorize]
@@ -73,20 +76,23 @@
 
         public IActionResult All(string Id, int currentPage = 1)
         {
-            var auction = auctionService.DetailsById(Id);
-
-            var listings = listingService.ApprovedPerPage(Id, currentPage, ListingsPerPage);
-
             var totalListings = listingService.Count(Id);
 
             var maxPage = Math.Ceiling((double)totalListings / ListingsPerPage);
 
-            if (auction == null ||
-                listings == null ||
-                (currentPage > maxPage && totalListings != 0))
+            if (string.IsNullOrEmpty(Id) || (currentPage > maxPage && totalListings != 0))
             {
                 return BadRequest();
             }
+
+            var auction = auctionService.DetailsById(Id);
+
+            if (auction == null)
+            {
+                return View("NoResult");
+            }
+
+            var listings = listingService.ApprovedPerPage(Id, currentPage, ListingsPerPage);
 
             var model = new AllListingsViewModel
             {
@@ -115,6 +121,11 @@
 
             var listings = listingService.Search(searchTerm.Trim());
 
+            if (!listings.Any())
+            {
+                return View("NoResult");
+            }
+
             listings = listings.OrderByDescending(l => l.GetType().GetProperty(orderBy).GetValue(l));
 
             return View(new SearchListingsViewModel
@@ -127,20 +138,27 @@
         [Authorize]
         public IActionResult Details(string auctionId, string listingId)
         {
-            var auction = auctionService.DetailsById(auctionId);
-
-            var listing = listingService.Details(listingId, this.User.Id());
-
-            if (auction == null || listing == null)
+            if (string.IsNullOrEmpty(auctionId) || string.IsNullOrEmpty(listingId))
             {
                 return BadRequest();
             }
 
+            var auction = auctionService.DetailsById(auctionId);
+
+            if (auction == null)
+            {
+                return View("NoResult");
+            }
+
+            var listing = listingService.Details(listingId, this.User.Id());
+
+            var bid = bidService.HighestForListing(listingId);
+
             var model = new ListingViewModel
             {
-                AuctionId = auctionId,
                 Auction = auction,
                 Listing = listing,
+                Bid = bid
             };
 
             return View(model);

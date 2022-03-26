@@ -4,6 +4,8 @@
 
     public class AuctionServiceModel : IAuctionModel
     {
+        public string Id { get; init; }
+
         public int Number { get; init; }
 
         public DateTime Start { get; init; }

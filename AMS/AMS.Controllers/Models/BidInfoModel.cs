@@ -9,8 +9,5 @@
         [Range(PriceMinValue, PriceMaxValue)]
         [DataType(DataType.Currency)]
         public decimal Amount { get; init; }
-
-        [Required]
-        public string ListingId { get; init; }
     }
 }

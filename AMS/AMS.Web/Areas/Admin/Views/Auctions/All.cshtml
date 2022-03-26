@@ -33,7 +33,7 @@
                             <td>@auction.ListingsCount</td>
                             <td>@auction.Start</td>
                             <td>@auction.End</td>
-                            <td>@(auction.End > DateTime.UtcNow ? "Active" : "Expired")</td>
+                            <td>@(auction.End > DateTime.Now ? "Active" : "Expired")</td>
                             <td>
                                 <a class="btn btn-success btn-sm" asp-area="Admin" asp-controller="Auctions" asp-action="Edit" asp-route-id="@auction.Id">Edit</a>
                             </td>

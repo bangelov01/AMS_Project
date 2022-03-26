@@ -1,0 +1,22 @@
+﻿@{
+    ViewBag.Title = "No Result";
+
+    var controller = this.ViewContext.RouteData.Values["controller"].ToString();
+    var action = this.ViewContext.RouteData.Values["action"].ToString();
+}
+
+@if(controller == "Listings") {
+
+    @if(action == "All" || action == "Details")
+    {
+        <h1 class="display-6 text-danger text-center">Auction has expired!</h1>
+
+    } else if(action == "Find")
+    {
+        <h1 class="display-6 text-danger text-center">No results found!</h1>
+    }
+
+} else if(controller == "Auctions") 
+{
+    <h1 class="display-6 text-danger text-center">No active auctions at this moment!</h1>
+}

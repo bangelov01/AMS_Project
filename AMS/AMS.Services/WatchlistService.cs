@@ -6,6 +6,8 @@
     using AMS.Services.Models.Listings;
     using System.Collections.Generic;
 
+    using static AMS.Services.Common.CommonFunctions;
+
     public class WatchlistService : IWatchlistService
     {
         private readonly AMSDbContext dbContext;
@@ -49,7 +51,7 @@
         {
             var listings = dbContext
                 .Watchlists
-                .Where(w => w.UserId == Id && w.Vehicle.Auction.End > DateTime.UtcNow)
+                .Where(w => w.UserId == Id && w.Vehicle.Auction.End > GetCurrentDate())
 
                 .Select(w => new SearchListingsServiceModel
                 {

@@ -6,8 +6,8 @@
 
     public class ListingViewModel
     {
-        public string AuctionId { get; init; }
         public AuctionServiceModel Auction { get; init; }
         public ListingDetailsServiceModel Listing { get; init; }
+        public BidServiceModel Bid { get; init; }
     }
 }

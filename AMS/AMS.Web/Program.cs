@@ -3,10 +3,9 @@ using Microsoft.AspNetCore.Identity;
 
 using AMS.Data;
 using AMS.Data.Models;
-using AMS.Services.Contracts;
-using AMS.Services;
 using AMS.Services.Models;
 using AMS.Web.Infrastrucutre.Extensions;
+using AMS.Controllers.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +20,8 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.Configure<AppSettingsServiceModel>(builder
     .Configuration
     .GetSection("AdministrationDetails"));
+
+builder.Services.AddSignalR();
 
 builder.AddTransient();
 
@@ -66,5 +67,6 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
+app.MapHub<BidHub>("/bidHub");
 
 app.Run();

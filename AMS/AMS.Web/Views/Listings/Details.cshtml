@@ -72,16 +72,19 @@
             <div class="card-body">
                 <h3 class="card-title text-center">Bid Details:</h3>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item"><h6 class="d-inline">Starting Price: </h6>@Model.Listing.Price.ToString("f1")$</li>
-                    <li class="list-group-item"><h6 class="d-inline">Current Bid: </h6><span id="current"></span></li>
-                    <li class="list-group-item"><h6 class="d-inline">Bidder: </h6><span id="bidName"></span></li>
+                    <li class="list-group-item"><h6 class="d-inline">Starting Price: </h6>@Model.Listing.Price.ToString("f2")</li>
+                    <li class="list-group-item"><h6 class="d-inline">Current Bid: </h6><span id="current">@(Model.Bid == null ? 0 : Model.Bid.Amount.ToString("f2"))</span></li>
+                    <li class="list-group-item"><h6 class="d-inline">Bidder: </h6><span id="bidName">@(Model.Bid == null ? "None" : Model.Bid.User)</span></li>
                 </ul>
             </div>
-            <input type="hidden" id="listingId" name="listingId" value="@Model.Listing.Id">
             <div>
+                <input type="hidden" id="listingId" name="listingId" value="@Model.Listing.Id">
                 @if (!isOwnListing)
                 {
-                    <form id="form" method="post" class="row g-3" style="margin-left: 30px">
+                    <form id="form" method="post" class="row g-3" style="margin-left: 30px" asp-controller="Bids"
+                    asp-action="Create"
+                    asp-route-auctionId="@Model.Auction.Id"
+                    asp-route-listingId="@Model.Listing.Id">
                         <div class="col-auto">
                             <input id="amount" name="amount" type="number" class="form-control" placeholder="Place your bid here.." step=".01">
                         </div>
@@ -96,5 +99,8 @@
 </div>
 
 @section Scripts{
-<script src="~/js/bid.js" asp-append-version="true"></script>
+<script src="~/lib/signalr/dist/browser/signalr.js" asp-append-version="true"></script>
+<script src="~/js/bidLive.js" asp-append-version="true"></script>
+<script src="~/js/bidValidation.js" asp-append-version="true"></script>
+<script src="~/js/auctionTimer.js" asp-append-version="true"></script>
 }

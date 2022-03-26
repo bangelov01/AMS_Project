@@ -7,6 +7,8 @@
     using AMS.Services.Models.Listings.Base;
     using System.Collections.Generic;
 
+    using static AMS.Services.Common.CommonFunctions;
+
     public class ListingService : IListingService
     {
         private readonly AMSDbContext dbContext;
@@ -165,7 +167,7 @@
 
             var listingQuery = dbContext
                 .Vehicles
-                .Where(v => v.IsApproved == true && v.Auction.End > DateTime.UtcNow)
+                .Where(v => v.IsApproved == true && v.Auction.End > GetCurrentDate())
                 .AsQueryable();
 
             listingQuery = listingQuery.Where(l => (l.Model.Make.Name + l.Model.Name).ToLower().Contains(string.Join("", terms).ToLower()) ||

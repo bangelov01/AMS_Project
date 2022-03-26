@@ -4,6 +4,8 @@
     using AMS.Data.Models;
     using AMS.Services.Contracts;
 
+    using static AMS.Services.Common.CommonFunctions;
+
     public class ValidatorService : IValidatorService
     {
         private readonly AMSDbContext dbContext;
@@ -27,7 +29,7 @@
         public bool IsAuctionValid(string Id)
             => dbContext
             .Auctions
-            .Any(x => x.Id == Id && x.End > DateTime.UtcNow);
+            .Any(x => x.Id == Id && x.End > GetCurrentDate());
 
         private bool ConditionExists(int conditionId)
             => dbContext
@@ -54,7 +56,7 @@
         public bool IsListingValid(string Id)
             => dbContext
             .Vehicles
-            .Any(x => x.Id == Id && x.Auction.End > DateTime.UtcNow);
+            .Any(x => x.Id == Id && x.Auction.End > GetCurrentDate());
 
         public bool DoesWatchlistExist(string listingId, string userId)
             => dbContext

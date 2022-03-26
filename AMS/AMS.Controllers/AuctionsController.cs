@@ -20,11 +20,16 @@
         {
             var auctionsPerPage = auctionService.ActivePerPage(currentPage, AuctionsPerPage);
 
+            if (!auctionsPerPage.Any())
+            {
+                return View("NoResult");
+            }
+
             var totalAuctions = auctionService.ActiveCount();
 
             var maxPage = Math.Ceiling((double)totalAuctions / AuctionsPerPage);
 
-            if (auctionsPerPage == null || currentPage > maxPage)
+            if (currentPage > maxPage)
             {
                 return BadRequest();
             }

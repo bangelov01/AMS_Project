@@ -1,10 +1,11 @@
 ﻿namespace AMS.Controllers
 {
+    using AMS.Controllers.Hubs;
     using AMS.Controllers.Models;
     using AMS.Services.Contracts;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-
+    using Microsoft.AspNetCore.SignalR;
     using static AMS.Services.Infrastructure.Extensions.ClaimsPrincipleExtensions;
 
     [Authorize]
@@ -12,49 +13,47 @@
     {
         private readonly IBidService bidService;
         private readonly IValidatorService validatorService;
+        private readonly IHubContext<BidHub> hubContext;
 
         public BidsController(IBidService bidService,
-            IValidatorService validatorService)
+            IValidatorService validatorService,
+            IHubContext<BidHub> hubContext)
         {
             this.bidService = bidService;
             this.validatorService = validatorService;
-        }
-
-        public IActionResult GetBid(string listingId)
-        {
-            if (string.IsNullOrEmpty(listingId))
-            {
-                return BadRequest();
-            }
-
-            var bid = bidService.HighestForListing(listingId);
-
-            return Json(bid);
+            this.hubContext = hubContext;
         }
 
         [HttpPost]
-        public IActionResult PostBid(BidInfoModel bid)
+        public async Task<IActionResult> Create(string auctionId, string listingId, BidInfoModel bid)
         {
-            
-            if (!ModelState.IsValid || !validatorService.IsListingValid(bid.ListingId))
+            if (!ModelState.IsValid || !validatorService.IsListingValid(listingId))
             {
                 return BadRequest();
             }
 
-            var highestBid = bidService.HighestForListing(bid.ListingId);
+            var highestBid = bidService.HighestForListing(listingId);
 
             if (highestBid != null && highestBid.Amount >= bid.Amount)
             {
                 return BadRequest();
             }
 
+            await hubContext.Clients.All.SendAsync("onBid", bid.Amount.ToString("f2"),
+                this.User.Identity.Name,
+                listingId.ToString());
+
             Random random = new Random();
 
             var number = random.Next(1000, 5000);
 
-            bidService.Create(this.User.Id(), bid.ListingId, bid.Amount, number);
+            bidService.Create(this.User.Id(), listingId, bid.Amount, number);
 
-            return Json(new { Success = true });
+            return RedirectToAction("Details", "Listings", new
+            {
+                auctionId = auctionId,
+                listingId = listingId
+            });
         }
     }
 }

@@ -10,43 +10,36 @@
     <hr class="w-50 offset-3" />
 </div>
 
-@if (!Model.Auctions.Any())
+@if (User.Id() == null)
 {
-    <h1 class="display-6 text-danger text-center">No current active auctions!</h1>
+    <div class="text-center">
+        <a class="btn btn-outline-danger" asp-area="Identity" asp-page="/Account/Login">Login to add listings!</a>
+    </div>
 }
-else
-{
-    if(User.Id() == null)          
+<div class="row mt-3">
+    @foreach (var auction in Model.Auctions)
     {
-        <div class="text-center">
-           <a class="btn btn-outline-danger" asp-area="Identity" asp-page="/Account/Login">Login to add listings!</a>
-        </div>
-    }
-    <div class="row mt-3">
-        @foreach (var auction in Model.Auctions)
-        {
 
-            var span = auction.End.Subtract(DateTime.UtcNow);
-            var timeString = $"{span.Days} days, {span.Hours} hours, {span.Minutes} minutes.";
+        var span = auction.End.Subtract(DateTime.Now);
+        var timeString = $"{span.Days} days, {span.Hours} hours, {span.Minutes} minutes.";
 
-            <div class="col-sm-6 col-centered">
-                <div class="card text-white bg-primary mb-3 mt-4">
-                    <div class="card-header"><h3>Auction #@auction.Number</h3></div>
-                    <div class="card-body shadow-lg rounded">
-                        <p class="card-text"><strong>Description: </strong>@auction.Description</p>
-                        <p class="card-text"><strong>Location: </strong>@auction.Country, @auction.City</p>
-                        <p class="card-text"><strong>Listings: </strong>@auction.ListingsCount</p>
-                        <p class="card-text"><strong>Time remaining: </strong>@timeString</p>
-                        <a class="btn btn-light" asp-controller="Listings" asp-action="All" asp-route-Id="@auction.Id">View Listings</a>
-                        @if (User.Id() != null)
-                        {
-                            <a class="btn btn-light" asp-controller="Listings" asp-action="Create" asp-route-Id="@auction.Id">Add Listing</a>
-                        }
-                    </div>
+        <div class="col-sm-6 col-centered">
+            <div class="card text-white bg-primary mb-3 mt-4">
+                <div class="card-header"><h3>Auction #@auction.Number</h3></div>
+                <div class="card-body shadow-lg rounded">
+                    <p class="card-text"><strong>Description: </strong>@auction.Description</p>
+                    <p class="card-text"><strong>Location: </strong>@auction.Country, @auction.City</p>
+                    <p class="card-text"><strong>Listings: </strong>@auction.ListingsCount</p>
+                    <p class="card-text"><strong>Time remaining: </strong>@timeString</p>
+                    <a class="btn btn-light" asp-controller="Listings" asp-action="All" asp-route-Id="@auction.Id">View Listings</a>
+                    @if (User.Id() != null)
+                    {
+                        <a class="btn btn-light" asp-controller="Listings" asp-action="Create" asp-route-Id="@auction.Id">Add Listing</a>
+                    }
                 </div>
             </div>
-        }
-    </div>
+        </div>
+    }
+</div>
 
-    <partial name="_PaginationPartial" model="@Model.Pagination" />
-}
+<partial name="_PaginationPartial" model="@Model.Pagination" />

@@ -20,11 +20,9 @@
         public string Description { get; init; }
 
         [Required, Display(Name = "Auction Start Date")]
-        [DataType(DataType.Date)]
         public DateTime Start { get; init; }
 
         [Required, Display(Name = "Auction End Date")]
-        [DataType(DataType.Date)]
         public DateTime End { get; init; }
 
         [Required]

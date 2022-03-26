@@ -4,8 +4,6 @@
 
     public class AllAuctionsServiceModel : AuctionServiceModel
     {
-        public string Id { get; init; }
-
         public string Country { get; init; }
 
         public string Description { get; init; }

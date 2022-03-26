@@ -11,6 +11,8 @@
     using AMS.Services.Models.Auctions;
     using AMS.Services.Models.Auctions.Base;
 
+    using static AMS.Services.Common.CommonFunctions;
+
     public class AuctionService : IAuctionService
     {
         private readonly AMSDbContext dbContext;
@@ -72,7 +74,7 @@
         public ICollection<AllAuctionsServiceModel> ActivePerPage(int currentPage, int auctionsPerPage)
             => dbContext
                 .Auctions
-                .Where(a => a.End > DateTime.UtcNow)
+                .Where(a => a.End > GetCurrentDate())
                 .Skip((currentPage - 1) * auctionsPerPage)
                 .Take(auctionsPerPage)
                 .Select(a => new AllAuctionsServiceModel
@@ -148,15 +150,16 @@
         public int ActiveCount()
             => dbContext
                 .Auctions
-                .Where(a => a.End > DateTime.UtcNow)
+                .Where(a => a.End > GetCurrentDate())
                 .Count();
 
         public AuctionServiceModel DetailsById(string Id)
             => dbContext
             .Auctions
-            .Where(a => a.Id == Id && a.End > DateTime.UtcNow)
+            .Where(a => a.Id == Id && a.End > GetCurrentDate())
             .Select(a => new AuctionServiceModel
             {
+                Id = a.Id,
                 City = a.Address.City,
                 Number = a.Number,
                 Start = a.Start,
