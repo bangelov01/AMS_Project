@@ -89,21 +89,16 @@
                 return View("NoResult");
             }
 
-            var listings = listingService.ApprovedPerPage(Id, currentPage, ListingsPerPage);
-
-            if (!listings.Any())
-            {
-                return View("NoListings");
-            }
-
             var totalListings = listingService.Count(Id);
 
             var maxPage = Math.Ceiling((double)totalListings / ListingsPerPage);
 
-            if (currentPage > maxPage)
+            if (currentPage > maxPage && totalListings != 0)
             {
                 return BadRequest();
             }
+
+            var listings = listingService.ApprovedPerPage(Id, currentPage, ListingsPerPage);
 
             var model = new AllListingsViewModel
             {

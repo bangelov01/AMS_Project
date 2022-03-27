@@ -7,45 +7,51 @@
 
 <partial name="_ListingAuctionPartial" model="@Model.Auction" />
 
-
-@if (User.Id() == null)
+@if (!Model.Listings.Any())
 {
-    <div class="text-center">
-        <a class="btn btn-outline-danger" asp-area="Identity"
-       asp-page="/Account/Login">Login to view details!</a>
-    </div>
+    <h1 class="display-6 text-danger text-center">There are currently no listings in this auction!</h1>
 }
-<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 align-items-stretch g-4 py-5">
-    @foreach (var listing in Model.Listings)
+else
+{
+    @if (User.Id() == null)
     {
-        <div class="col-sm-4 @(listingsCount == 1 ? "col-centered" : string.Empty)">
-            <div class="card h-100 border-primary shadow rounded">
-                <img src="@listing.ImageUrl" class="card-img-top" style="height: 100%!important;">
-                <div class="card-body">
-                    <h4 class="card-title text-center">@listing.Make - @listing.Model</h4>
-                    <hr class="w-50 col-centered" />
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item"><h6 class="d-inline">Condition:</h6> @listing.Condition</li>
-                        <li class="list-group-item"><h6 class="d-inline">Year:</h6> @listing.Year</li>
-                    </ul>
-                    <div class="d-flex justify-content-between align-items-center mt-3">
-                        @if (User.Id() != null)
-                        {
-                            <div class="btn-group col-centered">
-                                <a class="btn btn-outline-primary btn-md d-inline" asp-controller="Listings"
+        <div class="text-center">
+            <a class="btn btn-outline-danger" asp-area="Identity"
+       asp-page="/Account/Login">Login to view details!</a>
+        </div>
+    }
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 align-items-stretch g-4 py-5">
+        @foreach (var listing in Model.Listings)
+        {
+            <div class="col-sm-4 @(listingsCount == 1 ? "col-centered" : string.Empty)">
+                <div class="card h-100 border-primary shadow rounded">
+                    <img src="@listing.ImageUrl" class="card-img-top" style="height: 100%!important;">
+                    <div class="card-body">
+                        <h4 class="card-title text-center">@listing.Make - @listing.Model</h4>
+                        <hr class="w-50 col-centered" />
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item"><h6 class="d-inline">Condition:</h6> @listing.Condition</li>
+                            <li class="list-group-item"><h6 class="d-inline">Year:</h6> @listing.Year</li>
+                        </ul>
+                        <div class="d-flex justify-content-between align-items-center mt-3">
+                            @if (User.Id() != null)
+                            {
+                                <div class="btn-group col-centered">
+                                    <a class="btn btn-outline-primary btn-md d-inline" asp-controller="Listings"
                            asp-action="Details"
                            asp-route-listingId="@listing.Id"
                            asp-route-auctionId="@Model.Pagination.Id">Further Details</a>
-                            </div>
-                        }
+                                </div>
+                            }
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    }
-</div>
+        }
+    </div>
 
-<partial name="_PaginationPartial" model="@Model.Pagination" />
+    <partial name="_PaginationPartial" model="@Model.Pagination" />
+}
 
 @section Scripts{
 <script src="~/js/auctionTimer.js" asp-append-version="true"></script>
