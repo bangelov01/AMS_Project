@@ -2,7 +2,7 @@
 {
     public interface IAddressService
     {
-        public string GetId(string country,
+        public Task<string> GetId(string country,
             string city,
             string addressText);
 

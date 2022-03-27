@@ -5,7 +5,7 @@
 
     public interface IAuctionService
     {
-        public void Create(int number,
+        public Task Create(int number,
             string Description,
             DateTime start,
             DateTime end,
@@ -13,19 +13,7 @@
             string city,
             string addressText);
 
-        public bool IsCreated(int number);
-
-        public AuctionServiceModel DetailsById(string Id);
-
-        public IEnumerable<AllAuctionsServiceModel> All();
-
-        public IEnumerable<AllAuctionsServiceModel> ActivePerPage(int currentPage, int auctionsPerPage);
-
-        public int ActiveCount();
-
-        public AdminEditServiceModel AdminDetailsById(string Id);
-
-        public void Edit(string Id,
+        public Task Edit(string Id,
             int number,
             string Description,
             DateTime start,
@@ -33,5 +21,17 @@
             string country,
             string city,
             string addressText);
+
+        public Task<IEnumerable<AllAuctionsServiceModel>> All();
+
+        public Task<IEnumerable<AllAuctionsServiceModel>> ActivePerPage(int currentPage, int auctionsPerPage);
+
+        public Task<AuctionServiceModel> DetailsById(string Id);
+
+        public Task<AdminEditServiceModel> AdminDetailsById(string Id);
+
+        public Task<bool> IsCreated(int number);
+
+        public Task<int> ActiveCount();
     }
 }

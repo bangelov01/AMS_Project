@@ -75,14 +75,14 @@
             return RedirectToAction(nameof(All), new { Id = Id });
         }
 
-        public IActionResult All(string Id, int currentPage = 1)
+        public async Task<IActionResult> All(string Id, int currentPage = 1)
         {
             if (string.IsNullOrEmpty(Id))
             {
                 return BadRequest();
             }
 
-            var auction = auctionService.DetailsById(Id);
+            var auction = await auctionService.DetailsById(Id);
 
             if (auction == null)
             {
@@ -142,14 +142,14 @@
         }
 
         [Authorize]
-        public IActionResult Details(string auctionId, string listingId)
+        public async Task<IActionResult> Details(string auctionId, string listingId)
         {
             if (string.IsNullOrEmpty(auctionId) || string.IsNullOrEmpty(listingId))
             {
                 return BadRequest();
             }
 
-            var auction = auctionService.DetailsById(auctionId);
+            var auction = await auctionService.DetailsById(auctionId);
 
             if (auction == null)
             {

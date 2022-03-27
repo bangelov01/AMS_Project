@@ -26,7 +26,7 @@
             this.addressService = addressService;
         }
 
-        public void Create(int number,
+        public async Task Create(int number,
             string description,
             DateTime start,
             DateTime end,
@@ -34,7 +34,7 @@
             string city,
             string addressText)
         {
-            var addressId = addressService.GetId(country, city, addressText);
+            var addressId = await addressService.GetId(country, city, addressText);
 
             if (addressId == null)
             {
@@ -52,12 +52,37 @@
                 AddressId = addressId
             };
 
-            dbContext.Auctions.Add(auction);
-            dbContext.SaveChanges();
+            await dbContext.Auctions.AddAsync(auction);
+            await dbContext.SaveChangesAsync();
         }
 
-        public IEnumerable<AllAuctionsServiceModel> All()
-            => dbContext
+        public async Task Edit(string Id,
+            int number,
+            string description,
+            DateTime start,
+            DateTime end,
+            string country,
+            string city,
+            string addressText)
+        {
+            var auction = await dbContext
+                .Auctions
+                .Include(a => a.Address)
+                .FirstOrDefaultAsync(x => x.Id == Id);
+
+            auction.Number = number;
+            auction.Description = description;
+            auction.Start = start;
+            auction.End = end;
+            auction.Address.City = city;
+            auction.Address.Country = country;
+            auction.Address.AddressText = addressText;
+
+            await dbContext.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<AllAuctionsServiceModel>> All()
+            => await dbContext
                 .Auctions
                 .Select(a => new AllAuctionsServiceModel
                 {
@@ -70,10 +95,10 @@
                     Country = a.Address.Country,
                     ListingsCount = a.Vehicles.Count
                 })
-                .ToArray();
+                .ToArrayAsync();
 
-        public IEnumerable<AllAuctionsServiceModel> ActivePerPage(int currentPage, int auctionsPerPage)
-            => dbContext
+        public async Task<IEnumerable<AllAuctionsServiceModel>> ActivePerPage(int currentPage, int auctionsPerPage)
+            => await dbContext
                 .Auctions
                 .Where(a => a.End > GetCurrentDate())
                 .Skip((currentPage - 1) * auctionsPerPage)
@@ -89,14 +114,14 @@
                     Country = a.Address.Country,
                     ListingsCount = a.Vehicles.Count(v => v.IsApproved == true)
                 })
-                .ToArray();
+                .ToArrayAsync();
 
-        public bool IsCreated(int number)
+        public async Task<bool> IsCreated(int number)
         {
-            var auction = dbContext
+            var auction = await dbContext
                 .Auctions
                 .Where(a => a.Number == number)
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
 
             if (auction == null)
             {
@@ -106,8 +131,22 @@
             return true;
         }
 
-        public AdminEditServiceModel AdminDetailsById(string Id)
-            => dbContext
+        public async Task<AuctionServiceModel> DetailsById(string Id)
+            => await dbContext
+            .Auctions
+            .Where(a => a.Id == Id && a.End > GetCurrentDate())
+            .Select(a => new AuctionServiceModel
+            {
+                Id = a.Id,
+                City = a.Address.City,
+                Number = a.Number,
+                Start = a.Start,
+                End = a.End
+            })
+            .FirstOrDefaultAsync();
+
+        public async Task<AdminEditServiceModel> AdminDetailsById(string Id)
+            => await dbContext
                 .Auctions
                 .Where(a => a.Id == Id)
                 .Select(a => new AdminEditServiceModel
@@ -120,52 +159,12 @@
                     City = a.Address.City,
                     AddressText = a.Address.AddressText
                 })
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
 
-
-        public void Edit(string Id,
-            int number,
-            string description,
-            DateTime start,
-            DateTime end,
-            string country,
-            string city,
-            string addressText)
-        {
-            var auction = dbContext
-                .Auctions
-                .Include(a => a.Address)
-                .FirstOrDefault(x => x.Id == Id);
-
-            auction.Number = number;
-            auction.Description = description;
-            auction.Start = start;
-            auction.End = end;
-            auction.Address.City = city;
-            auction.Address.Country = country;
-            auction.Address.AddressText = addressText;
-
-            dbContext.SaveChanges();
-        }
-
-        public int ActiveCount()
-            => dbContext
+        public async Task<int> ActiveCount()
+            => await dbContext
                 .Auctions
                 .Where(a => a.End > GetCurrentDate())
-                .Count();
-
-        public AuctionServiceModel DetailsById(string Id)
-            => dbContext
-            .Auctions
-            .Where(a => a.Id == Id && a.End > GetCurrentDate())
-            .Select(a => new AuctionServiceModel
-            {
-                Id = a.Id,
-                City = a.Address.City,
-                Number = a.Number,
-                Start = a.Start,
-                End = a.End
-            })
-            .FirstOrDefault();
+                .CountAsync();
     }
 }

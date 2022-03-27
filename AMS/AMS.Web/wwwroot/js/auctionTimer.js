@@ -22,7 +22,7 @@
 
         delay = 1000;
 
-        if (distance < 1) {
+        if (distance < 0) {
             clearInterval(x);
             location.reload(true);
         }

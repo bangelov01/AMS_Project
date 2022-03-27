@@ -3,6 +3,7 @@
     using AMS.Data;
     using AMS.Data.Models;
     using AMS.Services.Contracts;
+    using Microsoft.EntityFrameworkCore;
 
     public class AddressService : IAddressService
     {
@@ -24,22 +25,22 @@
                 AddressText = addressText
             };
 
-            dbContext.Addresses.Add(address);
-            dbContext.SaveChanges();
+            dbContext.Addresses.AddAsync(address);
+            dbContext.SaveChangesAsync();
 
             return address.Id;
         }
 
-        public string GetId(string country,
+        public async Task<string> GetId(string country,
             string city,
             string addressText)
         {
-            var address = dbContext
+            var address = await dbContext
                          .Addresses
                          .Where(a => a.Country == country &&
                                      a.City == city &&
                                      a.AddressText == addressText)
-                         .FirstOrDefault();
+                         .FirstOrDefaultAsync();
 
             if (address == null)
             {

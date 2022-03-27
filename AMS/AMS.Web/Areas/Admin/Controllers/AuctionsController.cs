@@ -24,9 +24,9 @@
         }
 
         [HttpPost]
-        public IActionResult Create(AuctionFormModel auction)
+        public async Task<IActionResult> Create(AuctionFormModel auction)
         {
-            if (auctionService.IsCreated(auction.Number))
+            if (await auctionService.IsCreated(auction.Number))
             {
                 this.ModelState.AddModelError(nameof(auction.Number), "Auction with that number already exists!");
             }
@@ -36,7 +36,7 @@
                 return View(auction);
             }
 
-            auctionService.Create(auction.Number,
+            await auctionService.Create(auction.Number,
                 auction.Description,
                 auction.Start,
                 auction.End,
@@ -47,16 +47,16 @@
             return RedirectToAction(nameof(All));
         }
 
-        public IActionResult All()
+        public async Task<IActionResult> All()
         {
-            var auctions = auctionService.All();
+            var auctions = await auctionService.All();
 
             return View(auctions);
         }
 
-        public IActionResult Edit(string Id)
+        public async Task<IActionResult> Edit(string Id)
         {
-            var auction = auctionService.AdminDetailsById(Id);
+            var auction = await auctionService.AdminDetailsById(Id);
 
             if (auction == null)
             {
@@ -78,9 +78,9 @@
         }
 
         [HttpPost]
-        public IActionResult Edit(string Id, AuctionFormModel auction)
+        public async Task<IActionResult> Edit(string Id, AuctionFormModel auction)
         {
-            auctionService.Edit(Id,
+            await auctionService.Edit(Id,
                 auction.Number,
                 auction.Description,
                 auction.Start,

@@ -16,16 +16,16 @@
             this.auctionService = auctionService;
         }
 
-        public IActionResult All(int currentPage = 1)
+        public async Task<IActionResult> All(int currentPage = 1)
         {
-            var auctionsPerPage = auctionService.ActivePerPage(currentPage, AuctionsPerPage);
+            var auctionsPerPage = await auctionService.ActivePerPage(currentPage, AuctionsPerPage);
 
             if (!auctionsPerPage.Any())
             {
                 return View("NoResult");
             }
 
-            var totalAuctions = auctionService.ActiveCount();
+            var totalAuctions = await auctionService.ActiveCount();
 
             var maxPage = Math.Ceiling((double)totalAuctions / AuctionsPerPage);
 
