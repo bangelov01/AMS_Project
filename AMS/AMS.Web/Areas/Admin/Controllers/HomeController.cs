@@ -13,9 +13,9 @@
             this.listingService = listingService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var listings = listingService.NotApproved();
+            var listings = await listingService.NotApproved();
 
             return View(listings);
         }
