@@ -4,7 +4,7 @@
 
     public class AllAuctionsViewModel
     {
-        public ICollection<AllAuctionsServiceModel> Auctions { get; init; }
+        public IEnumerable<AllAuctionsServiceModel> Auctions { get; init; }
 
         public PaginationViewModel Pagination { get; init; }
 

@@ -44,7 +44,7 @@
                 auction.City,
                 auction.AddressText);
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction(nameof(All));
         }
 
         public IActionResult All()

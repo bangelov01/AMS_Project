@@ -107,7 +107,7 @@
                         ImageUrl = v.ImageUrl,
                         Year = v.Year
                     })
-                    .ToList();
+                    .ToArray();
 
         public IEnumerable<AdminListingsServiceModel> NotApproved()
             => dbContext
@@ -125,7 +125,7 @@
                 IsUserSuspended = v.User.IsSuspended,
                 BidsCount = v.Bids.Count,
             })
-            .ToList();
+            .ToArray();
 
         public bool Delete(string Id)
         {
@@ -186,7 +186,7 @@
                     ImageUrl = l.ImageUrl,
                     Year = l.Year,
                 })
-                .ToList();
+                .ToArray();
 
             return listings;
         }

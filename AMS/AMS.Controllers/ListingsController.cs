@@ -1,11 +1,12 @@
 ﻿namespace AMS.Controllers
 {
-    using AMS.Controllers.Models;
-    using AMS.Services.Contracts;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
+    using AMS.Services.Contracts;
     using static AMS.Services.Infrastructure.Extensions.ClaimsPrincipleExtensions;
+
+    using AMS.Controllers.Models;
     using static AMS.Controllers.Constants.ControllersConstants;
 
     public class ListingsController : Controller
@@ -76,11 +77,7 @@
 
         public IActionResult All(string Id, int currentPage = 1)
         {
-            var totalListings = listingService.Count(Id);
-
-            var maxPage = Math.Ceiling((double)totalListings / ListingsPerPage);
-
-            if (string.IsNullOrEmpty(Id) || (currentPage > maxPage && totalListings != 0))
+            if (string.IsNullOrEmpty(Id))
             {
                 return BadRequest();
             }
@@ -93,6 +90,20 @@
             }
 
             var listings = listingService.ApprovedPerPage(Id, currentPage, ListingsPerPage);
+
+            if (!listings.Any())
+            {
+                return View("NoListings");
+            }
+
+            var totalListings = listingService.Count(Id);
+
+            var maxPage = Math.Ceiling((double)totalListings / ListingsPerPage);
+
+            if (currentPage > maxPage)
+            {
+                return BadRequest();
+            }
 
             var model = new AllListingsViewModel
             {
@@ -116,7 +127,7 @@
 
             if (string.IsNullOrEmpty(searchTerm) || !validatorService.IsOrderParamValid(orderBy))
             {
-                return NotFound();
+                return BadRequest();
             }
 
             var listings = listingService.Search(searchTerm.Trim());
@@ -150,18 +161,12 @@
                 return View("NoResult");
             }
 
-            var listing = listingService.Details(listingId, this.User.Id());
-
-            var bid = bidService.HighestForListing(listingId);
-
-            var model = new ListingViewModel
+            return View(new ListingViewModel
             {
                 Auction = auction,
-                Listing = listing,
-                Bid = bid
-            };
-
-            return View(model);
+                Listing = listingService.Details(listingId, this.User.Id()),
+                Bid = bidService.HighestForListing(listingId)
+            });
         }
     }
 }

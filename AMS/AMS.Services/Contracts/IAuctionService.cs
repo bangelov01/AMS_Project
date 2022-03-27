@@ -17,9 +17,9 @@
 
         public AuctionServiceModel DetailsById(string Id);
 
-        public ICollection<AllAuctionsServiceModel> All();
+        public IEnumerable<AllAuctionsServiceModel> All();
 
-        public ICollection<AllAuctionsServiceModel> ActivePerPage(int currentPage, int auctionsPerPage);
+        public IEnumerable<AllAuctionsServiceModel> ActivePerPage(int currentPage, int auctionsPerPage);
 
         public int ActiveCount();
 

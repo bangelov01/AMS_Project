@@ -7,6 +7,7 @@
 
     using AMS.Data;
     using AMS.Data.Models;
+
     using AMS.Services.Contracts;
     using AMS.Services.Models.Auctions;
     using AMS.Services.Models.Auctions.Base;
@@ -55,7 +56,7 @@
             dbContext.SaveChanges();
         }
 
-        public ICollection<AllAuctionsServiceModel> All()
+        public IEnumerable<AllAuctionsServiceModel> All()
             => dbContext
                 .Auctions
                 .Select(a => new AllAuctionsServiceModel
@@ -69,9 +70,9 @@
                     Country = a.Address.Country,
                     ListingsCount = a.Vehicles.Count
                 })
-                .ToList();
+                .ToArray();
 
-        public ICollection<AllAuctionsServiceModel> ActivePerPage(int currentPage, int auctionsPerPage)
+        public IEnumerable<AllAuctionsServiceModel> ActivePerPage(int currentPage, int auctionsPerPage)
             => dbContext
                 .Auctions
                 .Where(a => a.End > GetCurrentDate())
@@ -88,7 +89,7 @@
                     Country = a.Address.Country,
                     ListingsCount = a.Vehicles.Count(v => v.IsApproved == true)
                 })
-                .ToList();
+                .ToArray();
 
         public bool IsCreated(int number)
         {

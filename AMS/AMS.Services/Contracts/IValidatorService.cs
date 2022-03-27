@@ -6,7 +6,7 @@
 
         public bool IsAuctionValid(string Id);
 
-        public bool IsListingValid(string Id);
+        public bool IsListingValidForBid(string listingId, string userId);
 
         public bool IsOrderParamValid(string orderParam);
 

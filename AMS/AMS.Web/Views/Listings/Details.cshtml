@@ -61,7 +61,7 @@
                     }
                     else
                     {
-                        <h6 class="text-danger text-center mt-3">Can not Bid on own Listings.</h6>
+                        <h6 class="text-danger text-center mt-3">Can not Bid on or Watch own Listings.</h6>
                     }
                 </ul>
             </div>
@@ -82,9 +82,9 @@
                 @if (!isOwnListing)
                 {
                     <form id="form" method="post" class="row g-3" style="margin-left: 30px" asp-controller="Bids"
-                    asp-action="Create"
-                    asp-route-auctionId="@Model.Auction.Id"
-                    asp-route-listingId="@Model.Listing.Id">
+                      asp-action="Create"
+                      asp-route-auctionId="@Model.Auction.Id"
+                      asp-route-listingId="@Model.Listing.Id">
                         <div class="col-auto">
                             <input id="amount" name="amount" type="number" class="form-control" placeholder="Place your bid here.." step=".01">
                         </div>

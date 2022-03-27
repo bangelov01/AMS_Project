@@ -48,11 +48,9 @@
         }
 
         public IEnumerable<SearchListingsServiceModel> ListingsForUser(string Id)
-        {
-            var listings = dbContext
+            => dbContext
                 .Watchlists
                 .Where(w => w.UserId == Id && w.Vehicle.Auction.End > GetCurrentDate())
-
                 .Select(w => new SearchListingsServiceModel
                 {
                     AuctionId = w.Vehicle.AuctionId,
@@ -65,8 +63,5 @@
                     Year = w.Vehicle.Year,
                 })
                 .ToArray();
-
-            return listings;
-        }
     }
 }

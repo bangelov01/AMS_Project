@@ -7,9 +7,10 @@
 
 <partial name="_ListingAuctionPartial" model="@Model.Auction" />
 
+
 @if (User.Id() == null)
 {
-    <div class="text-center mb-4">
+    <div class="text-center">
         <a class="btn btn-outline-danger" asp-area="Identity"
        asp-page="/Account/Login">Login to view details!</a>
     </div>

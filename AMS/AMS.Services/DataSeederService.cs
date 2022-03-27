@@ -32,8 +32,6 @@
 
         public void SeedAdministrator()
         {
-            var test1 = adminDetails.Email;
-            var test2 = adminDetails.Username;
 
             Task.Run(async () => 
             {

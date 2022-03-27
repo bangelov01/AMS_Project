@@ -40,6 +40,11 @@
 
         public IActionResult Delete(string Id)
         {
+            if (string.IsNullOrEmpty(Id))
+            {
+                return BadRequest();
+            }
+
             bool isDeleted = watchlistService.Delete(Id, this.User.Id());
 
             if (!isDeleted)

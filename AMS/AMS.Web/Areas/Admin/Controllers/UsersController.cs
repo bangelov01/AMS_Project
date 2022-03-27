@@ -23,14 +23,30 @@
 
         public IActionResult Suspend(string Id)
         {
-            userService.Suspend(Id);
+            if (string.IsNullOrEmpty(Id))
+            {
+                return BadRequest();
+            }
+
+            if (!userService.Suspend(Id))
+            {
+                return BadRequest();
+            }
 
             return RedirectToAction(nameof(All), "Users");
         }
 
         public IActionResult Allow(string Id)
         {
-            userService.Allow(Id);
+            if (string.IsNullOrEmpty(Id))
+            {
+                return BadRequest();
+            }
+
+            if (!userService.Allow(Id))
+            {
+                return BadRequest();
+            }
 
             return RedirectToAction(nameof(All), "Users");
         }

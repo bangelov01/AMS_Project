@@ -27,7 +27,7 @@
         [HttpPost]
         public async Task<IActionResult> Create(string auctionId, string listingId, BidInfoModel bid)
         {
-            if (!ModelState.IsValid || !validatorService.IsListingValid(listingId))
+            if (!ModelState.IsValid || !validatorService.IsListingValidForBid(listingId, this.User.Id()))
             {
                 return BadRequest();
             }

@@ -2,9 +2,9 @@
 {
     using Microsoft.AspNetCore.Mvc;
 
-    using AMS.Controllers.Models;
     using AMS.Services.Contracts;
 
+    using AMS.Controllers.Models;
     using static AMS.Controllers.Constants.ControllersConstants;
 
     public class AuctionsController : Controller

@@ -53,10 +53,12 @@
             return false;
         }
 
-        public bool IsListingValid(string Id)
+        public bool IsListingValidForBid(string listingId, string userId)
             => dbContext
             .Vehicles
-            .Any(x => x.Id == Id && x.Auction.End > GetCurrentDate());
+            .Any(x => x.Id == listingId &&
+                 x.UserId != userId &&
+                 x.Auction.End > GetCurrentDate());
 
         public bool DoesWatchlistExist(string listingId, string userId)
             => dbContext

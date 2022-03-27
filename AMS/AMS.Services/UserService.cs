@@ -5,6 +5,7 @@
     using Microsoft.Extensions.Options;
 
     using AMS.Data;
+
     using AMS.Services.Contracts;
     using AMS.Services.Models;
 
@@ -20,18 +21,24 @@
             this.adminDetails = adminDetails.Value;
         }
 
-        public void Allow(string Id)
+        public bool Allow(string Id)
         {
             var user = dbContext
                 .Users
                 .Find(Id);
 
-            user.IsSuspended = false;
-            
+            if (user == null)
+            {
+                return false;
+            }
+
+            user.IsSuspended = false;          
             dbContext.SaveChanges();
+
+            return true;
         }
 
-        public ICollection<UsersServiceModel> All()
+        public IEnumerable<UsersServiceModel> All()
             => dbContext
                 .Users
                 .Where(u => u.UserName != adminDetails.Username)
@@ -41,17 +48,23 @@
                     UserName = u.UserName,
                     IsSuspended = u.IsSuspended
                 })
-                .ToList();
+                .ToArray();
 
-        public void Suspend(string Id)
+        public bool Suspend(string Id)
         {
             var user = dbContext
                 .Users
                 .Find(Id);
 
-            user.IsSuspended = true;
+            if(user == null)
+            {
+                return false;
+            }
 
+            user.IsSuspended = true;
             dbContext.SaveChanges();
+
+            return true;
         }
     }
 }
