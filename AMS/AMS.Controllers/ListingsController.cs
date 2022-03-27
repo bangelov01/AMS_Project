@@ -28,7 +28,7 @@
         }
 
         [Authorize]
-        public IActionResult Create(string Id)
+        public async Task<IActionResult> Create(string Id)
         {
             if (!validatorService.IsAuctionValid(Id))
             {
@@ -37,16 +37,16 @@
 
             return View(new ListingsFormModel
             {
-                Conditions = listingService.Conditions(),
-                Types = listingService.Types(),
-                Makes = listingService.Makes(),
-                Models = listingService.Models()
+                Conditions = await listingService.Conditions(),
+                Types = await listingService.Types(),
+                Makes = await listingService.Makes(),
+                Models = await listingService.Models()
             });
         }
 
         [Authorize]
         [HttpPost]
-        public IActionResult Create(string Id, ListingsFormModel listing)
+        public async Task<IActionResult> Create(string Id, ListingsFormModel listing)
         {
             if (!validatorService.AreListingParamsValid(listing.ConditionId, listing.ModelId))
             {
@@ -55,15 +55,15 @@
 
             if (!ModelState.IsValid)
             {
-                listing.Conditions = listingService.Conditions();
-                listing.Types = listingService.Types();
-                listing.Makes = listingService.Makes();
-                listing.Models = listingService.Models();
+                listing.Conditions = await listingService.Conditions();
+                listing.Types = await listingService.Types();
+                listing.Makes = await listingService.Makes();
+                listing.Models = await listingService.Models();
 
                 return View(listing);
             }
 
-            listingService.Create(listing.Year,
+            await listingService.Create(listing.Year,
                 listing.Price,
                 listing.Description,
                 listing.ImageUrl,
@@ -89,7 +89,7 @@
                 return View("NoResult");
             }
 
-            var totalListings = listingService.Count(Id);
+            var totalListings = await listingService.Count(Id);
 
             var maxPage = Math.Ceiling((double)totalListings / ListingsPerPage);
 
@@ -98,7 +98,7 @@
                 return BadRequest();
             }
 
-            var listings = listingService.ApprovedPerPage(Id, currentPage, ListingsPerPage);
+            var listings = await listingService.ApprovedPerPage(Id, currentPage, ListingsPerPage);
 
             var model = new AllListingsViewModel
             {
@@ -117,7 +117,7 @@
             return View(model);
         }
 
-        public IActionResult Find(string searchTerm, string orderBy = DefaultOrderParam)
+        public async Task<IActionResult> Find(string searchTerm, string orderBy = DefaultOrderParam)
         {
 
             if (string.IsNullOrEmpty(searchTerm) || !validatorService.IsOrderParamValid(orderBy))
@@ -125,7 +125,7 @@
                 return BadRequest();
             }
 
-            var listings = listingService.Search(searchTerm.Trim());
+            var listings = await listingService.Search(searchTerm.Trim());
 
             if (!listings.Any())
             {
@@ -159,7 +159,7 @@
             return View(new ListingViewModel
             {
                 Auction = auction,
-                Listing = listingService.Details(listingId, this.User.Id()),
+                Listing = await listingService.Details(listingId, this.User.Id()),
                 Bid = bidService.HighestForListing(listingId)
             });
         }

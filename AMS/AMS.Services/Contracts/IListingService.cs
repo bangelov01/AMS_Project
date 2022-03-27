@@ -1,12 +1,11 @@
 ﻿namespace AMS.Services.Contracts
 {
-    using AMS.Services.Models.Auctions;
     using AMS.Services.Models.Listings;
     using AMS.Services.Models.Listings.Base;
 
     public interface IListingService
     {
-        public void Create(int year,
+        public Task Create(int year,
             decimal price,
             string description,
             string imageUrl,
@@ -15,16 +14,16 @@
             int modelId,
             string userId);
 
-        public int Count(string auctionId);
-        public IEnumerable<ListingsServiceModel> ApprovedPerPage(string Id, int currentPage, int listingsPerPage);
-        public ListingDetailsServiceModel Details(string listingId, string userId);
-        public ICollection<ListingPropertyServiceModel> Conditions();
-        public ICollection<ListingPropertyServiceModel> Types();
-        public ICollection<ListingPropertyServiceModel> Makes();
-        public ICollection<ListingPropertyServiceModel> Models();
-        public IEnumerable<AdminListingsServiceModel> NotApproved();
-        public IEnumerable<SearchListingsServiceModel> Search(string searchString);
-        public bool Delete(string Id);
-        public bool Approve(string Id);
+        public Task<ListingDetailsServiceModel> Details(string listingId, string userId);
+        public Task<IEnumerable<ListingsServiceModel>> ApprovedPerPage(string Id, int currentPage, int listingsPerPage);
+        public Task<IEnumerable<SearchListingsServiceModel>> Search(string searchString);
+        public Task<IEnumerable<AdminListingsServiceModel>> NotApproved();
+        public Task<ICollection<ListingPropertyServiceModel>> Conditions();
+        public Task<ICollection<ListingPropertyServiceModel>> Types();
+        public Task<ICollection<ListingPropertyServiceModel>> Makes();
+        public Task<ICollection<ListingPropertyServiceModel>> Models();
+        public Task<int> Count(string auctionId);
+        public Task<bool> Delete(string Id);
+        public Task<bool> Approve(string Id);
     }
 }

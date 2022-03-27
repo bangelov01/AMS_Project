@@ -14,7 +14,7 @@
             this.dbContext = dbContext;
         }
 
-        public string Add(string country,
+        public async Task<string> Add(string country,
             string city,
             string addressText)
         {
@@ -25,8 +25,8 @@
                 AddressText = addressText
             };
 
-            dbContext.Addresses.AddAsync(address);
-            dbContext.SaveChangesAsync();
+            await dbContext.Addresses.AddAsync(address);
+            await dbContext.SaveChangesAsync();
 
             return address.Id;
         }

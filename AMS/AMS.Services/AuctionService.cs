@@ -38,7 +38,7 @@
 
             if (addressId == null)
             {
-                var newAddress = addressService.Add(country, city, addressText);
+                var newAddress = await addressService.Add(country, city, addressText);
 
                 addressId = newAddress;
             }

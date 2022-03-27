@@ -20,9 +20,9 @@
             return View(listings);
         }
 
-        public IActionResult Approve(string Id)
+        public async Task<IActionResult> Approve(string Id)
         {
-            bool isApproved = listingService.Approve(Id);
+            bool isApproved = await listingService.Approve(Id);
 
             if (!isApproved)
             {
@@ -32,9 +32,9 @@
             return RedirectToAction(nameof(Index), "Home");
         }
 
-        public IActionResult Delete(string Id)
+        public async Task<IActionResult> Delete(string Id)
         {
-            bool isDeleted = listingService.Delete(Id);
+            bool isDeleted = await listingService.Delete(Id);
 
             if (!isDeleted)
             {

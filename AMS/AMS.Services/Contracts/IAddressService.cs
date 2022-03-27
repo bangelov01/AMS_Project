@@ -6,7 +6,7 @@
             string city,
             string addressText);
 
-        public string Add(string country,
+        public Task<string> Add(string country,
             string city,
             string addressText);
     }
