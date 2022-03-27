@@ -19,9 +19,7 @@
         }
 
         public IActionResult Create()
-        {
-            return View();
-        }
+            => View();
 
         [HttpPost]
         public async Task<IActionResult> Create(AuctionFormModel auction)
@@ -47,12 +45,8 @@
             return RedirectToAction(nameof(All));
         }
 
-        public async Task<IActionResult> All()
-        {
-            var auctions = await auctionService.All();
-
-            return View(auctions);
-        }
+        public async Task<IActionResult> All() 
+            => View(await auctionService.All());
 
         public async Task<IActionResult> Edit(string Id)
         {

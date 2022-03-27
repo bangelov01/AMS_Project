@@ -1,10 +1,14 @@
 ﻿namespace AMS.Services
 {
+    using Microsoft.EntityFrameworkCore;
+
+    using System.Collections.Generic;
+
     using AMS.Data;
     using AMS.Data.Models;
+
     using AMS.Services.Contracts;
     using AMS.Services.Models.Listings;
-    using System.Collections.Generic;
 
     using static AMS.Services.Common.CommonFunctions;
 
@@ -17,7 +21,7 @@
             this.dbContext = dbContext;
         }
 
-        public void Create(string listingId, string userId)
+        public async Task Create(string listingId, string userId)
         {
             var watchlist = new Watchlist
             {
@@ -25,16 +29,16 @@
                 UserId = userId,
             };
 
-            dbContext.Watchlists.Add(watchlist);
-            dbContext.SaveChanges();
+            await dbContext.Watchlists.AddAsync(watchlist);
+            await dbContext.SaveChangesAsync();
         }
 
-        public bool Delete(string listingId, string userId)
+        public async Task<bool> Delete(string listingId, string userId)
         {
-            var watch = dbContext
+            var watch = await dbContext
                 .Watchlists
                 .Where(w => w.VehicleId == listingId && w.UserId == userId)
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
 
             if (watch == null)
             {
@@ -42,13 +46,13 @@
             }
 
             dbContext.Watchlists.Remove(watch);
-            dbContext.SaveChanges();
+            await dbContext.SaveChangesAsync();
 
             return true;
         }
 
-        public IEnumerable<SearchListingsServiceModel> ListingsForUser(string Id)
-            => dbContext
+        public async Task<IEnumerable<SearchListingsServiceModel>> ListingsForUser(string Id)
+            => await dbContext
                 .Watchlists
                 .Where(w => w.UserId == Id && w.Vehicle.Auction.End > GetCurrentDate())
                 .Select(w => new SearchListingsServiceModel
@@ -62,6 +66,6 @@
                     ImageUrl = w.Vehicle.ImageUrl,
                     Year = w.Vehicle.Year,
                 })
-                .ToArray();
+                .ToArrayAsync();
     }
 }

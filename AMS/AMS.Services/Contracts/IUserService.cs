@@ -4,10 +4,10 @@
 
     public interface IUserService
     {
-        public IEnumerable<UsersServiceModel> All();
+        public Task<IEnumerable<UsersServiceModel>> All();
 
-        public bool Suspend(string Id);
+        public Task<bool> Suspend(string Id);
 
-        public bool Allow(string Id);
+        public Task<bool> Allow(string Id);
     }
 }

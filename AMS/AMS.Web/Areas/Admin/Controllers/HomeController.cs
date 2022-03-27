@@ -13,18 +13,12 @@
             this.listingService = listingService;
         }
 
-        public async Task<IActionResult> Index()
-        {
-            var listings = await listingService.NotApproved();
-
-            return View(listings);
-        }
+        public async Task<IActionResult> Index() 
+            => View(await listingService.NotApproved());
 
         public async Task<IActionResult> Approve(string Id)
         {
-            bool isApproved = await listingService.Approve(Id);
-
-            if (!isApproved)
+            if (string.IsNullOrEmpty(Id) || !await listingService.Approve(Id))
             {
                 return BadRequest();
             }
@@ -34,9 +28,7 @@
 
         public async Task<IActionResult> Delete(string Id)
         {
-            bool isDeleted = await listingService.Delete(Id);
-
-            if (!isDeleted)
+            if (string.IsNullOrEmpty(Id) || !await listingService.Delete(Id))
             {
                 return BadRequest();
             }

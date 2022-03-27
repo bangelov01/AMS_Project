@@ -1,8 +1,9 @@
 ﻿namespace AMS.Controllers
 {
-    using AMS.Services.Contracts;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+
+    using AMS.Services.Contracts;
 
     using static AMS.Services.Infrastructure.Extensions.ClaimsPrincipleExtensions;
 
@@ -19,33 +20,29 @@
             this.validatorService = validatorService;
         }
 
-        public IActionResult All()
-        {
-            var userListings = watchlistService.ListingsForUser(this.User.Id());
+        public async Task<IActionResult> All() 
+            => View(await watchlistService.ListingsForUser(this.User.Id()));
 
-            return View(userListings);
-        }
-
-        public IActionResult Watch(string Id)
+        public async Task<IActionResult> Watch(string Id)
         {
-            if (string.IsNullOrEmpty(Id) || validatorService.DoesWatchlistExist(Id, this.User.Id()))
+            if (string.IsNullOrEmpty(Id) || await validatorService.DoesWatchlistExist(Id, this.User.Id()))
             {
                 return BadRequest();
             }
 
-            watchlistService.Create(Id, this.User.Id());
+            await watchlistService.Create(Id, this.User.Id());
 
             return RedirectToAction(nameof(All));
         }
 
-        public IActionResult Delete(string Id)
+        public async Task<IActionResult> Delete(string Id)
         {
             if (string.IsNullOrEmpty(Id))
             {
                 return BadRequest();
             }
 
-            bool isDeleted = watchlistService.Delete(Id, this.User.Id());
+            bool isDeleted = await watchlistService.Delete(Id, this.User.Id());
 
             if (!isDeleted)
             {

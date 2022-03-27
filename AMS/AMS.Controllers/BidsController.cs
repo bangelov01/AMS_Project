@@ -27,12 +27,12 @@
         [HttpPost]
         public async Task<IActionResult> Create(string auctionId, string listingId, BidInfoModel bid)
         {
-            if (!ModelState.IsValid || !validatorService.IsListingValidForBid(listingId, this.User.Id()))
+            if (!ModelState.IsValid || !await validatorService.IsListingValidForBid(listingId, this.User.Id()))
             {
                 return BadRequest();
             }
 
-            var highestBid = bidService.HighestForListing(listingId);
+            var highestBid = await bidService.HighestForListing(listingId);
 
             if (highestBid != null && highestBid.Amount >= bid.Amount)
             {
@@ -47,7 +47,7 @@
 
             var number = random.Next(1000, 5000);
 
-            bidService.Create(this.User.Id(), listingId, bid.Amount, number);
+            await bidService.Create(this.User.Id(), listingId, bid.Amount, number);
 
             return RedirectToAction("Details", "Listings", new
             {

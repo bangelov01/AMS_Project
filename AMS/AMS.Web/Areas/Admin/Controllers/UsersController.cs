@@ -14,21 +14,13 @@
             this.userService = userService;
         }
 
-        public IActionResult All()
+        public async Task<IActionResult> All() 
+            => View(await userService.All());
+
+        public async Task<IActionResult> Suspend(string Id)
         {
-            var users = userService.All();
 
-            return View(users);
-        }
-
-        public IActionResult Suspend(string Id)
-        {
-            if (string.IsNullOrEmpty(Id))
-            {
-                return BadRequest();
-            }
-
-            if (!userService.Suspend(Id))
+            if (string.IsNullOrEmpty(Id) || !await userService.Suspend(Id))
             {
                 return BadRequest();
             }
@@ -36,14 +28,9 @@
             return RedirectToAction(nameof(All), "Users");
         }
 
-        public IActionResult Allow(string Id)
+        public async Task<IActionResult> Allow(string Id)
         {
-            if (string.IsNullOrEmpty(Id))
-            {
-                return BadRequest();
-            }
-
-            if (!userService.Allow(Id))
+            if (string.IsNullOrEmpty(Id) || !await userService.Allow(Id))
             {
                 return BadRequest();
             }

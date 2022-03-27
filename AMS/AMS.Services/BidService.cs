@@ -1,5 +1,7 @@
 ﻿namespace AMS.Services
 {
+    using Microsoft.EntityFrameworkCore;
+
     using AMS.Data;
     using AMS.Data.Models;
 
@@ -15,7 +17,7 @@
             this.dbContext = dbContext;
         }
 
-        public void Create(string userId,
+        public async Task Create(string userId,
             string listingId,
             decimal amount,
             int number)
@@ -28,12 +30,12 @@
                 Number = number
             };
 
-            dbContext.Bids.Add(bid);
-            dbContext.SaveChanges();
+            await dbContext.Bids.AddAsync(bid);
+            await dbContext.SaveChangesAsync();
         }
 
-        public BidServiceModel HighestForListing(string Id)
-            => dbContext
+        public async Task<BidServiceModel> HighestForListing(string Id)
+            => await dbContext
             .Bids
             .Where(b => b.VehicleId == Id)
             .OrderByDescending(b => b.Amount)
@@ -43,6 +45,6 @@
                 Amount = b.Amount,
                 User = b.User.UserName,
             })
-            .FirstOrDefault();
+            .FirstOrDefaultAsync();
     }
 }

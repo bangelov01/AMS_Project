@@ -1,9 +1,11 @@
 ﻿namespace AMS.Services
 {
+    using Microsoft.EntityFrameworkCore;
+
     using AMS.Data;
     using AMS.Data.Models;
-    using AMS.Services.Contracts;
 
+    using AMS.Services.Contracts;
     using static AMS.Services.Common.CommonFunctions;
 
     public class ValidatorService : IValidatorService
@@ -15,10 +17,10 @@
             this.dbContext = dbContext;
         }
 
-        public bool AreListingParamsValid(int conditionId, int modelId)
+        public async Task<bool> AreListingParamsValid(int conditionId, int modelId)
         {
-            if (!ConditionExists(conditionId) ||
-                !ModelExists(modelId))
+            if (!await ConditionExists(conditionId) ||
+                !await ModelExists(modelId))
             {
                 return false;
             }
@@ -26,20 +28,10 @@
             return true;
         }
 
-        public bool IsAuctionValid(string Id)
-            => dbContext
+        public async Task<bool> IsAuctionValid(string Id)
+            => await dbContext
             .Auctions
-            .Any(x => x.Id == Id && x.End > GetCurrentDate());
-
-        private bool ConditionExists(int conditionId)
-            => dbContext
-            .Conditions
-            .Any(x => x.Id == conditionId);
-
-        private bool ModelExists(int modelId)
-            => dbContext
-             .Models
-             .Any(x => x.Id == modelId);
+            .AnyAsync(x => x.Id == Id && x.End > GetCurrentDate());
 
         public bool IsOrderParamValid(string orderParam)
         {
@@ -53,16 +45,27 @@
             return false;
         }
 
-        public bool IsListingValidForBid(string listingId, string userId)
-            => dbContext
+        public async Task<bool> IsListingValidForBid(string listingId, string userId)
+            => await dbContext
             .Vehicles
-            .Any(x => x.Id == listingId &&
+            .AnyAsync(x => x.Id == listingId &&
                  x.UserId != userId &&
                  x.Auction.End > GetCurrentDate());
 
-        public bool DoesWatchlistExist(string listingId, string userId)
-            => dbContext
+        public async Task<bool> DoesWatchlistExist(string listingId, string userId)
+            => await dbContext
             .Watchlists
-            .Any(w => w.VehicleId == listingId && w.UserId == userId);
+            .AnyAsync(w => w.VehicleId == listingId && w.UserId == userId);
+
+
+        private async Task<bool> ConditionExists(int conditionId)
+             => await dbContext
+             .Conditions
+             .AnyAsync(x => x.Id == conditionId);
+
+        private async Task<bool> ModelExists(int modelId)
+            => await dbContext
+             .Models
+             .AnyAsync(x => x.Id == modelId);
     }
 }

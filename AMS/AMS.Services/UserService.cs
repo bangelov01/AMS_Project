@@ -3,6 +3,7 @@
     using System.Collections.Generic;
 
     using Microsoft.Extensions.Options;
+    using Microsoft.EntityFrameworkCore;
 
     using AMS.Data;
 
@@ -21,25 +22,9 @@
             this.adminDetails = adminDetails.Value;
         }
 
-        public bool Allow(string Id)
-        {
-            var user = dbContext
-                .Users
-                .Find(Id);
 
-            if (user == null)
-            {
-                return false;
-            }
-
-            user.IsSuspended = false;          
-            dbContext.SaveChanges();
-
-            return true;
-        }
-
-        public IEnumerable<UsersServiceModel> All()
-            => dbContext
+        public async Task<IEnumerable<UsersServiceModel>> All()
+            => await dbContext
                 .Users
                 .Where(u => u.UserName != adminDetails.Username)
                 .Select(u => new UsersServiceModel
@@ -48,13 +33,30 @@
                     UserName = u.UserName,
                     IsSuspended = u.IsSuspended
                 })
-                .ToArray();
+                .ToArrayAsync();
 
-        public bool Suspend(string Id)
+        public async Task<bool> Allow(string Id)
         {
-            var user = dbContext
+            var user = await dbContext
                 .Users
-                .Find(Id);
+                .FindAsync(Id);
+
+            if (user == null)
+            {
+                return false;
+            }
+
+            user.IsSuspended = false;          
+            await dbContext.SaveChangesAsync();
+
+            return true;
+        }
+
+        public async Task<bool> Suspend(string Id)
+        {
+            var user = await dbContext
+                .Users
+                .FindAsync(Id);
 
             if(user == null)
             {
@@ -62,7 +64,7 @@
             }
 
             user.IsSuspended = true;
-            dbContext.SaveChanges();
+            await dbContext.SaveChangesAsync();
 
             return true;
         }

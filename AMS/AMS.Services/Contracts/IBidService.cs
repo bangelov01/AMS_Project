@@ -4,10 +4,10 @@
 
     public interface IBidService
     {
-        public void Create(string userId,
+        public Task Create(string userId,
             string listingId,
             decimal amount,
             int number);
-        public BidServiceModel HighestForListing(string Id);
+        public Task<BidServiceModel> HighestForListing(string Id);
     }
 }

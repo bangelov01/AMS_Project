@@ -30,7 +30,7 @@
         [Authorize]
         public async Task<IActionResult> Create(string Id)
         {
-            if (!validatorService.IsAuctionValid(Id))
+            if (!await validatorService.IsAuctionValid(Id))
             {
                 return BadRequest();
             }
@@ -48,7 +48,7 @@
         [HttpPost]
         public async Task<IActionResult> Create(string Id, ListingsFormModel listing)
         {
-            if (!validatorService.AreListingParamsValid(listing.ConditionId, listing.ModelId))
+            if (!await validatorService.AreListingParamsValid(listing.ConditionId, listing.ModelId))
             {
                 return BadRequest();
             }
@@ -160,7 +160,7 @@
             {
                 Auction = auction,
                 Listing = await listingService.Details(listingId, this.User.Id()),
-                Bid = bidService.HighestForListing(listingId)
+                Bid = await bidService.HighestForListing(listingId)
             });
         }
     }
