@@ -12,7 +12,5 @@
 
         public decimal Price { get; init; }
 
-        public bool IsWatched { get; init; }
-
     }
 }

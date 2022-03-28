@@ -42,7 +42,7 @@
             public const byte CityNameMinLength = 1;
             public const byte CityNameMaxLength = 90;
 
-            public const byte AddressTextMinLength = 20;
+            public const byte AddressTextMinLength = 10;
             public const byte AddressTextMaxLength = 200;
         }
     }

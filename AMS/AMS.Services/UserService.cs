@@ -5,6 +5,9 @@
     using Microsoft.Extensions.Options;
     using Microsoft.EntityFrameworkCore;
 
+    using AutoMapper;
+    using AutoMapper.QueryableExtensions;
+
     using AMS.Data;
 
     using AMS.Services.Contracts;
@@ -12,14 +15,17 @@
 
     public class UserService : IUserService
     {
-        public readonly AMSDbContext dbContext;
+        private readonly AMSDbContext dbContext;
         private readonly AppSettingsServiceModel adminDetails;
+        private readonly IConfigurationProvider mapper;
 
         public UserService(AMSDbContext dbContext,
-            IOptions<AppSettingsServiceModel> adminDetails)
+            IOptions<AppSettingsServiceModel> adminDetails,
+            IMapper mapper)
         {
             this.dbContext = dbContext;
             this.adminDetails = adminDetails.Value;
+            this.mapper = mapper.ConfigurationProvider;
         }
 
 
@@ -27,12 +33,7 @@
             => await dbContext
                 .Users
                 .Where(u => u.UserName != adminDetails.Username)
-                .Select(u => new UsersServiceModel
-                {
-                    Id = u.Id,
-                    UserName = u.UserName,
-                    IsSuspended = u.IsSuspended
-                })
+                .ProjectTo<UsersServiceModel>(mapper)
                 .ToArrayAsync();
 
         public async Task<bool> Allow(string Id)

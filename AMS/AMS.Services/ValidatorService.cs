@@ -45,12 +45,14 @@
             return false;
         }
 
-        public async Task<bool> IsListingValidForBid(string listingId, string userId)
+        public async Task<bool> IsListingValidForBid(string listingId, string userId, decimal amount)
             => await dbContext
             .Vehicles
             .AnyAsync(x => x.Id == listingId &&
                  x.UserId != userId &&
-                 x.Auction.End > GetCurrentDate());
+                 x.Auction.End > GetCurrentDate() &&
+                 x.Price <= amount);
+
 
         public async Task<bool> DoesWatchlistExist(string listingId, string userId)
             => await dbContext

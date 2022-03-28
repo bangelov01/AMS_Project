@@ -9,5 +9,6 @@
         public AuctionServiceModel Auction { get; init; }
         public ListingDetailsServiceModel Listing { get; init; }
         public BidServiceModel Bid { get; init; }
+        public bool IsWatched { get; init; }
     }
 }

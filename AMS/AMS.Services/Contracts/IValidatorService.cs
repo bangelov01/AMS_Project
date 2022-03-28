@@ -6,7 +6,7 @@
 
         public Task<bool> IsAuctionValid(string Id);
 
-        public Task<bool> IsListingValidForBid(string listingId, string userId);
+        public Task<bool> IsListingValidForBid(string listingId, string userId, decimal amount);
 
         public bool IsOrderParamValid(string orderParam);
 

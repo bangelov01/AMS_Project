@@ -3,9 +3,14 @@ using Microsoft.AspNetCore.Identity;
 
 using AMS.Data;
 using AMS.Data.Models;
+
 using AMS.Services.Models;
+using AMS.Services.Infrastructure;
+
 using AMS.Web.Infrastrucutre.Extensions;
+
 using AMS.Controllers.Hubs;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +27,7 @@ builder.Services.Configure<AppSettingsServiceModel>(builder
     .GetSection("AdministrationDetails"));
 
 builder.Services.AddSignalR();
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 builder.AddTransient();
 

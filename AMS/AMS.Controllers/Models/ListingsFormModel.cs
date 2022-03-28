@@ -4,6 +4,7 @@
     using System.ComponentModel.DataAnnotations;
 
     using static AMS.Data.Constants.DataConstants.VehicleConstants;
+    using static AMS.Data.Constants.DataConstants.ErrorMessages;
 
     public class ListingsFormModel
     {
@@ -37,7 +38,7 @@
         [Required]
         [StringLength(DescriptionMaxLength,
             MinimumLength = DescriptionMinLength,
-            ErrorMessage = "The {0} must be between {2} and {1} characters long!")]
+            ErrorMessage = StringLengthValidationError)]
         public string Description { get; init; }
 
         [Display(Name = "Starting Price")]

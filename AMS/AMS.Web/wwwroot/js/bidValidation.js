@@ -11,14 +11,15 @@
 
     function validateInput(amount) {
 
+        let starting = $('#starting').text();
         let current = $('#current').text();
 
         if (!$.isNumeric(amount)) {
             alert("Bid must be a number!")
             return false;
         }
-        else if (amount <= current) {
-            alert('Bid cannot be lower than current!')
+        else if (amount <= current || starting < amount) {
+            alert('Bid cannot be lower than starting price or current bid!')
             return false;
         }
 

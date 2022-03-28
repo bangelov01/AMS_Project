@@ -4,6 +4,9 @@
 
     using Microsoft.EntityFrameworkCore;
 
+    using AutoMapper;
+    using AutoMapper.QueryableExtensions;
+
     using AMS.Data;
     using AMS.Data.Models;
 
@@ -15,10 +18,13 @@
     public class ListingService : IListingService
     {
         private readonly AMSDbContext dbContext;
+        private readonly IConfigurationProvider mapper;
 
-        public ListingService(AMSDbContext dbContext)
+        public ListingService(AMSDbContext dbContext,
+            IMapper mapper)
         {
             this.dbContext = dbContext;
+            this.mapper = mapper.ConfigurationProvider;
         }
 
         public async Task Create(int year,
@@ -51,20 +57,7 @@
              => await dbContext
              .Vehicles
              .Where(v => v.Id == listingId)
-             .Select(v => new ListingDetailsServiceModel
-             {
-                 Id = v.Id,
-                 UserId = v.UserId,
-                 Type = v.Model.VehicleType.Name,
-                 Condition = v.Condition.Name,
-                 ImageUrl = v.ImageUrl,
-                 Make = v.Model.Make.Name,
-                 Model = v.Model.Name,
-                 Description = v.Description,
-                 Year = v.Year,
-                 Price = v.Price,
-                 IsWatched = v.Watchlists.Any(w => w.VehicleId == listingId && w.UserId == userId),
-             })
+             .ProjectTo<ListingDetailsServiceModel>(mapper)
              .FirstOrDefaultAsync();
 
         public async Task<IEnumerable<ListingsServiceModel>> ApprovedPerPage(string Id, int currentPage, int listingsPerPage)
@@ -74,15 +67,7 @@
                      && v.IsApproved == true)
             .Skip((currentPage - 1) * listingsPerPage)
             .Take(listingsPerPage)
-            .Select(v => new ListingsServiceModel
-            {
-                Id = v.Id,
-                Condition = v.Condition.Name,
-                Make = v.Model.Make.Name,
-                Model = v.Model.Name,
-                ImageUrl = v.ImageUrl,
-                Year = v.Year
-            })
+            .ProjectTo<ListingsServiceModel>(mapper)
             .ToArrayAsync();
 
         public async Task<IEnumerable<SearchListingsServiceModel>> Search(string searchString)
@@ -99,17 +84,7 @@
 
             var listings = await listingQuery
                 .OrderByDescending(l => l.Id)
-                .Select(l => new SearchListingsServiceModel
-                {
-                    AuctionId = l.AuctionId,
-                    AuctionNumber = l.Auction.Number,
-                    Id = l.Id,
-                    Make = l.Model.Make.Name,
-                    Model = l.Model.Name,
-                    Condition = l.Condition.Name,
-                    ImageUrl = l.ImageUrl,
-                    Year = l.Year,
-                })
+                .ProjectTo<SearchListingsServiceModel>(mapper)
                 .ToArrayAsync();
 
             return listings;
@@ -119,18 +94,7 @@
               => await dbContext
               .Vehicles
               .Where(v => v.IsApproved == false)
-              .Select(v => new AdminListingsServiceModel
-              {
-                  Id = v.Id,
-                  CreatorName = v.User.UserName,
-                  ImageUrl = v.ImageUrl,
-                  Year = v.Year,
-                  Make = v.Model.Make.Name,
-                  Model = v.Model.Name,
-                  Description = v.Description,
-                  IsUserSuspended = v.User.IsSuspended,
-                  BidsCount = v.Bids.Count,
-              })
+              .ProjectTo<AdminListingsServiceModel>(mapper)
               .ToArrayAsync();
 
         public async Task<ICollection<ListingPropertyServiceModel>> Conditions()
@@ -172,6 +136,11 @@
                 Name = x.Name
             })
             .ToListAsync();
+
+        public async Task<bool> IsWatched(string listingId, string userId)
+            => await dbContext
+            .Watchlists
+            .AnyAsync(w => w.VehicleId == listingId && w.UserId == userId);
 
         public async Task<int> Count(string auctionId)
             => await dbContext

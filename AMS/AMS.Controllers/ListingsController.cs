@@ -160,7 +160,8 @@
             {
                 Auction = auction,
                 Listing = await listingService.Details(listingId, this.User.Id()),
-                Bid = await bidService.HighestForListing(listingId)
+                Bid = await bidService.HighestForListing(listingId),
+                IsWatched = await listingService.IsWatched(listingId, this.User.Id())
             });
         }
     }

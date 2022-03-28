@@ -1,8 +1,11 @@
 ﻿namespace AMS.Services
 {
+    using System.Collections.Generic;
+
     using Microsoft.EntityFrameworkCore;
 
-    using System.Collections.Generic;
+    using AutoMapper;
+    using AutoMapper.QueryableExtensions;
 
     using AMS.Data;
     using AMS.Data.Models;
@@ -15,10 +18,13 @@
     public class WatchlistService : IWatchlistService
     {
         private readonly AMSDbContext dbContext;
+        private readonly IConfigurationProvider mapper;
 
-        public WatchlistService(AMSDbContext dbContext)
+        public WatchlistService(AMSDbContext dbContext,
+            IMapper mapper)
         {
             this.dbContext = dbContext;
+            this.mapper = mapper.ConfigurationProvider;
         }
 
         public async Task Create(string listingId, string userId)
@@ -55,17 +61,7 @@
             => await dbContext
                 .Watchlists
                 .Where(w => w.UserId == Id && w.Vehicle.Auction.End > GetCurrentDate())
-                .Select(w => new SearchListingsServiceModel
-                {
-                    AuctionId = w.Vehicle.AuctionId,
-                    AuctionNumber = w.Vehicle.Auction.Number,
-                    Id = w.Vehicle.Id,
-                    Condition = w.Vehicle.Condition.Name,
-                    Make = w.Vehicle.Model.Make.Name,
-                    Model = w.Vehicle.Model.Name,
-                    ImageUrl = w.Vehicle.ImageUrl,
-                    Year = w.Vehicle.Year,
-                })
+                .ProjectTo<SearchListingsServiceModel>(mapper)
                 .ToArrayAsync();
     }
 }

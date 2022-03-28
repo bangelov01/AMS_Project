@@ -48,7 +48,7 @@
                     <li class="list-group-item"><h6 class="d-inline">Description: </h6>@Model.Listing.Description</li>
                     @if (!isOwnListing)
                     {
-                        @if (!Model.Listing.IsWatched)
+                        @if (!Model.IsWatched)
                         {
                             <div class="container text-center mt-3">
                                 <a class="btn btn-primary btn-md" asp-controller="Watchlists" asp-action="Watch" asp-route-id="@Model.Listing.Id">Watch</a>
@@ -72,7 +72,7 @@
             <div class="card-body">
                 <h3 class="card-title text-center">Bid Details:</h3>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item"><h6 class="d-inline">Starting Price: </h6>@Model.Listing.Price.ToString("f2")</li>
+                    <li class="list-group-item"><h6 class="d-inline">Starting Price: </h6><span id="starting">@Model.Listing.Price.ToString("f2")</span></li>
                     <li class="list-group-item"><h6 class="d-inline">Current Bid: </h6><span id="current">@(Model.Bid == null ? 0 : Model.Bid.Amount.ToString("f2"))</span></li>
                     <li class="list-group-item"><h6 class="d-inline">Bidder: </h6><span id="bidName">@(Model.Bid == null ? "None" : Model.Bid.User)</span></li>
                 </ul>

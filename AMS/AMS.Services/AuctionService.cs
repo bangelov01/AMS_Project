@@ -5,6 +5,9 @@
 
     using Microsoft.EntityFrameworkCore;
 
+    using AutoMapper;
+    using AutoMapper.QueryableExtensions;
+
     using AMS.Data;
     using AMS.Data.Models;
 
@@ -18,12 +21,15 @@
     {
         private readonly AMSDbContext dbContext;
         private readonly IAddressService addressService;
+        private readonly IConfigurationProvider mapper;
 
         public AuctionService(AMSDbContext dbContext,
-            IAddressService addressService)
+            IAddressService addressService,
+            IMapper mapper)
         {
             this.dbContext = dbContext;
             this.addressService = addressService;
+            this.mapper = mapper.ConfigurationProvider;
         }
 
         public async Task Create(int number,
@@ -84,17 +90,7 @@
         public async Task<IEnumerable<AllAuctionsServiceModel>> All()
             => await dbContext
                 .Auctions
-                .Select(a => new AllAuctionsServiceModel
-                {
-                    Id = a.Id,
-                    Number = a.Number,
-                    Description = a.Description,
-                    Start = a.Start,
-                    End = a.End,
-                    City = a.Address.City,
-                    Country = a.Address.Country,
-                    ListingsCount = a.Vehicles.Count
-                })
+                .ProjectTo<AllAuctionsServiceModel>(mapper)
                 .ToArrayAsync();
 
         public async Task<IEnumerable<AllAuctionsServiceModel>> ActivePerPage(int currentPage, int auctionsPerPage)
@@ -103,17 +99,7 @@
                 .Where(a => a.End > GetCurrentDate())
                 .Skip((currentPage - 1) * auctionsPerPage)
                 .Take(auctionsPerPage)
-                .Select(a => new AllAuctionsServiceModel
-                {
-                    Id = a.Id,
-                    Number = a.Number,
-                    Description = a.Description,
-                    Start = a.Start,
-                    End = a.End,
-                    City = a.Address.City,
-                    Country = a.Address.Country,
-                    ListingsCount = a.Vehicles.Count(v => v.IsApproved == true)
-                })
+                .ProjectTo<AllAuctionsServiceModel>(mapper)
                 .ToArrayAsync();
 
         public async Task<bool> IsCreated(int number)
@@ -135,30 +121,14 @@
             => await dbContext
             .Auctions
             .Where(a => a.Id == Id && a.End > GetCurrentDate())
-            .Select(a => new AuctionServiceModel
-            {
-                Id = a.Id,
-                City = a.Address.City,
-                Number = a.Number,
-                Start = a.Start,
-                End = a.End
-            })
+            .ProjectTo<AuctionServiceModel>(mapper)
             .FirstOrDefaultAsync();
 
         public async Task<AdminEditServiceModel> AdminDetailsById(string Id)
             => await dbContext
                 .Auctions
                 .Where(a => a.Id == Id)
-                .Select(a => new AdminEditServiceModel
-                {
-                    Number = a.Number,
-                    Description = a.Description,
-                    Start = a.Start,
-                    End = a.End,
-                    Country = a.Address.Country,
-                    City = a.Address.City,
-                    AddressText = a.Address.AddressText
-                })
+                .ProjectTo<AdminEditServiceModel>(mapper)
                 .FirstOrDefaultAsync();
 
         public async Task<int> ActiveCount()
