@@ -1,33 +1,25 @@
 ﻿namespace AMS.Controllers
 {
     using AMS.Controllers.Models;
+    using AMS.Services.Contracts;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
     using System.Diagnostics;
 
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly IListingService listingService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IListingService listingService)
         {
-            _logger = logger;
+            this.listingService = listingService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
-        }
+            var listings = await listingService.Preview();
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return View(listings);
         }
     }
 }

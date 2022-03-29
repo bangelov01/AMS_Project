@@ -1,7 +1,6 @@
 ﻿namespace AMS.Services.Models
 {
 
-
     public class UsersServiceModel
     {
         public string Id { get; init; }

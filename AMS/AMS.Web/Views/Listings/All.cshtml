@@ -24,7 +24,7 @@ else
         @foreach (var listing in Model.Listings)
         {
             <div class="col-sm-4 @(listingsCount == 1 ? "col-centered" : string.Empty)">
-                <div class="card h-100 border-primary shadow rounded">
+                <div class="card h-100 border-secondary shadow rounded">
                     <img src="@listing.ImageUrl" class="card-img-top" style="height: 100%!important;">
                     <div class="card-body">
                         <h4 class="card-title text-center">@listing.Make - @listing.Model</h4>

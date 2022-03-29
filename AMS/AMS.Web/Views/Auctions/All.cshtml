@@ -24,17 +24,17 @@
         var timeString = $"{span.Days} days, {span.Hours} hours, {span.Minutes} minutes.";
 
         <div class="col-sm-6 col-centered">
-            <div class="card text-white bg-primary mb-3 mt-4">
-                <div class="card-header"><h3>Auction #@auction.Number</h3></div>
+            <div class="card text-dark bg-light border-secondary mb-3 mt-4">
+                <div class="card-header text-center"><h3>Auction #@auction.Number</h3></div>
                 <div class="card-body shadow-lg rounded">
                     <p class="card-text"><strong>Description: </strong>@auction.Description</p>
                     <p class="card-text"><strong>Location: </strong>@auction.Country, @auction.City</p>
                     <p class="card-text"><strong>Listings: </strong>@auction.ListingsCount</p>
                     <p class="card-text"><strong>Time remaining: </strong>@timeString</p>
-                    <a class="btn btn-light" asp-controller="Listings" asp-action="All" asp-route-Id="@auction.Id">View Listings</a>
+                    <a class="btn btn-primary" asp-controller="Listings" asp-action="All" asp-route-Id="@auction.Id">View Listings</a>
                     @if (User.Id() != null)
                     {
-                        <a class="btn btn-light" asp-controller="Listings" asp-action="Create" asp-route-Id="@auction.Id">Add Listing</a>
+                        <a class="btn btn-primary" asp-controller="Listings" asp-action="Create" asp-route-Id="@auction.Id">Add Listing</a>
                     }
                 </div>
             </div>
