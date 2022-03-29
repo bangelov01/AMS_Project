@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ListingsServiceModel>
+﻿@model HomeViewModel
 
 @{
     ViewData["Title"] = "Home Page";
@@ -62,26 +62,21 @@
         <span class="visually-hidden">Next</span>
     </button>
 </div>
-<h4 class="display-5 text-center mt-4 mb-4 text-primary">Preview</h4>
+<h4 class="display-5 text-center mt-4 mb-4 text-primary">Live Statistics</h4>
 <hr class="w-50 offset-3" />
-@if (Model.Any())
-{
-    <div class="row text-center">
-        @foreach (var p in Model)
-        {
-            <div class="col-lg-4 mt-3">
-                <img src="@p.ImageUrl" width="200" height="200" style="border-radius: 50%" />
-                <h2 class="mt-2">@p.Make - @p.Model</h2>
-                <h5>Condition: @p.Condition</h5>
-                <h5>Year: @p.Year</h5>
-            </div>
-        }
+<div class="container">
+  <div class="row text-center">
+    <div class="col">
+     <span class="display-6">Auctions: @Model.Auctions</span>
     </div>
-}
-else
-{
-  <h1 class="display-6 text-danger text-center">No itemsto preview currently!</h1>
-}
+    <div class="col">
+      <span class="display-6">Listings: @Model.Listings</span>
+    </div>
+    <div class="col">
+      <span class="display-6 d-float">Users: @Model.Users</span>
+    </div>
+  </div>
+</div>
 <hr class="w-50 offset-3" />
 <h4 class="display-6 text-center mt-4 mb-4 text-primary">About the website</h4>
 <p class="text-center">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>

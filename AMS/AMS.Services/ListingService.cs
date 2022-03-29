@@ -53,14 +53,6 @@
             await dbContext.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<ListingsServiceModel>> Preview()
-            => await dbContext
-            .Vehicles
-            .Where(v => v.Auction.End > GetCurrentDate())
-            .Take(3)
-            .ProjectTo<ListingsServiceModel>(mapper)
-            .ToArrayAsync();
-
         public async Task<ListingDetailsServiceModel> Details(string listingId, string userId)
              => await dbContext
              .Vehicles
@@ -149,6 +141,11 @@
             => await dbContext
             .Watchlists
             .AnyAsync(w => w.VehicleId == listingId && w.UserId == userId);
+
+        public async Task<int> Total()
+            => await dbContext
+            .Vehicles
+            .CountAsync();
 
         public async Task<int> Count(string auctionId)
             => await dbContext

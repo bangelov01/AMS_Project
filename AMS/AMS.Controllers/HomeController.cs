@@ -9,17 +9,26 @@
     public class HomeController : Controller
     {
         private readonly IListingService listingService;
+        private readonly IAuctionService auctionService;
+        private readonly IUserService userService;
 
-        public HomeController(IListingService listingService)
+        public HomeController(IListingService listingService,
+            IAuctionService auctionService,
+            IUserService userService)
         {
             this.listingService = listingService;
+            this.auctionService = auctionService;
+            this.userService = userService;
         }
 
         public async Task<IActionResult> Index()
         {
-            var listings = await listingService.Preview();
-
-            return View(listings);
+            return View(new HomeViewModel
+            {
+                Auctions = await auctionService.Total(),
+                Listings = await listingService.Total(),
+                Users = await userService.Total(),
+            });
         }
     }
 }

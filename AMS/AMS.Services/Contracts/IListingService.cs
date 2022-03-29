@@ -13,7 +13,6 @@
             string auctionId,
             int modelId,
             string userId);
-        public Task<IEnumerable<ListingsServiceModel>> Preview();
         public Task<ListingDetailsServiceModel> Details(string listingId, string userId);
         public Task<IEnumerable<ListingsServiceModel>> ApprovedPerPage(string Id, int currentPage, int listingsPerPage);
         public Task<IEnumerable<SearchListingsServiceModel>> Search(string searchString);
@@ -24,6 +23,7 @@
         public Task<ICollection<ListingPropertyServiceModel>> Models();
         public Task<bool> IsWatched(string listingId, string userId);
         public Task<int> Count(string auctionId);
+        public Task<int> Total();
         public Task<bool> Delete(string Id);
         public Task<bool> Approve(string Id);
     }

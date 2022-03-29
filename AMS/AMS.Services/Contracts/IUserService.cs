@@ -9,5 +9,7 @@
         public Task<bool> Suspend(string Id);
 
         public Task<bool> Allow(string Id);
+
+        public Task<int> Total();
     }
 }

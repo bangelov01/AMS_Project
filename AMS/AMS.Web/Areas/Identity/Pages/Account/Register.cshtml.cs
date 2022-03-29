@@ -1,4 +1,5 @@
-﻿#nullable disable
+﻿
+#nullable disable
 
 namespace AMS.Web.Areas.Identity.Pages.Account
 {

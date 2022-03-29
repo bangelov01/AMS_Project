@@ -69,5 +69,10 @@
 
             return true;
         }
+
+        public async Task<int> Total()
+            => await dbContext
+            .Users
+            .CountAsync();
     }
 }

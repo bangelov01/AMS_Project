@@ -33,5 +33,6 @@
         public Task<bool> IsCreated(int number);
 
         public Task<int> ActiveCount();
+        public Task<int> Total();
     }
 }
