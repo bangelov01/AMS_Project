@@ -28,6 +28,32 @@
         }
 
         [Authorize]
+        public async Task<IActionResult> GetMakes(int typeId)
+        {
+            var makes = await listingService.Makes(typeId);
+
+            if (!makes.Any())
+            {
+                return BadRequest();
+            }
+
+            return Ok(makes);
+        }
+
+        [Authorize]
+        public async Task<IActionResult> GetModels(int typeId, int makeId)
+        {
+            var models = await listingService.Models(typeId, makeId);
+
+            if (!models.Any())
+            {
+                return BadRequest();
+            }
+
+            return Ok(models);
+        }
+
+        [Authorize]
         public async Task<IActionResult> Create(string Id)
         {
             if (!await validatorService.IsAuctionValid(Id))
@@ -39,8 +65,8 @@
             {
                 Conditions = await listingService.Conditions(),
                 Types = await listingService.Types(),
-                Makes = await listingService.Makes(),
-                Models = await listingService.Models()
+                Makes = await listingService.Makes(DefaultTypeId),
+                Models = await listingService.Models(DefaultTypeId, DefaulMakeId)
             });
         }
 
@@ -57,8 +83,8 @@
             {
                 listing.Conditions = await listingService.Conditions();
                 listing.Types = await listingService.Types();
-                listing.Makes = await listingService.Makes();
-                listing.Models = await listingService.Models();
+                listing.Makes = await listingService.Makes(DefaultTypeId);
+                listing.Models = await listingService.Models(DefaultTypeId, DefaulMakeId);
 
                 return View(listing);
             }

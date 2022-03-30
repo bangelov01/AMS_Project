@@ -19,8 +19,8 @@
         public Task<IEnumerable<AdminListingsServiceModel>> NotApproved();
         public Task<ICollection<ListingPropertyServiceModel>> Conditions();
         public Task<ICollection<ListingPropertyServiceModel>> Types();
-        public Task<ICollection<ListingPropertyServiceModel>> Makes();
-        public Task<ICollection<ListingPropertyServiceModel>> Models();
+        public Task<ICollection<ListingPropertyServiceModel>> Makes(int typeId);
+        public Task<ICollection<ListingPropertyServiceModel>> Models(int typeId, int makeId);
         public Task<bool> IsWatched(string listingId, string userId);
         public Task<int> Count(string auctionId);
         public Task<int> Total();

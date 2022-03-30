@@ -10,5 +10,9 @@
 
         public const string DefaultOrderParam = nameof(Make);
 
+        public const int DefaultTypeId = 1;
+
+        public const int DefaulMakeId = 1;
+
     }
 }

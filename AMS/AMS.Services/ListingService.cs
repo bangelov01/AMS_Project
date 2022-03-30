@@ -107,19 +107,9 @@
             })
             .ToListAsync();
 
-        public async Task<ICollection<ListingPropertyServiceModel>> Makes()
+        public async Task<ICollection<ListingPropertyServiceModel>> Types()
             => await dbContext
-            .Makes
-            .Select(x => new ListingPropertyServiceModel
-            {
-                Id = x.Id,
-                Name= x.Name
-            })
-            .ToListAsync();
-
-        public async Task<ICollection<ListingPropertyServiceModel>> Models()
-            => await dbContext
-            .Models
+            .VehicleTypes
             .Select(x => new ListingPropertyServiceModel
             {
                 Id = x.Id,
@@ -127,9 +117,21 @@
             })
             .ToListAsync();
 
-        public async Task<ICollection<ListingPropertyServiceModel>> Types()
+        public async Task<ICollection<ListingPropertyServiceModel>> Makes(int typeId)
             => await dbContext
-            .VehicleTypes
+            .Makes
+            .Where(m => m.Models.Any(x => x.VehicleTypeId == typeId))
+            .Select(x => new ListingPropertyServiceModel
+            {
+                Id = x.Id,
+                Name= x.Name
+            })
+            .ToListAsync();
+
+        public async Task<ICollection<ListingPropertyServiceModel>> Models(int typeId, int makeId)
+            => await dbContext
+            .Models
+            .Where(m => m.MakeId == makeId && m.VehicleTypeId == typeId)
             .Select(x => new ListingPropertyServiceModel
             {
                 Id = x.Id,
