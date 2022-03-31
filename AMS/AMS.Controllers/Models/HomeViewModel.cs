@@ -1,9 +1,11 @@
 ﻿namespace AMS.Controllers.Models
 {
+    using AMS.Services.Models;
+    using AMS.Services.Models.Listings.Base;
+
     public class HomeViewModel
     {
-        public int Listings { get; init; }
-        public int Auctions { get; init; }
-        public int Users { get; init; }
+        public StatisticsServiceModel Statistics { get; init; }
+        public IEnumerable<ListingsServiceModel> Preview { get; init; }
     }
 }

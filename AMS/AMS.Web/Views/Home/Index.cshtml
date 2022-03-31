@@ -62,20 +62,47 @@
         <span class="visually-hidden">Next</span>
     </button>
 </div>
-<h4 class="display-5 text-center mt-4 mb-4 text-primary">Live Statistics</h4>
+@if (Model.Preview.Any())
+{
+    <h4 class="display-5 text-center mt-4 mb-2 text-primary">Preview</h4>
+    <hr class="w-50 offset-3" />
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 align-items-stretch g-4 py-5 text-center">
+            @foreach (var p in Model.Preview)
+            {
+                <div class="col-sm-3 @(Model.Preview.Count() < 3 ? "col-centered" : string.Empty)">
+                    <div class="card h-100 shadow">
+                        <img src="@p.ImageUrl" style="height: 100%!important;"></img>
+                        <div class="card-body">
+                            <h4 class="card-title text-center">@p.Make - @p.Model</h4>
+                            <p class="card-text">Vehicle condition - @p.Condition and Year - @p.Year.</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                @if (User.Id() != null)
+                                {
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-sm btn-outline-secondary">Details</button>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+}
+<h4 class="display-5 text-center mt-4 mb-4 text-primary">Lifelong Statistics</h4>
 <hr class="w-50 offset-3" />
 <div class="container">
-  <div class="row text-center">
-    <div class="col">
-     <span class="display-6">Auctions: @Model.Auctions</span>
+    <div class="row text-center">
+        <div class="col">
+            <span class="display-6">Auctions: @Model.Statistics.TotalAuctions</span>
+        </div>
+        <div class="col">
+            <span class="display-6">Listings: @Model.Statistics.TotalListings</span>
+        </div>
+        <div class="col">
+            <span class="display-6 d-float">Users: @Model.Statistics.TotalUsers</span>
+        </div>
     </div>
-    <div class="col">
-      <span class="display-6">Listings: @Model.Listings</span>
-    </div>
-    <div class="col">
-      <span class="display-6 d-float">Users: @Model.Users</span>
-    </div>
-  </div>
 </div>
 <hr class="w-50 offset-3" />
 <h4 class="display-6 text-center mt-4 mb-4 text-primary">About the website</h4>

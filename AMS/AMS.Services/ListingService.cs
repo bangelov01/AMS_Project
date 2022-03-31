@@ -13,6 +13,7 @@
     using AMS.Services.Contracts;
     using AMS.Services.Models.Listings;
     using AMS.Services.Models.Listings.Base;
+
     using static AMS.Services.Common.CommonFunctions;
 
     public class ListingService : IListingService
@@ -118,17 +119,17 @@
             .ToListAsync();
 
         public async Task<ICollection<ListingPropertyServiceModel>> Makes(int typeId)
-            => await dbContext
+             => await dbContext
             .Makes
             .Where(m => m.Models.Any(x => x.VehicleTypeId == typeId))
             .Select(x => new ListingPropertyServiceModel
             {
                 Id = x.Id,
-                Name= x.Name
+                Name = x.Name
             })
             .ToListAsync();
 
-        public async Task<ICollection<ListingPropertyServiceModel>> Models(int typeId, int makeId)
+    public async Task<ICollection<ListingPropertyServiceModel>> Models(int typeId, int makeId)
             => await dbContext
             .Models
             .Where(m => m.MakeId == makeId && m.VehicleTypeId == typeId)
@@ -144,16 +145,18 @@
             .Watchlists
             .AnyAsync(w => w.VehicleId == listingId && w.UserId == userId);
 
-        public async Task<int> Total()
-            => await dbContext
-            .Vehicles
-            .CountAsync();
-
         public async Task<int> Count(string auctionId)
             => await dbContext
             .Vehicles
             .Where(v => v.IsApproved == true && v.Auction.Id == auctionId)
             .CountAsync();
+
+        public async Task<IEnumerable<ListingsServiceModel>> Preview()
+            => await dbContext
+            .Vehicles
+            .Take(3)
+            .ProjectTo<ListingsServiceModel>(mapper)
+            .ToArrayAsync();
 
         public async Task<bool> Delete(string Id)
         {

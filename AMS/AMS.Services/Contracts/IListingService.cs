@@ -23,7 +23,7 @@
         public Task<ICollection<ListingPropertyServiceModel>> Models(int typeId, int makeId);
         public Task<bool> IsWatched(string listingId, string userId);
         public Task<int> Count(string auctionId);
-        public Task<int> Total();
+        public Task<IEnumerable<ListingsServiceModel>> Preview();
         public Task<bool> Delete(string Id);
         public Task<bool> Approve(string Id);
     }

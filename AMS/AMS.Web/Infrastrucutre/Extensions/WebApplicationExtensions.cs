@@ -31,6 +31,7 @@
             builder.Services.AddTransient<IValidatorService, ValidatorService>();
             builder.Services.AddTransient<IBidService, BidService>();
             builder.Services.AddTransient<IWatchlistService, WatchlistService>();
+            builder.Services.AddTransient<IStatisticService, StatisticsService>();
 
             return builder;
         }

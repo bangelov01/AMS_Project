@@ -1,33 +1,50 @@
 ﻿namespace AMS.Controllers
 {
-    using AMS.Controllers.Models;
-    using AMS.Services.Contracts;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.Extensions.Logging;
-    using System.Diagnostics;
+    using Microsoft.Extensions.Caching.Memory;
+
+    using AMS.Controllers.Models;
+
+    using AMS.Services.Contracts;
+    using AMS.Services.Models.Listings.Base;
 
     public class HomeController : Controller
     {
+        private readonly IStatisticService statisticService;
         private readonly IListingService listingService;
-        private readonly IAuctionService auctionService;
-        private readonly IUserService userService;
+        private readonly IMemoryCache cache;
 
-        public HomeController(IListingService listingService,
-            IAuctionService auctionService,
-            IUserService userService)
+        public HomeController(IStatisticService statisticService,
+            IListingService listingService,
+            IMemoryCache cache)
         {
+            this.statisticService = statisticService;
             this.listingService = listingService;
-            this.auctionService = auctionService;
-            this.userService = userService;
+            this.cache = cache;
         }
 
         public async Task<IActionResult> Index()
         {
+            const string PreviewListingsKey = "PreviewListingsKey";
+
+            var previewListings = this.cache.Get<IEnumerable<ListingsServiceModel>>(PreviewListingsKey);
+
+            if (previewListings == null)
+            {
+                previewListings = await listingService.Preview();
+
+                this.cache.Set(PreviewListingsKey,
+                    previewListings,
+                    new MemoryCacheEntryOptions()
+                    .SetAbsoluteExpiration(TimeSpan.FromMinutes(30)));
+            }
+
+            var statistics = await statisticService.Total();
+
             return View(new HomeViewModel
             {
-                Auctions = await auctionService.Total(),
-                Listings = await listingService.Total(),
-                Users = await userService.Total(),
+                Preview = previewListings,
+                Statistics = statistics
             });
         }
     }

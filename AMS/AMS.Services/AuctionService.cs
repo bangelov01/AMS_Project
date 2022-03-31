@@ -136,10 +136,5 @@
                 .Auctions
                 .Where(a => a.End > GetCurrentDate())
                 .CountAsync();
-
-        public async Task<int> Total()
-            => await dbContext
-            .Auctions
-            .CountAsync();
     }
 }

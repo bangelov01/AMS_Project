@@ -28,6 +28,7 @@ builder.Services.Configure<AppSettingsServiceModel>(builder
 
 builder.Services.AddSignalR();
 builder.Services.AddAutoMapper(typeof(MappingProfile));
+builder.Services.AddMemoryCache();
 
 builder.AddTransient();
 
