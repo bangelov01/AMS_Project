@@ -7,6 +7,8 @@
     using static AMS.Services.Infrastructure.Extensions.ClaimsPrincipleExtensions;
 
     using AMS.Controllers.Models;
+    using AMS.Controllers.Models.Listings;
+
     using static AMS.Controllers.Constants.ControllersConstants;
 
     public class ListingsController : Controller

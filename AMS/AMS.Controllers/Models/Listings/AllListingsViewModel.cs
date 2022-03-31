@@ -1,4 +1,4 @@
-﻿namespace AMS.Controllers.Models
+﻿namespace AMS.Controllers.Models.Listings
 {
     using AMS.Services.Models.Auctions.Base;
     using AMS.Services.Models.Listings.Base;
