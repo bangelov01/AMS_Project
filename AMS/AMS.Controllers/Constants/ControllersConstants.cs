@@ -14,5 +14,9 @@
 
         public const int DefaulMakeId = 1;
 
+        public const string SuccessMessageKey = "SuccessMessage";
+
+        public const string FailMessageKey = "FailMessage";
+
     }
 }

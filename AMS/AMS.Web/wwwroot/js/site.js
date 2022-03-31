@@ -21,10 +21,10 @@
         }
     }
 
-    $("#listingCreate").on("submit", function () {
+    //$("#listingCreate").on("submit", function () {
 
-        if ($(this).valid()) {
-            alert("Listing awaits approval from Admin!");
-        }
-    });
+    //    if ($(this).valid()) {
+    //        alert("Listing awaits approval from Admin!");
+    //    }
+    //});
 });

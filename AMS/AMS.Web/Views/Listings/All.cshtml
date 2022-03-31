@@ -5,6 +5,15 @@
     var listingsCount = Model.Listings.Count();
 }
 
+@if (TempData.ContainsKey(ControllersConstants.SuccessMessageKey))
+{
+    <div class="col-sm-4 col-centered mt-4">
+        <div class="alert alert-success" role="alert">
+            @TempData[ControllersConstants.SuccessMessageKey]
+        </div>
+    </div>
+}
+
 <partial name="_ListingAuctionPartial" model="@Model.Auction" />
 
 @if (!Model.Listings.Any())

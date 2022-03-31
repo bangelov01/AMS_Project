@@ -96,6 +96,8 @@
                 listing.ModelId,
                 this.User.Id());
 
+            TempData[SuccessMessageKey] = "Listing was created successfully and awaits approval!";
+
             return RedirectToAction(nameof(All), new { Id = Id });
         }
 
