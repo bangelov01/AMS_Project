@@ -8,9 +8,9 @@
 
     using AMS.Controllers.Models;
     using AMS.Controllers.Models.Listings;
-
     using static AMS.Controllers.Constants.ControllersConstants;
 
+    [Authorize]
     public class ListingsController : Controller
     {
         private readonly IListingService listingService;
@@ -29,7 +29,6 @@
             this.bidService = bidService;
         }
 
-        [Authorize]
         public async Task<IActionResult> GetMakes(int typeId)
         {
             var makes = await listingService.Makes(typeId);
@@ -42,7 +41,6 @@
             return Ok(makes);
         }
 
-        [Authorize]
         public async Task<IActionResult> GetModels(int typeId, int makeId)
         {
             var models = await listingService.Models(typeId, makeId);
@@ -55,7 +53,6 @@
             return Ok(models);
         }
 
-        [Authorize]
         public async Task<IActionResult> Create(string Id)
         {
             if (!await validatorService.IsAuctionValid(Id))
@@ -72,7 +69,6 @@
             });
         }
 
-        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Create(string Id, ListingsFormModel listing)
         {
@@ -103,6 +99,7 @@
             return RedirectToAction(nameof(All), new { Id = Id });
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> All(string Id, int currentPage = 1)
         {
             if (string.IsNullOrEmpty(Id))
@@ -145,6 +142,7 @@
             return View(model);
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> Find(string searchTerm, string orderBy = DefaultOrderParam)
         {
 
@@ -169,7 +167,6 @@
             });
         }
 
-        [Authorize]
         public async Task<IActionResult> Details(string auctionId, string listingId)
         {
             if (string.IsNullOrEmpty(auctionId) || string.IsNullOrEmpty(listingId))

@@ -7,9 +7,9 @@
 
     using AMS.Data;
     using AMS.Data.Models;
+
     using AMS.Services.Contracts;
     using AMS.Services.Models;
-
     using static AMS.Services.Constants.ServicesConstants;
 
     public class DataSeederService : IDataSeederService

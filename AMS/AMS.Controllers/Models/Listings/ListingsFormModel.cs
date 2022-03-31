@@ -1,7 +1,8 @@
 ﻿namespace AMS.Controllers.Models.Listings
 {
-    using AMS.Services.Models.Listings;
     using System.ComponentModel.DataAnnotations;
+
+    using AMS.Services.Models.Listings;
 
     using static AMS.Data.Constants.DataConstants.VehicleConstants;
     using static AMS.Data.Constants.DataConstants.ErrorMessages;

@@ -3,6 +3,7 @@
     using AutoMapper;
 
     using AMS.Data.Models;
+
     using AMS.Services.Models;
     using AMS.Services.Models.Auctions;
     using AMS.Services.Models.Auctions.Base;

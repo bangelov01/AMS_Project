@@ -1,9 +1,11 @@
 ﻿namespace AMS.Services
 {
+    using Microsoft.EntityFrameworkCore;
+
     using AMS.Data;
     using AMS.Data.Models;
+
     using AMS.Services.Contracts;
-    using Microsoft.EntityFrameworkCore;
 
     public class AddressService : IAddressService
     {

@@ -1,11 +1,13 @@
 ﻿namespace AMS.Controllers
 {
-    using AMS.Controllers.Hubs;
-    using AMS.Controllers.Models;
-    using AMS.Services.Contracts;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.SignalR;
+
+    using AMS.Controllers.Hubs;
+    using AMS.Controllers.Models;
+
+    using AMS.Services.Contracts;
     using static AMS.Services.Infrastructure.Extensions.ClaimsPrincipleExtensions;
 
     [Authorize]

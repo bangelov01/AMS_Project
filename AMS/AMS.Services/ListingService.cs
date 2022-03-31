@@ -154,6 +154,7 @@
         public async Task<IEnumerable<ListingsServiceModel>> Preview()
             => await dbContext
             .Vehicles
+            .Where(v => v.IsApproved == true && v.Auction.End > GetCurrentDate())
             .Take(3)
             .ProjectTo<ListingsServiceModel>(mapper)
             .ToArrayAsync();
