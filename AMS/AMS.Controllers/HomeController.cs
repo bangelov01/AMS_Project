@@ -6,7 +6,6 @@
     using AMS.Controllers.Models;
 
     using AMS.Services.Contracts;
-    using AMS.Services.Models.Listings.Base;
 
     public class HomeController : Controller
     {
@@ -25,27 +24,25 @@
 
         public async Task<IActionResult> Index()
         {
-            const string PreviewListingsKey = "PreviewListingsKey";
+            const string HomeViewKey = "HomeViewKey";
 
-            var previewListings = this.cache.Get<IEnumerable<ListingsServiceModel>>(PreviewListingsKey);
+            var model = this.cache.Get<HomeViewModel>(HomeViewKey);
 
-            if (previewListings == null)
+            if (model == null)
             {
-                previewListings = await listingService.Preview();
+                model = new HomeViewModel
+                {
+                    Statistics = await statisticService.Total(),
+                    Preview = await listingService.Preview()
+                };
 
-                this.cache.Set(PreviewListingsKey,
-                    previewListings,
+                this.cache.Set(HomeViewKey,
+                    model,
                     new MemoryCacheEntryOptions()
-                    .SetAbsoluteExpiration(TimeSpan.FromMinutes(30)));
+                    .SetAbsoluteExpiration(TimeSpan.FromSeconds(15)));
             }
 
-            var statistics = await statisticService.Total();
-
-            return View(new HomeViewModel
-            {
-                Preview = previewListings,
-                Statistics = statistics
-            });
+            return View(model);
         }
     }
 }

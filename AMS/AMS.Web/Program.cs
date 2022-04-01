@@ -10,7 +10,7 @@ using AMS.Services.Infrastructure;
 using AMS.Web.Infrastrucutre.Extensions;
 
 using AMS.Controllers.Hubs;
-
+using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -42,7 +42,9 @@ builder.Services.AddDefaultIdentity<User>(options => {
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<AMSDbContext>();
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews(options
+    => options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>()
+);
 
 var app = builder.Build();
 
