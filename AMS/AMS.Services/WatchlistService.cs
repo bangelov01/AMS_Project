@@ -13,8 +13,6 @@
     using AMS.Services.Contracts;
     using AMS.Services.Models.Listings;
 
-    using static AMS.Services.Common.CommonFunctions;
-
     public class WatchlistService : IWatchlistService
     {
         private readonly AMSDbContext dbContext;
@@ -60,7 +58,7 @@
         public async Task<IEnumerable<SearchListingsServiceModel>> ListingsForUser(string Id)
             => await dbContext
                 .Watchlists
-                .Where(w => w.UserId == Id && w.Vehicle.Auction.End > GetCurrentDate())
+                .Where(w => w.UserId == Id)
                 .ProjectTo<SearchListingsServiceModel>(mapper)
                 .ToArrayAsync();
     }

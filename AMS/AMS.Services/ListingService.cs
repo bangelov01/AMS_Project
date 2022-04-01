@@ -54,10 +54,10 @@
             await dbContext.SaveChangesAsync();
         }
 
-        public async Task<ListingDetailsServiceModel> Details(string listingId, string userId)
+        public async Task<ListingDetailsServiceModel> Details(string listingId, string auctionId)
              => await dbContext
              .Vehicles
-             .Where(v => v.Id == listingId)
+             .Where(v => v.Id == listingId && v.AuctionId == auctionId)
              .ProjectTo<ListingDetailsServiceModel>(mapper)
              .FirstOrDefaultAsync();
 

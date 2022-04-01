@@ -31,22 +31,29 @@ else
                             <li class="list-group-item"><h6 class="d-inline">Year:</h6> @listing.Year</li>
                         </ul>
                         <div class="d-flex justify-content-between mt-2">
-                            <div class="btn-group">
-                                <a type="button" class="btn btn-outline-primary" asp-controller="Listings"
+                            @if (listing.End >= DateTime.Now)
+                            {
+                                <div class="btn-group">
+                                    <a type="button" class="btn btn-outline-primary" asp-controller="Listings"
                            asp-action="Details"
                            asp-route-listingId="@listing.Id"
                            asp-route-auctionId="@listing.AuctionId">
-                                    Details
-                                </a>
-                                <a type="button" class="btn btn-outline-primary" asp-controller="Listings"
+                                        Details
+                                    </a>
+                                    <a type="button" class="btn btn-outline-primary" asp-controller="Listings"
                            asp-action="All"
                            asp-route-Id="@listing.AuctionId">
-                                    Auction
-                                </a>
-                            </div>
+                                        Auction
+                                    </a>
+                                </div>
+                            }
+                            else
+                            {
+                                <h6 class="text-danger text-center" style="margin-left: 10px;">Auction has expired!</h6>
+                            }
                             <a type="button" class="btn btn-outline-danger" asp-controller="Watchlists"
-                            asp-action="Delete"
-                            asp-route-Id="@listing.Id">Remove</a>
+                       asp-action="Delete"
+                       asp-route-Id="@listing.Id">Remove</a>
                         </div>
                     </div>
                 </div>

@@ -21,6 +21,7 @@
             this.CreateMap<Watchlist, SearchListingsServiceModel>()
                     .ForMember(dest => dest.AuctionId,opt => opt.MapFrom(src => src.Vehicle.AuctionId))
                     .ForMember(dest => dest.AuctionNumber,opt => opt.MapFrom(src => src.Vehicle.Auction.Number))
+                    .ForMember(dest => dest.End,opt => opt.MapFrom(src => src.Vehicle.Auction.End))
                     .ForMember(dest => dest.Id,opt => opt.MapFrom(src => src.Vehicle.Id))
                     .ForMember(dest => dest.Condition,opt => opt.MapFrom(src => src.Vehicle.Condition.Name))
                     .ForMember(dest => dest.Make,opt => opt.MapFrom(src => src.Vehicle.Model.Make.Name))

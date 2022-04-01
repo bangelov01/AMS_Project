@@ -6,5 +6,6 @@
     {
         public string AuctionId { get; init; }
         public int AuctionNumber { get; init; }
+        public DateTime End { get; init; }
     }
 }

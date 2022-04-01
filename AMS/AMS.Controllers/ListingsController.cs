@@ -183,10 +183,17 @@
                 return View("NoResult");
             }
 
+            var listing = await listingService.Details(listingId, auctionId);
+
+            if (listing == null)
+            {
+                return BadRequest();
+            }
+
             return View(new ListingViewModel
             {
                 Auction = auction,
-                Listing = await listingService.Details(listingId, this.User.Id()),
+                Listing = listing,
                 Bid = await bidService.HighestForListing(listingId),
                 IsWatched = await listingService.IsWatched(listingId, this.User.Id())
             });

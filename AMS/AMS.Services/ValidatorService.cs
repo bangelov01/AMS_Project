@@ -53,7 +53,6 @@
                  x.Auction.End > GetCurrentDate() &&
                  x.Price <= amount);
 
-
         public async Task<bool> DoesWatchlistExist(string listingId, string userId)
             => await dbContext
             .Watchlists
@@ -69,5 +68,6 @@
             => await dbContext
              .Models
              .AnyAsync(x => x.Id == modelId);
+
     }
 }
