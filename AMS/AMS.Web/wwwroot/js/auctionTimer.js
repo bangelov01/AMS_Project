@@ -1,6 +1,6 @@
 ﻿$(document).ready(function () {
 
-    let endDate = $("#auctionEnd").val();
+    let endDate = $('#auctionEnd').val();
 
     let countdownDate = new Date(Date.parse(endDate));
 

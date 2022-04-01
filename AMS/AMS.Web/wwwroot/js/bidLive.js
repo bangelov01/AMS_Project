@@ -1,15 +1,18 @@
 ﻿"use strict";
 
-var id = document.getElementById("listingId").value;
+$(document).ready(function () {
 
-var connection = new signalR.HubConnectionBuilder().withUrl("/bidHub").build();
+    var id = document.getElementById("listingId").value;
 
-connection.on("onBid", function (amount, user, listingId) {
+    var connection = new signalR.HubConnectionBuilder().withUrl('/bidHub').build();
 
-    if (id == listingId) {
-        document.getElementById('current').textContent = amount;
-        document.getElementById('bidName').textContent = user;
-    }
+    connection.on('onBid', function (amount, user, listingId) {
+
+        if (id == listingId) {
+            document.getElementById('current').textContent = amount;
+            document.getElementById('bidName').textContent = user;
+        }
+    });
+
+    connection.start();
 });
-
-connection.start();

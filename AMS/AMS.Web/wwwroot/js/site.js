@@ -1,17 +1,17 @@
 ﻿$(document).ready(function () {
 
-    $("#search").on("submit", function (e) {
+    $('#search').on('submit', function (e) {
 
         if (!validateInput()) {
             e.preventDefault();
             $(e.currentTarget).children().first().val("");
-            alert("Invalid Input!");
+            alert('Invalid Input!');
         }
     });
 
     function validateInput() {
 
-        let fieldValue = $("#search").children().first().val();
+        let fieldValue = $('#search').children().first().val();
 
         if (!$.trim(fieldValue) || fieldValue.length == 0) {
             return false;
@@ -20,11 +20,4 @@
             return true;
         }
     }
-
-    //$("#listingCreate").on("submit", function () {
-
-    //    if ($(this).valid()) {
-    //        alert("Listing awaits approval from Admin!");
-    //    }
-    //});
 });

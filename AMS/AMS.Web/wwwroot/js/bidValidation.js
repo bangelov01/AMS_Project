@@ -17,7 +17,7 @@
         if (!$.isNumeric(amount)
             || !$.isNumeric(starting)
             || !$.isNumeric(current)) {
-            alert("Amounts must be numbers!")
+            alert('Amounts must be numbers!')
             return false;
         }
         else if (parseFloat(amount) <= parseFloat(current) || parseFloat(starting) > parseFloat(amount)) {
