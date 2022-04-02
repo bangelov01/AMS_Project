@@ -67,6 +67,14 @@
                     .ForMember(dest => dest.Make,opt => opt.MapFrom(src => src.Model.Make.Name))
                     .ForMember(dest => dest.Model, opt => opt.MapFrom(src => src.Model.Name))
                     .ForMember(dest => dest.Condition,opt => opt.MapFrom(src => src.Condition.Name));
+
+            this.CreateMap<Vehicle, MyListingsServiceModel>()
+                    .ForMember(dest => dest.Make, opt => opt.MapFrom(src => src.Model.Make.Name))
+                    .ForMember(dest => dest.Model, opt => opt.MapFrom(src => src.Model.Name))
+                    .ForMember(dest => dest.Condition, opt => opt.MapFrom(src => src.Condition.Name))
+                    .ForMember(dest => dest.Start, opt => opt.MapFrom(src => src.Auction.Start))
+                    .ForMember(dest => dest.End, opt => opt.MapFrom(src => src.Auction.End))
+                    .ForMember(dest => dest.HighestBid, opt => opt.MapFrom(src => src.Bids.OrderByDescending(b => b.Amount).Take(1).Select(b => b.Amount).FirstOrDefault()));
         }
     }
 }

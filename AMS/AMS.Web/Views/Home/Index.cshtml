@@ -73,15 +73,9 @@
                     <div class="card h-100 shadow">
                         <img src="@p.ImageUrl" style="height: 100%!important;"></img>
                         <div class="card-body">
-                            <h4 class="card-title text-center">@p.Make - @p.Model</h4>
+                            <h4 class="card-title text-center fst-italic">@p.Make - @p.Model</h4>
                             <p class="card-text">Vehicle condition - @p.Condition and Year - @p.Year.</p>
                             <div class="d-flex justify-content-between align-items-center">
-                                @if (User.Id() != null)
-                                {
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-sm btn-outline-secondary">Details</button>
-                                    </div>
-                                }
                             </div>
                         </div>
                     </div>

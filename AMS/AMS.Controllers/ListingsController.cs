@@ -98,7 +98,7 @@
 
             TempData[SuccessMessageKey] = "Listing was created successfully and awaits approval!";
 
-            return RedirectToAction(nameof(All), new { Id = Id });
+            return RedirectToAction(nameof(Mine));
         }
 
         [AllowAnonymous]
@@ -197,6 +197,14 @@
                 Bid = await bidService.HighestForListing(listingId),
                 IsWatched = await listingService.IsWatched(listingId, this.User.Id())
             });
+        }
+
+
+        public async Task<IActionResult> Mine()
+        {
+            var myListings = await listingService.Mine(this.User.Id());
+
+            return View(myListings);
         }
     }
 }

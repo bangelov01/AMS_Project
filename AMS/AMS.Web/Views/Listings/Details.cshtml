@@ -30,7 +30,7 @@
     <div class="col-md-6">
         <div class="card h-100 border-secondary shadow rounded">
             <div class="card-body">
-                <h3 class="card-title text-center">Listing Details:</h3>
+                <h3 class="card-title text-center fst-italic">Listing Details:</h3>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item"><h6 class="d-inline">Type: </h6>@Model.Listing.Type</li>
                     <li class="list-group-item"><h6 class="d-inline">Condition: </h6>@Model.Listing.Condition</li>
@@ -62,7 +62,7 @@
     <div class="col-md-6">
         <div class="card border-secondary shadow rounded">
             <div class="card-body">
-                <h3 class="card-title text-center">Bid Details:</h3>
+                <h3 class="card-title text-center fst-italic">Bid Details:</h3>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item"><h6 class="d-inline">Starting Price: </h6><span id="starting">@Model.Listing.Price.ToString("f2")</span></li>
                     <li class="list-group-item"><h6 class="d-inline">Current Bid: </h6><span id="current">@(Model.Bid == null ? 0 : Model.Bid.Amount.ToString("f2"))</span></li>

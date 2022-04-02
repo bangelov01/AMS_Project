@@ -4,6 +4,7 @@
 
     public class ListingDetailsServiceModel : ListingsServiceModel
     {
+
         public string UserId { get; init; }
 
         public string Type { get; init; }

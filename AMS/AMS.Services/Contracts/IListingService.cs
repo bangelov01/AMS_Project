@@ -13,6 +13,8 @@
             string auctionId,
             int modelId,
             string userId);
+
+        public Task<IEnumerable<MyListingsServiceModel>> Mine(string userId);
         public Task<ListingDetailsServiceModel> Details(string listingId, string auctionId);
         public Task<IEnumerable<ListingsServiceModel>> ApprovedPerPage(string Id, int currentPage, int listingsPerPage);
         public Task<IEnumerable<SearchListingsServiceModel>> Search(string searchString);

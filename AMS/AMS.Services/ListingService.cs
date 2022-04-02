@@ -54,6 +54,14 @@
             await dbContext.SaveChangesAsync();
         }
 
+        public async Task<IEnumerable<MyListingsServiceModel>> Mine(string userId)
+            => await dbContext
+            .Vehicles
+            .Where(v => v.UserId == userId && v.Auction.End > GetCurrentDate())
+            .OrderBy(o => o.IsApproved)
+            .ProjectTo<MyListingsServiceModel>(mapper)
+            .ToArrayAsync();
+
         public async Task<ListingDetailsServiceModel> Details(string listingId, string auctionId)
              => await dbContext
              .Vehicles
