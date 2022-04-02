@@ -70,7 +70,7 @@
             @foreach (var p in Model.Preview)
             {
                 <div class="col-sm-3 @(Model.Preview.Count() < 3 ? "col-centered" : string.Empty)">
-                    <div class="card h-100 shadow">
+                    <div class="card h-100 shadow rounded">
                         <img src="@p.ImageUrl" style="height: 100%!important;"></img>
                         <div class="card-body">
                             <h4 class="card-title text-center fst-italic">@p.Make - @p.Model</h4>
