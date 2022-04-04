@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AMS.Services", "AMS.Service
 		{21FD35B4-3224-4F24-849D-5D32108D365A} = {21FD35B4-3224-4F24-849D-5D32108D365A}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AMS.Tests", "AMS.Tests\AMS.Tests.csproj", "{C35AE409-4D70-4AC5-8BED-E64F460A8BA7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AMS.Tests", "AMS.Tests\AMS.Tests.csproj", "{46125507-33B7-4A5C-A930-D86435EECB4F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,10 +41,10 @@ Global
 		{A30A0FA7-3395-4715-9C7B-75FCF33308C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A30A0FA7-3395-4715-9C7B-75FCF33308C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A30A0FA7-3395-4715-9C7B-75FCF33308C2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C35AE409-4D70-4AC5-8BED-E64F460A8BA7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C35AE409-4D70-4AC5-8BED-E64F460A8BA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C35AE409-4D70-4AC5-8BED-E64F460A8BA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C35AE409-4D70-4AC5-8BED-E64F460A8BA7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{46125507-33B7-4A5C-A930-D86435EECB4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46125507-33B7-4A5C-A930-D86435EECB4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46125507-33B7-4A5C-A930-D86435EECB4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46125507-33B7-4A5C-A930-D86435EECB4F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
