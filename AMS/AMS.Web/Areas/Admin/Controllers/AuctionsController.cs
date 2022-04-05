@@ -10,13 +10,10 @@
     public class AuctionsController : AdminController
     {
         private readonly IAuctionService auctionService;
-        private readonly IValidatorService validatorService;
 
-        public AuctionsController(IAuctionService auctionService,
-            IValidatorService validatorService)
+        public AuctionsController(IAuctionService auctionService)
         {
             this.auctionService = auctionService;
-            this.validatorService = validatorService;
         }
 
         public IActionResult Create()
@@ -75,6 +72,11 @@
         [HttpPost]
         public async Task<IActionResult> Edit(string Id, AuctionFormModel auction)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(auction);
+            }
+
             await auctionService.Edit(Id,
                 auction.Number,
                 auction.Description,

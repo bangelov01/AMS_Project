@@ -26,7 +26,7 @@
         }
 
         [Fact]
-        public async Task IndexShouldReturnViewWithCorrectModel()
+        public async Task Index_ReturnsViewResult_WithHomeViewModel()
         {
             var mapper = MapperMock.Instance;
 
@@ -47,7 +47,7 @@
 
             Assert.Equal(3, indexViewModel.Preview.Count());
             Assert.Equal(5, indexViewModel.Statistics.TotalListings);
-            Assert.Equal(1, indexViewModel.Statistics.TotalAuctions);
+            Assert.Equal(2, indexViewModel.Statistics.TotalAuctions);
             Assert.Equal(1, indexViewModel.Statistics.TotalUsers);
         }
     }
