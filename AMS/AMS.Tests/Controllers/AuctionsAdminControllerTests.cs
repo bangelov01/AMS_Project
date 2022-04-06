@@ -30,19 +30,21 @@
         private readonly AuctionService auctionService;
         private readonly AuctionsController auctionsController;
 
+        private const string auctionTestId = "TestAuctionId0";
+
         public AuctionsAdminControllerTests()
         {
-            data = Initialize();
-            mapper = MapperMock.Instance;
-            addressService = new AddressService(data);
-            auctionService = new AuctionService(data, addressService, mapper);
-            auctionsController = new AuctionsController(auctionService);
+            this.data = Initialize();
+            this.mapper = MapperMock.Instance;
+            this.addressService = new AddressService(data);
+            this.auctionService = new AuctionService(data, addressService, mapper);
+            this.auctionsController = new AuctionsController(auctionService);
 
         }
 
         public void Dispose()
         {
-            data.Dispose();
+            this.data.Dispose();
         }
 
         [Fact]
@@ -111,9 +113,7 @@
         [Fact]
         public async Task Edit_ReturnsViewResult_WithAuctionFormModel()
         {
-            var auctionId = "TestAuctionId0";
-
-            var result = await auctionsController.Edit(auctionId);
+            var result = await auctionsController.Edit(auctionTestId);
 
             Assert.NotNull(result);
             var viewResult = Assert.IsType<ViewResult>(result);
@@ -125,11 +125,9 @@
         [Fact]
         public async Task EditPost_EditsEntity_AndReturnsRedirectToActionResult()
         {
-            var auctionId = "TestAuctionId0";
-
             var testForm = new AuctionFormModel{ Number = 40 };
 
-            var result = await auctionsController.Edit(auctionId, testForm);
+            var result = await auctionsController.Edit(auctionTestId, testForm);
 
             Assert.NotNull(result);
 
@@ -144,13 +142,11 @@
         [Fact]
         public async Task EditPost_ReturnsSameForm_WithInvalidState()
         {
-            var auctionId = "TestAuctionId0";
-
             var testForm = new AuctionFormModel();
 
             auctionsController.ModelState.AddModelError("test", "test");
 
-            var result = await auctionsController.Edit(auctionId, testForm);
+            var result = await auctionsController.Edit(auctionTestId, testForm);
 
             Assert.NotNull(result);
 

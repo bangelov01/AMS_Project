@@ -2,9 +2,11 @@
 {
     using System;
     using System.Threading.Tasks;
+    using System.Linq;
 
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Routing;
+    using Microsoft.EntityFrameworkCore;
 
     using AutoMapper;
     using Xunit;
@@ -19,8 +21,6 @@
     using AMS.Tests.Mocks;
 
     using static AMS.Tests.Database.DatabaseInitialize;
-    using System.Linq;
-    using Microsoft.EntityFrameworkCore;
 
     public class AuctionsControllerTests : IDisposable
     {
@@ -32,16 +32,16 @@
 
         public AuctionsControllerTests()
         {
-            data = Initialize();
-            mapper = MapperMock.Instance;
-            addressService = new AddressService(data);
-            auctionService = new AuctionService(data, addressService, mapper);
-            auctionsController = new AuctionsController(auctionService);
+            this.data = Initialize();
+            this.mapper = MapperMock.Instance;
+            this.addressService = new AddressService(data);
+            this.auctionService = new AuctionService(data, addressService, mapper);
+            this.auctionsController = new AuctionsController(auctionService);
         }
 
         public void Dispose()
         {
-            data.Dispose();
+            this.data.Dispose();
         }
 
         [Fact]

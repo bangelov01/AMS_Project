@@ -13,7 +13,7 @@
             var data = DatabaseMock.Instance;
 
             data.Makes.Add(new Make { Id = 1, Name = "TestMake" });
-            data.VehicleTypes.Add(new VehicleType { Id = 1, Name = "TestVehicleType" });
+            data.VehicleTypes.AddRange(Enumerable.Range(1,4).Select(i => new VehicleType { Id = i, Name = "TestVehicleType" }));
             data.Models.Add(new Model { Id = 1, Name = "TestModel", MakeId = 1, VehicleTypeId = 1 });
             data.Conditions.Add(new Condition { Id = 1, Name = "TestCondition" });
 
@@ -35,7 +35,7 @@
                 Number = i
             }));
 
-            data.Users.Add(new User { Id = "TestUserId" });
+            data.Users.AddRange(Enumerable.Range(0,2).Select(i => new User { Id = $"TestUser{i}", UserName = $"TestUsername{i}" }));
 
             data.Vehicles.AddRange(Enumerable.Range(0, 5).Select(i => new Vehicle
             {
@@ -44,10 +44,19 @@
                 ConditionId = 1,
                 AuctionId = "TestAuctionId0",
                 Description = "TestDescription",
-                UserId = "TestUserId",
+                UserId = "TestUser0",
                 ImageUrl = "TestUrl",
                 IsApproved = true,
                 Price = 1000,
+            }));
+
+            data.Bids.AddRange(Enumerable.Range(0, 5).Select(i => new Bid
+            {
+                Id = $"TestBid{i}",
+                Amount = 100 + i,
+                Number = i,
+                VehicleId = $"TestVehicleId0",
+                UserId = "TestUser1",
             }));
 
             data.SaveChanges();
