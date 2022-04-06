@@ -1,20 +1,25 @@
 ﻿namespace AMS.Tests.Controllers
 {
-    using AMS.Data;
-    using AMS.Data.Models;
-    using AMS.Services;
-    using AMS.Services.Models.Auctions;
-    using AMS.Tests.Mocks;
-    using AMS.Web.Areas.Admin.Controllers;
-    using AMS.Web.Areas.Admin.Models;
-    using AutoMapper;
-    using Microsoft.AspNetCore.Mvc;
-    using Microsoft.EntityFrameworkCore;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
+
+    using AutoMapper;
     using Xunit;
+
+    using AMS.Data;
+
+    using AMS.Services;
+    using AMS.Services.Models.Auctions;
+
+    using AMS.Web.Areas.Admin.Controllers;
+    using AMS.Web.Areas.Admin.Models;
+
+    using AMS.Tests.Mocks;
     using static AMS.Tests.Database.DatabaseInitialize;
 
     public class AuctionsAdminControllerTests : IDisposable
@@ -65,16 +70,7 @@
         [Fact]
         public async Task CreatePost_ReturnsSameForm_WithInvalidState()
         {
-            var testForm = new AuctionFormModel
-            {
-                AddressText = "testtesttesttest",
-                City = "TestCity",
-                Country = "TestCountry",
-                Description = "testtesttesttesttesttesttest",
-                Number = 1,
-                Start = DateTime.Now,
-                End = DateTime.Now.AddDays(2000),
-            };
+            var testForm = new AuctionFormModel{ Number = 1 };
 
             var result = await auctionsController.Create(testForm);
 
@@ -89,24 +85,15 @@
         [Fact]
         public async Task CreatePost_CreatesEntity_AndReturnsRedirectToActionResult()
         {
-            var testForm = new AuctionFormModel
-            {
-                AddressText = "testtesttesttest",
-                City = "TestCity",
-                Country = "TestCountry",
-                Description = "testtesttesttesttesttesttest",
-                Number = 2,
-                Start = DateTime.Now,
-                End = DateTime.Now.AddDays(2000),
-            };
+            var testForm = new AuctionFormModel { Number = 40 };
 
             var result = await auctionsController.Create(testForm);
 
             Assert.NotNull(result);
-
             var redirectResult = Assert.IsType<RedirectToActionResult>(result);
             Assert.Null(redirectResult.ControllerName);
             Assert.Equal("All", redirectResult.ActionName);
+            Assert.True(await data.Auctions.AnyAsync(a => a.Number == 40));
         }
 
         [Theory]
@@ -130,7 +117,9 @@
 
             Assert.NotNull(result);
             var viewResult = Assert.IsType<ViewResult>(result);
-            Assert.IsType<AuctionFormModel>(viewResult.Model);
+            var editViewModel = Assert.IsType<AuctionFormModel>(viewResult.Model);
+
+            Assert.Equal(0, editViewModel.Number);
         }
 
         [Fact]
@@ -138,16 +127,7 @@
         {
             var auctionId = "TestAuctionId0";
 
-            var testForm = new AuctionFormModel
-            {
-                AddressText = "testtesttesttest",
-                City = "TestCity",
-                Country = "TestCountry",
-                Description = "testtesttesttesttesttesttest",
-                Number = 2,
-                Start = DateTime.Now,
-                End = DateTime.Now.AddDays(2000),
-            };
+            var testForm = new AuctionFormModel{ Number = 40 };
 
             var result = await auctionsController.Edit(auctionId, testForm);
 
@@ -158,6 +138,7 @@
             Assert.Equal("Auctions", redirectResult.ControllerName);
             Assert.Equal("All", redirectResult.ActionName);
             Assert.Equal("Admin", redirectResult.RouteValues["area"]);
+            Assert.True(await data.Auctions.AnyAsync(a => a.Number == 40));
         }
 
         [Fact]
