@@ -1,4 +1,4 @@
-﻿namespace AMS.Tests.Controllers
+﻿namespace AMS.Tests.Tests
 {
     using System.Linq;
     using System.Threading.Tasks;
@@ -16,11 +16,11 @@
     using AMS.Tests.Database;
     using AMS.Tests.Mocks;
 
-    public class HomeControllerTests : IClassFixture<DatabaseFixture>
+    public class HomeTests : IClassFixture<DatabaseFixture>
     {
         private readonly DatabaseFixture fixture;
 
-        public HomeControllerTests(DatabaseFixture fixture)
+        public HomeTests(DatabaseFixture fixture)
         {
             this.fixture = fixture;
         }

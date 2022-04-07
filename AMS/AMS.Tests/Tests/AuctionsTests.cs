@@ -1,4 +1,4 @@
-﻿namespace AMS.Tests.Controllers
+﻿namespace AMS.Tests.Tests
 {
     using System;
     using System.Threading.Tasks;
@@ -8,7 +8,6 @@
     using Microsoft.AspNetCore.Routing;
     using Microsoft.EntityFrameworkCore;
 
-    using AutoMapper;
     using Xunit;
 
     using AMS.Controllers;
@@ -22,21 +21,15 @@
 
     using static AMS.Tests.Database.DatabaseInitialize;
 
-    public class AuctionsControllerTests : IDisposable
+    public class AuctionsTests : IDisposable
     {
         private readonly AMSDbContext data;
-        private readonly IMapper mapper;
-        private readonly AddressService addressService;
-        private readonly AuctionService auctionService;
         private readonly AuctionsController auctionsController;
 
-        public AuctionsControllerTests()
+        public AuctionsTests()
         {
             this.data = Initialize();
-            this.mapper = MapperMock.Instance;
-            this.addressService = new AddressService(data);
-            this.auctionService = new AuctionService(data, addressService, mapper);
-            this.auctionsController = new AuctionsController(auctionService);
+            this.auctionsController = new AuctionsController(new AuctionService(data, new AddressService(data), MapperMock.Instance));
         }
 
         public void Dispose()

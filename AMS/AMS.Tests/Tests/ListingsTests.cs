@@ -1,4 +1,4 @@
-﻿namespace AMS.Tests.Controllers
+﻿namespace AMS.Tests.Tests
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -24,36 +24,28 @@
     using AMS.Tests.Mocks;
     using AMS.Tests.Database;
 
-    public class ListingsControllerTests : IClassFixture<DatabaseFixture>
+    using static AMS.Tests.Mocks.ControllerContextMock;
+
+    public class ListingsTests : IClassFixture<DatabaseFixture>
     {
         private readonly DatabaseFixture fixture;
 
         private readonly IMapper mapper;
-        private readonly AddressService addressService;
-        private readonly AuctionService auctionService;
-        private readonly ValidatorService validatorService;
-        private readonly ListingService listingService;
-        private readonly BidService bidService;
-
         private readonly ListingsController listingsController;
 
         private const string auctionTestId = "TestAuctionId0";
 
-        public ListingsControllerTests(DatabaseFixture fixture)
+        public ListingsTests(DatabaseFixture fixture)
         {
             this.fixture = fixture;
-
             this.mapper = MapperMock.Instance;
-            this.addressService = new AddressService(fixture.data);
-            this.auctionService = new AuctionService(fixture.data, addressService, mapper);
-            this.validatorService = new ValidatorService(fixture.data);
-            this.listingService = new ListingService(fixture.data, mapper);
-            this.bidService = new BidService(fixture.data);
 
-            this.listingsController = new ListingsController(listingService,
-                validatorService,
-                auctionService,
-                bidService);
+            this.listingsController = new ListingsController(new ListingService(fixture.data, mapper),
+                new ValidatorService(fixture.data),
+                new AuctionService(fixture.data, new AddressService(fixture.data), mapper),
+                new BidService(fixture.data));
+
+            this.listingsController.ControllerContext = ControllerContextInstance("TestUsername0", "TestUser0");
         }
 
         [Theory]
@@ -171,13 +163,6 @@
         {
             var currentCount = await fixture.data.Vehicles.CountAsync();
 
-            var claimsMock = Mock.Of<ClaimsPrincipal>();
-
-            listingsController.ControllerContext = new ControllerContext()
-            {
-                HttpContext = new DefaultHttpContext() { User = claimsMock }
-            };
-
             listingsController.TempData = Mock.Of<ITempDataDictionary>();
 
             var testForm = new ListingsFormModel { ConditionId = 1, ModelId = 1, Description = "newListing" };
@@ -190,6 +175,18 @@
             Assert.Equal("Mine", redirectResult.ActionName);
             Assert.NotEqual(currentCount, await fixture.data.Vehicles.CountAsync());
             Assert.True(await fixture.data.Vehicles.AnyAsync(v => v.Description == "newListing"));
+        }
+
+        [Fact]
+        public async Task Mine_ReturnsViewResult_WithMyListingsServiceModel()
+        {
+            var result = await listingsController.Mine();
+
+            Assert.NotNull(result);
+            var viewResult = Assert.IsType<ViewResult>(result);
+            var model = Assert.IsAssignableFrom<IEnumerable<MyListingsServiceModel>>(viewResult.Model);
+
+            Assert.Equal(6, model.Count());
         }
 
         [Theory]
@@ -329,13 +326,6 @@
         [Fact]
         public async Task Details_ReturnsViewResult_WithValidData_AndListingViewModel()
         {
-            var claimsMock = Mock.Of<ClaimsPrincipal>();
-
-            listingsController.ControllerContext = new ControllerContext()
-            {
-                HttpContext = new DefaultHttpContext() { User = claimsMock }
-            };
-
             var result = await listingsController.Details(auctionTestId, "TestVehicleId0");
 
             Assert.NotNull(result);
@@ -349,31 +339,7 @@
             Assert.Equal(auctionTestId, model.Auction.Id);
             Assert.Equal("TestVehicleId0", model.Listing.Id);
             Assert.Equal(104, model.Bid.Amount);
-            Assert.True(!model.IsWatched);
-        }
-
-        [Fact]
-        public async Task Mine_ReturnsViewResult_WithMyListingsServiceModel()
-        {
-            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
-            {
-                new Claim(ClaimTypes.Name, "TestUsername0"),
-                new Claim(ClaimTypes.NameIdentifier, "TestUser0")
-
-            }, "mock"));
-
-            listingsController.ControllerContext = new ControllerContext()
-            {
-                HttpContext = new DefaultHttpContext() { User = user }
-            };
-
-            var result = await listingsController.Mine();
-
-            Assert.NotNull(result);
-            var viewResult = Assert.IsType<ViewResult>(result);
-            var model = Assert.IsAssignableFrom<IEnumerable<MyListingsServiceModel>>(viewResult.Model);
-
-            Assert.Equal(5, model.Count());
+            Assert.True(model.IsWatched);
         }
     }
 }

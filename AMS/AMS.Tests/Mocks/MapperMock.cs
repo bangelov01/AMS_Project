@@ -1,7 +1,8 @@
 ﻿namespace AMS.Tests.Mocks
 {
-    using AMS.Services.Infrastructure;
     using AutoMapper;
+
+    using AMS.Services.Infrastructure;
 
     public class MapperMock
     {

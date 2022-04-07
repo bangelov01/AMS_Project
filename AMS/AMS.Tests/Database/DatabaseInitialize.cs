@@ -61,6 +61,8 @@
                 UserId = "TestUser1",
             }));
 
+            data.Watchlists.AddRange(Enumerable.Range(0, 2).Select(i => new Watchlist { UserId = "TestUser0", VehicleId = $"TestVehicleId{i}" }));
+
             data.SaveChanges();
 
             return data;

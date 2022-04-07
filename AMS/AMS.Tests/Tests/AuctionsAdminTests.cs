@@ -1,4 +1,4 @@
-﻿namespace AMS.Tests.Controllers
+﻿namespace AMS.Tests.Tests
 {
     using System;
     using System.Collections.Generic;
@@ -7,35 +7,35 @@
 
     using Microsoft.AspNetCore.Mvc;
 
-    using AutoMapper;
     using Xunit;
 
     using AMS.Services;
     using AMS.Services.Models.Auctions;
 
+    using AMS.Data;
+
     using AMS.Web.Areas.Admin.Controllers;
     using AMS.Web.Areas.Admin.Models;
 
     using AMS.Tests.Mocks;
-    using AMS.Tests.Database;
+    using static AMS.Tests.Database.DatabaseInitialize;
 
-    public class AuctionsAdminControllerTests : IClassFixture<DatabaseFixture>
+    public class AuctionsAdminTests : IDisposable
     {
-        private readonly DatabaseFixture fixture;
-        private readonly IMapper mapper;
-        private readonly AddressService addressService;
-        private readonly AuctionService auctionService;
+        private readonly AMSDbContext data;
         private readonly AuctionsController auctionsController;
 
         private const string auctionTestId = "TestAuctionId0";
 
-        public AuctionsAdminControllerTests(DatabaseFixture fixture)
+        public AuctionsAdminTests()
         {
-            this.fixture = fixture;
-            this.mapper = MapperMock.Instance;
-            this.addressService = new AddressService(fixture.data);
-            this.auctionService = new AuctionService(fixture.data, addressService, mapper);
-            this.auctionsController = new AuctionsController(auctionService);
+            this.data = Initialize();
+            this.auctionsController = new AuctionsController(new AuctionService(data, new AddressService(data), MapperMock.Instance));
+        }
+
+        public void Dispose()
+        {
+            this.data.Dispose();
         }
 
         [Fact]
@@ -73,7 +73,7 @@
             var redirectResult = Assert.IsType<RedirectToActionResult>(result);
             Assert.Null(redirectResult.ControllerName);
             Assert.Equal("All", redirectResult.ActionName);
-            Assert.Equal(testForm.Number, fixture.data.Auctions.Last().Number);
+            Assert.Equal(testForm.Number, data.Auctions.Last().Number);
         }
 
         [Fact]
@@ -86,7 +86,7 @@
 
             var model = Assert.IsAssignableFrom<IEnumerable<AllAuctionsServiceModel>>(viewResult.Model);
 
-            Assert.Equal(3, model.Count());
+            Assert.Equal(2, model.Count());
         }
 
         [Theory]
@@ -118,7 +118,7 @@
         [Fact]
         public async Task EditPost_EditsEntity_AndReturnsRedirectToActionResult()
         {
-            var testForm = new AuctionFormModel{ Number = 45 };
+            var testForm = new AuctionFormModel{ Number = 40 };
 
             var result = await auctionsController.Edit(auctionTestId, testForm);
 
@@ -129,7 +129,7 @@
             Assert.Equal("Auctions", redirectResult.ControllerName);
             Assert.Equal("All", redirectResult.ActionName);
             Assert.Equal("Admin", redirectResult.RouteValues["area"]);
-            Assert.Equal(testForm.Number, fixture.data.Auctions.Find(auctionTestId).Number);
+            Assert.Equal(testForm.Number, data.Auctions.Find(auctionTestId).Number);
         }
 
         [Fact]
