@@ -6,12 +6,9 @@
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.EntityFrameworkCore;
 
     using AutoMapper;
     using Xunit;
-
-    using AMS.Data;
 
     using AMS.Services;
     using AMS.Services.Models.Auctions;
@@ -20,11 +17,11 @@
     using AMS.Web.Areas.Admin.Models;
 
     using AMS.Tests.Mocks;
-    using static AMS.Tests.Database.DatabaseInitialize;
+    using AMS.Tests.Database;
 
-    public class AuctionsAdminControllerTests : IDisposable
+    public class AuctionsAdminControllerTests : IClassFixture<DatabaseFixture>
     {
-        private readonly AMSDbContext data;
+        private readonly DatabaseFixture fixture;
         private readonly IMapper mapper;
         private readonly AddressService addressService;
         private readonly AuctionService auctionService;
@@ -32,32 +29,13 @@
 
         private const string auctionTestId = "TestAuctionId0";
 
-        public AuctionsAdminControllerTests()
+        public AuctionsAdminControllerTests(DatabaseFixture fixture)
         {
-            this.data = Initialize();
+            this.fixture = fixture;
             this.mapper = MapperMock.Instance;
-            this.addressService = new AddressService(data);
-            this.auctionService = new AuctionService(data, addressService, mapper);
+            this.addressService = new AddressService(fixture.data);
+            this.auctionService = new AuctionService(fixture.data, addressService, mapper);
             this.auctionsController = new AuctionsController(auctionService);
-
-        }
-
-        public void Dispose()
-        {
-            this.data.Dispose();
-        }
-
-        [Fact]
-        public async Task All_ReturnsViewResult_WithAListOfAllAuctionsServiceModel()
-        {
-            var result = await auctionsController.All();
-
-            Assert.NotNull(result);
-            var viewResult = Assert.IsType<ViewResult>(result);
-
-            var model = Assert.IsAssignableFrom<IEnumerable<AllAuctionsServiceModel>>(viewResult.Model);
-
-            Assert.Equal(2, model.Count());
         }
 
         [Fact]
@@ -95,7 +73,20 @@
             var redirectResult = Assert.IsType<RedirectToActionResult>(result);
             Assert.Null(redirectResult.ControllerName);
             Assert.Equal("All", redirectResult.ActionName);
-            Assert.True(await data.Auctions.AnyAsync(a => a.Number == 40));
+            Assert.Equal(testForm.Number, fixture.data.Auctions.Last().Number);
+        }
+
+        [Fact]
+        public async Task All_ReturnsViewResult_WithAListOfAllAuctionsServiceModel()
+        {
+            var result = await auctionsController.All();
+
+            Assert.NotNull(result);
+            var viewResult = Assert.IsType<ViewResult>(result);
+
+            var model = Assert.IsAssignableFrom<IEnumerable<AllAuctionsServiceModel>>(viewResult.Model);
+
+            Assert.Equal(3, model.Count());
         }
 
         [Theory]
@@ -120,12 +111,14 @@
             var editViewModel = Assert.IsType<AuctionFormModel>(viewResult.Model);
 
             Assert.Equal(0, editViewModel.Number);
+            Assert.Equal("TestDescription", editViewModel.Description);
+            Assert.Equal("TestCity", editViewModel.City);
         }
 
         [Fact]
         public async Task EditPost_EditsEntity_AndReturnsRedirectToActionResult()
         {
-            var testForm = new AuctionFormModel{ Number = 40 };
+            var testForm = new AuctionFormModel{ Number = 45 };
 
             var result = await auctionsController.Edit(auctionTestId, testForm);
 
@@ -136,7 +129,7 @@
             Assert.Equal("Auctions", redirectResult.ControllerName);
             Assert.Equal("All", redirectResult.ActionName);
             Assert.Equal("Admin", redirectResult.RouteValues["area"]);
-            Assert.True(await data.Auctions.AnyAsync(a => a.Number == 40));
+            Assert.Equal(testForm.Number, fixture.data.Auctions.Find(auctionTestId).Number);
         }
 
         [Fact]

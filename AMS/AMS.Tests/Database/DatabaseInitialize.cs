@@ -1,10 +1,12 @@
 ﻿namespace AMS.Tests.Database
 {
-    using AMS.Data;
-    using AMS.Data.Models;
-    using AMS.Tests.Mocks;
     using System;
     using System.Linq;
+
+    using AMS.Data;
+    using AMS.Data.Models;
+
+    using AMS.Tests.Mocks;
 
     public static class DatabaseInitialize
     {
@@ -29,7 +31,7 @@
             {
                 Id = $"TestAuctionId{i}",
                 AddressId = $"TestAddressId{i}",
-                Description = "TestDescrioption",
+                Description = "TestDescription",
                 Start = DateTime.Now,
                 End = DateTime.Now.AddDays(2000),
                 Number = i

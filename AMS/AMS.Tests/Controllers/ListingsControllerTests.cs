@@ -180,7 +180,7 @@
 
             listingsController.TempData = Mock.Of<ITempDataDictionary>();
 
-            var testForm = new ListingsFormModel { ConditionId = 1, ModelId = 1 };
+            var testForm = new ListingsFormModel { ConditionId = 1, ModelId = 1, Description = "newListing" };
 
             var result = await listingsController.Create(auctionTestId, testForm);
 
@@ -189,6 +189,7 @@
             Assert.Null(redirectResult.ControllerName);
             Assert.Equal("Mine", redirectResult.ActionName);
             Assert.NotEqual(currentCount, await fixture.data.Vehicles.CountAsync());
+            Assert.True(await fixture.data.Vehicles.AnyAsync(v => v.Description == "newListing"));
         }
 
         [Theory]

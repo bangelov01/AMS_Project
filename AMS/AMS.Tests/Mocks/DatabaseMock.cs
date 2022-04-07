@@ -1,8 +1,10 @@
 ﻿namespace AMS.Tests.Mocks
 {
-    using AMS.Data;
-    using Microsoft.EntityFrameworkCore;
     using System;
+
+    using Microsoft.EntityFrameworkCore;
+
+    using AMS.Data;
 
     public class DatabaseMock
     {

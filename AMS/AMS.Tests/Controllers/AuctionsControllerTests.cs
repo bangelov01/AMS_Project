@@ -60,11 +60,12 @@
 
             var allViewModel = Assert.IsType<AllAuctionsViewModel>(model);
 
+            Assert.NotNull(allViewModel.Auctions);
             Assert.Equal(2, allViewModel.Auctions.Count());
+
             Assert.Equal(2, allViewModel.Total);
 
             Assert.NotNull(allViewModel.Pagination);
-            Assert.IsType<PaginationViewModel>(allViewModel.Pagination);
 
             Assert.Equal(1, allViewModel.Pagination.CurrentPage);
             Assert.Equal(2, allViewModel.Pagination.ItemsCount);
