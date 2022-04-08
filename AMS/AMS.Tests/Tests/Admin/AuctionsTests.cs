@@ -1,4 +1,4 @@
-﻿namespace AMS.Tests.Tests
+﻿namespace AMS.Tests.Tests.Admin
 {
     using System;
     using System.Collections.Generic;
@@ -20,14 +20,14 @@
     using AMS.Tests.Mocks;
     using static AMS.Tests.Database.DatabaseInitialize;
 
-    public class AuctionsAdminTests : IDisposable
+    public class AuctionsTests : IDisposable
     {
         private readonly AMSDbContext data;
         private readonly AuctionsController auctionsController;
 
         private const string auctionTestId = "TestAuctionId0";
 
-        public AuctionsAdminTests()
+        public AuctionsTests()
         {
             this.data = Initialize();
             this.auctionsController = new AuctionsController(new AuctionService(data, new AddressService(data), MapperMock.Instance));

@@ -25,7 +25,7 @@
                 return BadRequest();
             }
 
-            return RedirectToAction(nameof(All), "Users");
+            return RedirectToAction(nameof(All));
         }
 
         public async Task<IActionResult> Allow(string Id)
@@ -35,7 +35,7 @@
                 return BadRequest();
             }
 
-            return RedirectToAction(nameof(All), "Users");
+            return RedirectToAction(nameof(All));
         }
     }
 }

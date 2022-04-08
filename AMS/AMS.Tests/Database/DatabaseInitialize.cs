@@ -37,7 +37,9 @@
                 Number = i
             }));
 
-            data.Users.AddRange(Enumerable.Range(0,2).Select(i => new User { Id = $"TestUser{i}", UserName = $"TestUsername{i}" }));
+            data.Users.AddRange(Enumerable.Range(0,2).Select(i => new User { Id = $"TestUser{i}",
+                UserName = $"TestUsername{i}",
+                IsSuspended = false}));
 
             data.Vehicles.AddRange(Enumerable.Range(0, 5).Select(i => new Vehicle
             {
@@ -49,7 +51,7 @@
                 UserId = "TestUser0",
                 ImageUrl = "TestUrl",
                 IsApproved = true,
-                Price = 1000,
+                Price = 100,
             }));
 
             data.Bids.AddRange(Enumerable.Range(0, 5).Select(i => new Bid

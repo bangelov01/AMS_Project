@@ -1,8 +1,10 @@
 ﻿namespace AMS.Web.Areas.Admin.Controllers
 {
-    using AMS.Services.Contracts;
-    using AMS.Web.Areas.Admin.Controllers.Base;
     using Microsoft.AspNetCore.Mvc;
+
+    using AMS.Services.Contracts;
+
+    using AMS.Web.Areas.Admin.Controllers.Base;
 
     public class HomeController : AdminController
     {
@@ -23,7 +25,7 @@
                 return BadRequest();
             }
 
-            return RedirectToAction(nameof(Index), "Home");
+            return RedirectToAction(nameof(Index));
         }
 
         public async Task<IActionResult> Delete(string Id)
@@ -33,7 +35,7 @@
                 return BadRequest();
             }
 
-            return RedirectToAction(nameof(Index), "Home");
+            return RedirectToAction(nameof(Index));
         }
     }
 }
