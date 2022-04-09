@@ -127,13 +127,11 @@
         }
 
         [Theory]
-        [InlineData(10,10)]
-        [InlineData(-1,-1)]
-        [InlineData(10,-1)]
-        [InlineData(-1,10)]
-        public async Task CreatePost_ReturnsBadRequest_WithInvalidConditionIdOrModelId(int condition, int model)
+        [InlineData(10,10,10,10)]
+        [InlineData(-1,-1,-1,-1)]
+        public async Task CreatePost_ReturnsBadRequest_WithInvalidDetailIds(int condition, int model, int type, int make)
         {
-            var testForm = new ListingsFormModel { ConditionId = condition, ModelId = model };
+            var testForm = new ListingsFormModel { ConditionId = condition, ModelId = model, TypeId = type, MakeId = make };
 
             var result = await listingsController.Create(auctionTestId, testForm);
 
@@ -146,7 +144,7 @@
         {
             listingsController.ModelState.AddModelError("test", "test");
 
-            var testForm = new ListingsFormModel { ConditionId = 1, ModelId = 1 };
+            var testForm = new ListingsFormModel { ConditionId = 1, ModelId = 1, TypeId = 1, MakeId = 1 };
 
             var result = await listingsController.Create(auctionTestId, testForm);
 
@@ -163,7 +161,7 @@
 
             listingsController.TempData = Mock.Of<ITempDataDictionary>();
 
-            var testForm = new ListingsFormModel { ConditionId = 1, ModelId = 1, Description = "newListing" };
+            var testForm = new ListingsFormModel { ConditionId = 1, ModelId = 1, TypeId = 1, MakeId = 1 };
 
             var result = await listingsController.Create(auctionTestId, testForm);
 
@@ -172,7 +170,6 @@
             Assert.Null(redirectResult.ControllerName);
             Assert.Equal("Mine", redirectResult.ActionName);
             Assert.NotEqual(currentCount, await fixture.data.Vehicles.CountAsync());
-            Assert.True(await fixture.data.Vehicles.AnyAsync(v => v.Description == "newListing"));
         }
 
         [Fact]
