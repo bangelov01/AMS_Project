@@ -22,7 +22,7 @@
 }
 
 <nav aria-label="...">
-    <ul class="pagination justify-content-center mt-5">
+    <ul class="pagination justify-content-center mt-3">
         <li class="page-item @(Model.CurrentPage == 1 ? "disabled" : string.Empty)">
             <a class="page-link" asp-controller="@Model.ControllerName" asp-action="All" asp-route-currentPage="@previousPage" asp-route-Id="@(hasId ? Model.Id : string.Empty)">Previous</a>
         </li>

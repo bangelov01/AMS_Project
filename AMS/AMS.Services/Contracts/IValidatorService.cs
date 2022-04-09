@@ -2,7 +2,7 @@
 {
     public interface IValidatorService
     {
-        public Task<bool> AreListingParamsValid(int conditionId, int modelId);
+        public Task<bool> AreListingParamsValid(int conditionId, int modelId, int makeId, int typeId);
 
         public Task<bool> IsAuctionValid(string Id);
 

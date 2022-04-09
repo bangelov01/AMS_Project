@@ -72,9 +72,9 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapDefaultAreaRoute();
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+app.MapCustomControllerRoutes();
+
+app.MapDefaultControllerRoute();
 app.MapRazorPages();
 app.MapHub<BidHub>("/bidHub");
 

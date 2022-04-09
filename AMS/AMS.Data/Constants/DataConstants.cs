@@ -5,6 +5,7 @@
         public class ErrorMessages
         {
             public const string StringLengthValidationError = "{0} must be between {2} and {1} characters long!";
+            public const string PriceValidationError = "{0} can not be negative!";
         }
 
         public class UserConstants

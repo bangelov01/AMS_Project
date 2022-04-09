@@ -25,13 +25,13 @@
 else
 {
     <p class="text-danger fst-italic text-center">*Note: Listings will automatically disappear when auction expires!</p>
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 align-items-stretch">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 align-items-stretch g-4 py-2">
         @foreach (var l in Model)
         {
             var span = l.End.Subtract(DateTime.Now);
             var timeString = $"{span.Days} d, {span.Hours} h, {span.Minutes} m.";
 
-            <div class="col-sm-4 mt-4 @(Model.Count() < 3 ? "col-centered" : string.Empty)">
+            <div class="col-sm-4 @(Model.Count() < 3 ? "col-centered" : string.Empty)">
                 <div class="card h-100 border-secondary shadow rounded">
                     <img src="@l.ImageUrl" class="card-img-top" style="height: 100%!important;">
                     <div class="card-body">

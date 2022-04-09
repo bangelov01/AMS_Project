@@ -17,10 +17,15 @@
             this.dbContext = dbContext;
         }
 
-        public async Task<bool> AreListingParamsValid(int conditionId, int modelId)
+        public async Task<bool> AreListingParamsValid(int conditionId,
+            int modelId,
+            int makeId,
+            int typeId)
         {
             if (!await ConditionExists(conditionId) ||
-                !await ModelExists(modelId))
+                !await ModelExists(modelId) ||
+                !await MakeExists(makeId) ||
+                !await TypeExists(typeId))
             {
                 return false;
             }
@@ -68,6 +73,16 @@
             => await dbContext
              .Models
              .AnyAsync(x => x.Id == modelId);
+
+        private async Task<bool> MakeExists(int makeId)
+           => await dbContext
+            .Makes
+            .AnyAsync(x => x.Id == makeId);
+
+        private async Task<bool> TypeExists(int typeId)
+           => await dbContext
+            .VehicleTypes
+            .AnyAsync(x => x.Id == typeId);
 
     }
 }

@@ -16,7 +16,8 @@
 }
 else
 {
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 align-items-stretch g-4 py-5">
+    <p class="text-danger fst-italic text-center">*Note: Listings will automatically disappear when auction expires!</p>
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 align-items-stretch g-4 py-2">
         @foreach (var listing in Model)
         {
             <div class="col-sm-4 @(Model.Count() < 3 ? "col-centered" : string.Empty)">
@@ -31,26 +32,19 @@ else
                             <li class="list-group-item"><h6 class="d-inline">Year:</h6> @listing.Year</li>
                         </ul>
                         <div class="d-flex justify-content-between mt-2">
-                            @if (listing.End >= DateTime.Now)
-                            {
-                                <div class="btn-group">
-                                    <a type="button" class="btn btn-outline-primary" asp-controller="Listings"
+                            <div class="btn-group">
+                                <a type="button" class="btn btn-outline-primary" asp-controller="Listings"
                            asp-action="Details"
                            asp-route-listingId="@listing.Id"
                            asp-route-auctionId="@listing.AuctionId">
-                                        Details
-                                    </a>
-                                    <a type="button" class="btn btn-outline-primary" asp-controller="Listings"
+                                    Details
+                                </a>
+                                <a type="button" class="btn btn-outline-primary" asp-controller="Listings"
                            asp-action="All"
                            asp-route-Id="@listing.AuctionId">
-                                        Auction
-                                    </a>
-                                </div>
-                            }
-                            else
-                            {
-                                <h6 class="text-danger text-center" style="margin-left: 10px;">Auction has expired!</h6>
-                            }
+                                    Auction
+                                </a>
+                            </div>
                             <a type="button" class="btn btn-outline-danger" asp-controller="Watchlists"
                        asp-action="Delete"
                        asp-route-Id="@listing.Id">Remove</a>

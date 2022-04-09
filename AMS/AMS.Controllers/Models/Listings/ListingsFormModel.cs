@@ -43,7 +43,7 @@
         public string Description { get; init; }
 
         [Display(Name = "Starting Price")]
-        [Range(PriceMinValue, PriceMaxValue)]
+        [Range(PriceMinValue, PriceMaxValue, ErrorMessage = PriceValidationError)]
         [DataType(DataType.Currency)]
         public decimal Price { get; init; }
 

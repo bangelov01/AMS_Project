@@ -20,7 +20,7 @@ else
        asp-page="/Account/Login">Login to view details!</a>
         </div>
     }
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 align-items-stretch g-4 py-5">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 align-items-stretch g-4 py-3">
         @foreach (var listing in Model.Listings)
         {
             <div class="col-sm-4 @(listingsCount < 3 ? "col-centered" : string.Empty)">

@@ -31,17 +31,18 @@ else
            asp-route-searchTerm="@Model.SearchTerm">Year</a>
         </div>
     </div>
+    <hr class="w-50 offset-3" />
     if (User.Id() == null)
     {
-        <div class="text-center mt-4">
+        <div class="text-center mt-2">
             <a class="btn btn-outline-danger" asp-area="Identity"
        asp-page="/Account/Login">Login to view details!</a>
         </div>
     }
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 align-items-stretch g-4 py-5">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 align-items-stretch g-4 py-3">
         @foreach (var listing in Model.Listings)
         {
-            <div class="col-sm-4 mt-2 @(listingsCount < 3 ? "col-centered" : string.Empty)">
+            <div class="col-sm-4 @(listingsCount < 3 ? "col-centered" : string.Empty)">
                 <div class="card h-100 border-secondary shadow rounded">
                     <img src="@listing.ImageUrl" class="card-img-top" style="height: 100%!important;">
                     <div class="card-body">

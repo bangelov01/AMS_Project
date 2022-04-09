@@ -72,7 +72,10 @@
         [HttpPost]
         public async Task<IActionResult> Create(string Id, ListingsFormModel listing)
         {
-            if (!await validatorService.AreListingParamsValid(listing.ConditionId, listing.ModelId))
+            if (!await validatorService.AreListingParamsValid(listing.ConditionId,
+                listing.ModelId,
+                listing.MakeId,
+                listing.TypeId))
             {
                 return BadRequest();
             }
