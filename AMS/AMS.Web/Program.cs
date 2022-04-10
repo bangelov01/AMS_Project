@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 
 using AMS.Data;
 using AMS.Data.Models;
@@ -10,7 +11,6 @@ using AMS.Services.Infrastructure;
 using AMS.Web.Infrastrucutre.Extensions;
 
 using AMS.Controllers.Hubs;
-using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 

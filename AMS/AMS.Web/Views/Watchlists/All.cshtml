@@ -31,7 +31,7 @@ else
                             <li class="list-group-item"><h6 class="d-inline">Condition:</h6> @listing.Condition</li>
                             <li class="list-group-item"><h6 class="d-inline">Year:</h6> @listing.Year</li>
                         </ul>
-                        <div class="d-flex justify-content-between mt-2">
+                        <div class="d-flex justify-content-between mt-2 flex-wrap">
                             <div class="btn-group">
                                 <a type="button" class="btn btn-outline-primary" asp-controller="Listings"
                            asp-action="Details"
@@ -45,7 +45,7 @@ else
                                     Auction
                                 </a>
                             </div>
-                            <a type="button" class="btn btn-outline-danger" asp-controller="Watchlists"
+                            <a type="button" class="btn btn-outline-danger flex-wrap" asp-controller="Watchlists"
                        asp-action="Delete"
                        asp-route-Id="@listing.Id">Remove</a>
                         </div>
