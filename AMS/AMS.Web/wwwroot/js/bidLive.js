@@ -2,7 +2,7 @@
 
 $(document).ready(function () {
 
-    var id = document.getElementById("listingId").value;
+    var id = $('#bidForm').data('id');
 
     var connection = new signalR.HubConnectionBuilder().withUrl('/bidHub').build();
 

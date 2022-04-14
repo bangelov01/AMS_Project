@@ -1,7 +1,6 @@
 ﻿@model AuctionServiceModel
 
-<div class="text-center mt-4">
-    <input type="hidden" id="auctionEnd" value="@Model.End"></input>
+<div id="auction" class="text-center mt-4" data-end="@Model.End">
     <h1 class="display-4">Auction #@Model.Number</h1>
     <h1 class="display-6">Location: @Model.City</h1>
     <h1 id="time" class="display-6"></h1>

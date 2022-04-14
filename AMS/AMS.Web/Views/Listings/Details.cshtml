@@ -69,8 +69,7 @@
                     <li class="list-group-item"><h6 class="d-inline">Bidder: </h6><span id="bidName">@(Model.Bid == null ? "None" : Model.Bid.User)</span></li>
                 </ul>
             </div>
-            <div>
-                <input type="hidden" id="listingId" name="listingId" value="@Model.Listing.Id">
+            <div id="bidForm" data-id="@Model.Listing.Id">
                 @if (!isOwnListing)
                 {
                     <form id="form" method="post" class="row g-3" style="margin-left: 30px" asp-controller="Bids"
