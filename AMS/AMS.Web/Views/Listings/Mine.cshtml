@@ -31,7 +31,7 @@ else
             var span = l.End.Subtract(DateTime.Now);
             var timeString = $"{span.Days} d, {span.Hours} h, {span.Minutes} m.";
 
-            <div class="col-sm-4 @(Model.Count() < 3 ? "col-centered" : string.Empty)" data-end="@l.End">
+            <div class="col-sm-4 @(Model.Count() < 3 ? "col-centered" : string.Empty)" data-end="@l.End" data-id="@l.Id">
                 <div class="card h-100 border-secondary shadow rounded">
                     <img src="@l.ImageUrl" class="card-img-top" style="height: 100%!important;">
                     <div class="card-body">
@@ -46,4 +46,9 @@ else
             </div>
         }
     </div>
+}
+
+@section Scripts{
+<script src="~/lib/signalr/dist/browser/signalr.js" asp-append-version="true"></script>
+<script src="~/js/bidLiveMine.js" asp-append-version="true"></script>
 }
