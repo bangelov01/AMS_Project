@@ -22,7 +22,7 @@ as many more will be added over time.
 
 ----------------------------------------------------------------------------------------------------
 
-- Database - Microsoft SQL Server
+- Database - MS SQL Server
 - ORM - Entity Framework Core
 - Application Framework - ASP.NET Core 6.0
 - Front-End - Razor Pages, Bootstrap, Vanilla JS (React in future)
