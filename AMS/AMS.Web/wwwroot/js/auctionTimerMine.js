@@ -6,9 +6,9 @@ $(document).ready(function () {
 
     for (let e of elements) {
 
-        var endDate = e.dataset.end;
+        let [day, month, year, hours, minutes] = e.dataset.end.split(/[\s\.\/\:]/);
 
-        let countdownDate = new Date(Date.parse(endDate));
+        let countdownDate = new Date(year, month, day, hours, minutes);
 
         let timer = e.children[0].children[1].children[12];
 
