@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Details Page";
 
-    bool isOwnListing = User.Id() == Model.Listing.UserId;
+    bool isOwnListing = User.Id() == Model.UserId;
 }
 
 <partial name="_ListingAuctionPartial" model="@Model.Auction" />
@@ -14,7 +14,7 @@
     </div>
     <div class="carousel-inner h-100 w-100 shadow">
         <div class="carousel-item active">
-            <img src="@Model.Listing.ImageUrl" class="d-block" width="640" height="360" alt="...">
+            <img src="@Model.ImageUrl" class="d-block" width="640" height="360" alt="...">
         </div>
     </div>
     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
@@ -32,18 +32,18 @@
             <div class="card-body">
                 <h3 class="card-title text-center fst-italic">Listing Details:</h3>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item"><h6 class="d-inline">Type: </h6>@Model.Listing.Type</li>
-                    <li class="list-group-item"><h6 class="d-inline">Condition: </h6>@Model.Listing.Condition</li>
-                    <li class="list-group-item"><h6 class="d-inline">Make: </h6>@Model.Listing.Make</li>
-                    <li class="list-group-item"><h6 class="d-inline">Model: </h6>@Model.Listing.Model</li>
-                    <li class="list-group-item"><h6 class="d-inline">Year: </h6>@Model.Listing.Year</li>
-                    <li class="list-group-item"><h6 class="d-inline">Description: </h6>@Model.Listing.Description</li>
+                    <li class="list-group-item"><h6 class="d-inline">Type: </h6>@Model.Type</li>
+                    <li class="list-group-item"><h6 class="d-inline">Condition: </h6>@Model.Condition</li>
+                    <li class="list-group-item"><h6 class="d-inline">Make: </h6>@Model.Make</li>
+                    <li class="list-group-item"><h6 class="d-inline">Model: </h6>@Model.Model</li>
+                    <li class="list-group-item"><h6 class="d-inline">Year: </h6>@Model.Year</li>
+                    <li class="list-group-item"><h6 class="d-inline">Description: </h6>@Model.Description</li>
                     @if (!isOwnListing)
                     {
                         @if (!Model.IsWatched)
                         {
                             <div class="container text-center mt-3">
-                                <a class="btn btn-primary btn-md" asp-controller="Watchlists" asp-action="Watch" asp-route-id="@Model.Listing.Id">Watch</a>
+                                <a class="btn btn-primary btn-md" asp-controller="Watchlists" asp-action="Watch" asp-route-id="@Model.Id">Watch</a>
                             </div>
                         }
                         else
@@ -64,18 +64,18 @@
             <div class="card-body">
                 <h3 class="card-title text-center fst-italic">Bid Details:</h3>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item"><h6 class="d-inline">Starting Price: </h6><span id="starting">@Model.Listing.Price.ToString("f2")</span></li>
-                    <li class="list-group-item"><h6 class="d-inline">Current Bid: </h6><span id="current">@(Model.Bid == null ? 0 : Model.Bid.Amount.ToString("f2"))</span></li>
-                    <li class="list-group-item"><h6 class="d-inline">Bidder: </h6><span id="bidName">@(Model.Bid == null ? "None" : Model.Bid.User)</span></li>
+                    <li class="list-group-item"><h6 class="d-inline">Starting Price: </h6><span id="starting">@Model.Price</span></li>
+                    <li class="list-group-item"><h6 class="d-inline">Current Bid: </h6><span id="current">@Model.BidAmount</span></li>
+                    <li class="list-group-item"><h6 class="d-inline">Bidder: </h6><span id="bidName">@Model.BidUser</span></li>
                 </ul>
             </div>
-            <div id="bidForm" data-id="@Model.Listing.Id">
+            <div id="bidForm" data-id="@Model.Id">
                 @if (!isOwnListing)
                 {
                     <form id="form" method="post" class="row g-3" style="margin-left: 30px" asp-controller="Bids"
                       asp-action="Create"
                       asp-route-auctionId="@Model.Auction.Id"
-                      asp-route-listingId="@Model.Listing.Id">
+                      asp-route-listingId="@Model.Id">
                         <div class="col-auto">
                             <input id="amount" name="amount" type="number" class="form-control" placeholder="Place your bid here.." step=".01">
                         </div>

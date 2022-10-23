@@ -6,6 +6,7 @@
     public class HomeViewModel
     {
         public StatisticsServiceModel Statistics { get; init; }
+
         public IEnumerable<ListingsServiceModel> Preview { get; init; }
     }
 }

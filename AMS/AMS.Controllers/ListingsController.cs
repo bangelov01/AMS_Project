@@ -193,13 +193,26 @@
                 return BadRequest();
             }
 
-            return View(new ListingViewModel
+            var bid = await bidService.HighestForListing(listingId);
+
+            var listingViewModel = new ListingViewModel
             {
                 Auction = auction,
-                Listing = listing,
-                Bid = await bidService.HighestForListing(listingId),
+                Id = listing.Id,
+                UserId = listing.UserId,
+                Type = listing.Type,
+                Condition = listing.Condition,
+                Make = listing.Make,
+                Model = listing.Model,
+                Price = listing.Price.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture),
+                Year = listing.Year,
+                Description = listing.Description,
+                BidUser = bid == null ? "None" : bid.User,
+                BidAmount = bid == null ? "0" : bid.Amount.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture),
                 IsWatched = await listingService.IsWatched(listingId, this.User.Id())
-            });
+            };
+
+            return View(listingViewModel);
         }
 
 

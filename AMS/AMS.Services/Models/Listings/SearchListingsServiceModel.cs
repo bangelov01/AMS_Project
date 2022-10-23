@@ -5,6 +5,7 @@
     public class SearchListingsServiceModel : ListingsServiceModel
     {
         public string AuctionId { get; init; }
+
         public int AuctionNumber { get; init; }
     }
 }
