@@ -328,12 +328,10 @@
             var model = Assert.IsType<ListingViewModel>(viewResult.Model);
 
             Assert.NotNull(model.Auction);
-            Assert.NotNull(model.Listing);
-            Assert.NotNull(model.Bid);
 
             Assert.Equal(auctionTestId, model.Auction.Id);
-            Assert.Equal("TestVehicleId0", model.Listing.Id);
-            Assert.Equal(104, model.Bid.Amount);
+            Assert.Equal("TestVehicleId0", model.Id);
+            Assert.Equal("104.00", model.BidAmount);
             Assert.True(model.IsWatched);
         }
     }
