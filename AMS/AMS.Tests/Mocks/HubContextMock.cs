@@ -15,7 +15,7 @@
                 Mock<IHubClients> mockClients = new Mock<IHubClients>();
                 mockClients.Setup(clients => clients.All).Returns(Mock.Of<IClientProxy>());
 
-                var hubContext = new Mock<IHubContext<BidHub>>();
+                Mock<IHubContext<BidHub>> hubContext = new Mock<IHubContext<BidHub>>();
                 hubContext.Setup(x => x.Clients).Returns(() => mockClients.Object);
 
                 return hubContext.Object;

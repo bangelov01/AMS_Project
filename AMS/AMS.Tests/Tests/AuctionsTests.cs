@@ -72,7 +72,7 @@
         {
             var auct = await data.Auctions.ToArrayAsync();
             data.Auctions.RemoveRange(auct);
-            data.SaveChangesAsync();
+            await data.SaveChangesAsync();
 
             var result = await auctionsController.All();
 
