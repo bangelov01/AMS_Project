@@ -11,6 +11,7 @@
     using AMS.Services.Contracts;
     using AMS.Services.Models;
     using static AMS.Services.Constants.ServicesConstants;
+    using Microsoft.EntityFrameworkCore;
 
     public class DataSeederService : IDataSeederService
     {
@@ -30,82 +31,75 @@
             this.adminDetails = adminDetails.Value;
         }
 
-        public void SeedAdministrator()
+        public async Task SeedAdministrator()
         {
-
-            Task.Run(async () => 
+            if (await roleManager.RoleExistsAsync(AdministratorRoleName))
             {
-                if (await roleManager.RoleExistsAsync(AdministratorRoleName))
-                {
-                    return;
-                }
+                return;
+            }
 
-                var role = new IdentityRole
-                {
-                    Name = AdministratorRoleName
-                };
+            var role = new IdentityRole
+            {
+                Name = AdministratorRoleName
+            };
 
-                await roleManager.CreateAsync(role);
+            await roleManager.CreateAsync(role);
 
-                var user = new User
-                {
-                    Email = adminDetails.Email,
-                    UserName = adminDetails.Username,
-                };
+            var user = new User
+            {
+                Email = adminDetails.Email,
+                UserName = adminDetails.Username,
+            };
 
-                await userManager.CreateAsync(user, adminDetails.Password);
+            await userManager.CreateAsync(user, adminDetails.Password);
 
-                await userManager.AddToRoleAsync(user, role.Name);
-
-            })
-            .GetAwaiter()
-            .GetResult();
+            await userManager.AddToRoleAsync(user, role.Name);
         }
 
-        public void SeedConditions()
+        public async Task SeedConditions()
         {
             if (dbContext.Conditions.Any())
             {
                 return;
             }
 
-            dbContext.Conditions.AddRange(new[]
-            {
+            await dbContext.Conditions.AddRangeAsync(
+            [
                 new Condition { Name = "Used" },
                 new Condition { Name = "Salvage" },
                 new Condition { Name = "Damaged" }
-            });
+            ]);
 
-            dbContext.SaveChanges();
+            await dbContext.SaveChangesAsync();
         }
 
 
-        public void SeedVehicleTypes()
+        public async Task SeedVehicleTypes()
         {
-            if (dbContext.VehicleTypes.Any())
+            if (await dbContext.VehicleTypes.AnyAsync())
             {
                 return;
             }
 
-            dbContext.VehicleTypes.AddRange(new[]
-            {
+            await dbContext.VehicleTypes.AddRangeAsync(
+            [
                 new VehicleType { Name = "Car" },
                 new VehicleType { Name = "Motorbike" },
                 new VehicleType { Name = "Truck" },
-            });
+            ]);
 
-            dbContext.SaveChanges();
+            await dbContext.SaveChangesAsync();
         }
 
-        public void SeedMakes()
+        public async Task SeedMakes()
         {
-            if (dbContext.Makes.Any())
+            if (await dbContext.Makes.AnyAsync())
             {
                 return;
             }
 
-            dbContext.Makes.AddRange(new[]
-            {
+            await dbContext.Makes.AddRangeAsync(
+            [
                 new Make { Name = "Audi"},
                 new Make { Name = "BMW"},
                 new Make { Name = "Toyota"},
@@ -114,20 +108,20 @@
                 new Make { Name = "Kawazaki"},
                 new Make { Name = "MAN"},
                 new Make { Name = "Mercedes"},
-            });
+            ]);
 
             dbContext.SaveChanges();
         }
 
-        public void SeedModels()
+        public async Task SeedModels()
         {
-            if (dbContext.Models.Any())
+            if (await dbContext.Models.AnyAsync())
             {
                 return;
             }
 
-            dbContext.Models.AddRange(new[]
-            {
+            await dbContext.Models.AddRangeAsync(
+            [
                 new Model { VehicleTypeId = 1, MakeId = 1, Name = "A3"},
                 new Model { VehicleTypeId = 1, MakeId = 1, Name = "A4"},
                 new Model { VehicleTypeId = 1, MakeId = 2, Name = "330d"},
@@ -152,9 +146,9 @@
 
                 new Model { VehicleTypeId = 3, MakeId = 8, Name = "Actros L"},
                 new Model { VehicleTypeId = 3, MakeId = 8, Name = "Unimog"},
-            });
+            ]);
 
-            dbContext.SaveChanges();
+            await dbContext.SaveChangesAsync();
         }
     }
 }

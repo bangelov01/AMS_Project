@@ -50,7 +50,7 @@ var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 
-app.PrepareDatabase();
+await app.PrepareDatabase();
 
 if (app.Environment.IsDevelopment())
 {

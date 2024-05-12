@@ -2,10 +2,10 @@
 {
     public interface IDataSeederService
     {
-        public void SeedConditions();
-        public void SeedAdministrator();
-        public void SeedVehicleTypes();
-        public void SeedModels();
-        public void SeedMakes();
+        public Task SeedConditions();
+        public Task SeedAdministrator();
+        public Task SeedVehicleTypes();
+        public Task SeedModels();
+        public Task SeedMakes();
     }
 }

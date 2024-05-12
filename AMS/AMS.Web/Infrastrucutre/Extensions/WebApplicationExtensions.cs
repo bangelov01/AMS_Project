@@ -9,15 +9,15 @@
 
     public static class WebApplicationExtensions
     {
-        public static WebApplication PrepareDatabase(this WebApplication app)
+        public static async Task<WebApplication> PrepareDatabase(this WebApplication app)
         {
-            using var scopedServices = app.Services.CreateScope();
+            using var scopedServices = app.Services.CreateAsyncScope();
 
             var serviceProvider = scopedServices.ServiceProvider;
            
-            Migrate(serviceProvider);
+            await Migrate(serviceProvider);
 
-            Seed(serviceProvider);
+            await Seed(serviceProvider);
 
             return app;
         }
@@ -37,26 +37,26 @@
             return builder;
         }
 
-        private static void Migrate(IServiceProvider provider)
+        private static async Task Migrate(IServiceProvider provider)
         {
             var data = provider.GetRequiredService<AMSDbContext>();
 
-            data.Database.Migrate();
+            await data.Database.MigrateAsync();
         }
 
-        private static void Seed(IServiceProvider provider)
+        private static async Task Seed(IServiceProvider provider)
         {
             var seeder = provider.GetRequiredService<IDataSeederService>();
 
-            seeder.SeedConditions();
+            await seeder.SeedConditions();
 
-            seeder.SeedVehicleTypes();
+            await seeder.SeedVehicleTypes();
 
-            seeder.SeedAdministrator();
+            await seeder.SeedAdministrator();
 
-            seeder.SeedMakes();
+            await seeder.SeedMakes();
 
-            seeder.SeedModels();
+            await seeder.SeedModels();
         }
     }
 }
