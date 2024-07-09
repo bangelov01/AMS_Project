@@ -351,3 +351,6 @@ MigrationBackup/
 
 # Ignore Finder DS_Store file
 .DS_Store
+
+# Ignore .idea
+.idea
