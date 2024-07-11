@@ -7,15 +7,8 @@
 
     using AMS.Services.Contracts;
 
-    public class AddressService : IAddressService
+    public class AddressService(AMSDbContext dbContext) : IAddressService
     {
-        private readonly AMSDbContext dbContext;
-
-        public AddressService(AMSDbContext dbContext)
-        {
-            this.dbContext = dbContext;
-        }
-
         public async Task<string> Add(string country,
             string city,
             string addressText)
@@ -44,12 +37,7 @@
                                      a.AddressText == addressText)
                          .FirstOrDefaultAsync();
 
-            if (address == null)
-            {
-                return null;
-            }
-
-            return address.Id;
+            return address == null ? null : address.Id;
         }
     }
 }

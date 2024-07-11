@@ -17,20 +17,13 @@
 
     using static AMS.Services.Common.CommonFunctions;
 
-    public class AuctionService : IAuctionService
+    public class AuctionService(
+        AMSDbContext dbContext,
+        IAddressService addressService,
+        IMapper mapper)
+        : IAuctionService
     {
-        private readonly AMSDbContext dbContext;
-        private readonly IAddressService addressService;
-        private readonly IConfigurationProvider mapper;
-
-        public AuctionService(AMSDbContext dbContext,
-            IAddressService addressService,
-            IMapper mapper)
-        {
-            this.dbContext = dbContext;
-            this.addressService = addressService;
-            this.mapper = mapper.ConfigurationProvider;
-        }
+        private readonly IConfigurationProvider mapper = mapper.ConfigurationProvider;
 
         public async Task Create(int number,
             string description,
@@ -109,12 +102,7 @@
                 .Where(a => a.Number == number)
                 .FirstOrDefaultAsync();
 
-            if (auction == null)
-            {
-                return false;
-            }
-
-            return true;
+            return auction != null;
         }
 
         public async Task<AuctionServiceModel> DetailsById(string Id)

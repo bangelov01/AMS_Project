@@ -6,15 +6,8 @@
 
     using AMS.Web.Areas.Admin.Controllers.Base;
 
-    public class HomeController : AdminController
+    public class HomeController(IListingService listingService) : AdminController
     {
-        private readonly IListingService listingService;
-
-        public HomeController(IListingService listingService)
-        {
-            this.listingService = listingService;
-        }
-
         public async Task<IActionResult> Index() 
             => View(await listingService.NotApproved());
 

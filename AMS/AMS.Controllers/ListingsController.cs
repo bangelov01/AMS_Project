@@ -11,24 +11,13 @@
     using static AMS.Controllers.Constants.ControllersConstants;
 
     [Authorize]
-    public class ListingsController : Controller
+    public class ListingsController(
+        IListingService listingService,
+        IValidatorService validatorService,
+        IAuctionService auctionService,
+        IBidService bidService)
+        : Controller
     {
-        private readonly IListingService listingService;
-        private readonly IValidatorService validatorService;
-        private readonly IAuctionService auctionService;
-        private readonly IBidService bidService;
-
-        public ListingsController(IListingService listingService,
-            IValidatorService validatorService,
-            IAuctionService auctionService,
-            IBidService bidService)
-        {
-            this.listingService = listingService;
-            this.validatorService = validatorService;
-            this.auctionService = auctionService;
-            this.bidService = bidService;
-        }
-
         public async Task<IActionResult> GetMakes(int typeId)
         {
             var makes = await listingService.Makes(typeId);

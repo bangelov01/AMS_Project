@@ -5,13 +5,8 @@
 
     using AMS.Data.Models;
 
-    public class AMSDbContext : IdentityDbContext<User>
+    public class AMSDbContext(DbContextOptions<AMSDbContext> options) : IdentityDbContext<User>(options)
     {
-        public AMSDbContext(DbContextOptions<AMSDbContext> options)
-            : base(options)
-        {
-        }
-
         public virtual DbSet<Address> Addresses { get; init; }
         public virtual DbSet<Auction> Auctions { get; init; }
         public virtual DbSet<Bid> Bids { get; init; }

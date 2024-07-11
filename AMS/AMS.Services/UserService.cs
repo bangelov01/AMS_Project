@@ -13,22 +13,15 @@
     using AMS.Services.Contracts;
     using AMS.Services.Models;
 
-    public class UserService : IUserService
+    public class UserService(
+        AMSDbContext dbContext,
+        IOptions<AppSettingsServiceModel> adminDetails,
+        IMapper mapper)
+        : IUserService
     {
-        private readonly AMSDbContext dbContext;
-        private readonly AppSettingsServiceModel adminDetails;
-        private readonly IConfigurationProvider mapper;
-
-        public UserService(AMSDbContext dbContext,
-            IOptions<AppSettingsServiceModel> adminDetails,
-            IMapper mapper)
-        {
-            this.dbContext = dbContext;
-            this.adminDetails = adminDetails.Value;
-            this.mapper = mapper.ConfigurationProvider;
-        }
-
-
+        private readonly AppSettingsServiceModel adminDetails = adminDetails.Value;
+        private readonly IConfigurationProvider mapper = mapper.ConfigurationProvider;
+        
         public async Task<IEnumerable<UsersServiceModel>> All()
             => await dbContext
                 .Users

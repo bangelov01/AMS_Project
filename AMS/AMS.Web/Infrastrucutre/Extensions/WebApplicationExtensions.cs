@@ -9,20 +9,18 @@
 
     public static class WebApplicationExtensions
     {
-        public static async Task<WebApplication> PrepareDatabase(this WebApplication app)
+        public static async Task PrepareDatabase(this WebApplication app)
         {
-            using var scopedServices = app.Services.CreateAsyncScope();
+            await using var scopedServices = app.Services.CreateAsyncScope();
 
             var serviceProvider = scopedServices.ServiceProvider;
            
             await Migrate(serviceProvider);
 
             await Seed(serviceProvider);
-
-            return app;
         }
 
-        public static WebApplicationBuilder AddTransient(this WebApplicationBuilder builder)
+        public static void AddTransient(this WebApplicationBuilder builder)
         {
             builder.Services.AddTransient<IDataSeederService, DataSeederService>();
             builder.Services.AddTransient<IAuctionService, AuctionService>();
@@ -33,8 +31,6 @@
             builder.Services.AddTransient<IBidService, BidService>();
             builder.Services.AddTransient<IWatchlistService, WatchlistService>();
             builder.Services.AddTransient<IStatisticService, StatisticsService>();
-
-            return builder;
         }
 
         private static async Task Migrate(IServiceProvider provider)

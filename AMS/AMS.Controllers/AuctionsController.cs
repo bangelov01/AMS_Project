@@ -7,15 +7,8 @@
     using AMS.Controllers.Models;
     using static AMS.Controllers.Constants.ControllersConstants;
 
-    public class AuctionsController : Controller
+    public class AuctionsController(IAuctionService auctionService) : Controller
     {
-        private readonly IAuctionService auctionService;
-
-        public AuctionsController(IAuctionService auctionService)
-        {
-            this.auctionService = auctionService;
-        }
-
         public async Task<IActionResult> All(int currentPage = 1)
         {
             var totalAuctions = await auctionService.ActiveCount();

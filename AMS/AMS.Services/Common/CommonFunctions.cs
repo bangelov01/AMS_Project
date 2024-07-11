@@ -1,6 +1,6 @@
 ﻿namespace AMS.Services.Common
 {
-    public class CommonFunctions
+    public static class CommonFunctions
     {
         public static DateTime GetCurrentDate()
         {

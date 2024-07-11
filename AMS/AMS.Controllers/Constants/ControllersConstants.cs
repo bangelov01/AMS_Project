@@ -2,7 +2,7 @@
 {
     using AMS.Data.Models;
 
-    public class ControllersConstants
+    public static class ControllersConstants
     {
         public const int AuctionsPerPage = 2;
 

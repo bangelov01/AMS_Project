@@ -10,6 +10,6 @@
 
         public int ItemsCount { get; init; }
 
-        public string ControllerName { get; init; }
+        public string? ControllerName { get; init; }
     }
 }

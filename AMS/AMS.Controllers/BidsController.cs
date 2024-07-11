@@ -11,21 +11,12 @@
     using static AMS.Services.Infrastructure.Extensions.ClaimsPrincipleExtensions;
 
     [Authorize]
-    public class BidsController : Controller
+    public class BidsController(
+        IBidService bidService,
+        IValidatorService validatorService,
+        IHubContext<BidHub> hubContext)
+        : Controller
     {
-        private readonly IBidService bidService;
-        private readonly IValidatorService validatorService;
-        private readonly IHubContext<BidHub> hubContext;
-
-        public BidsController(IBidService bidService,
-            IValidatorService validatorService,
-            IHubContext<BidHub> hubContext)
-        {
-            this.bidService = bidService;
-            this.validatorService = validatorService;
-            this.hubContext = hubContext;
-        }
-
         [HttpPost]
         public async Task<IActionResult> Create(string auctionId, string listingId, BidInfoModel bid)
         {
@@ -43,7 +34,7 @@
 
             await hubContext.Clients.All.SendAsync("onBid", bid.Amount.ToString("f2"),
                 this.User.Identity.Name,
-                listingId.ToString());
+                listingId);
 
             Random random = new Random();
 
@@ -53,8 +44,7 @@
 
             return RedirectToAction("Details", "Listings", new
             {
-                auctionId = auctionId,
-                listingId = listingId
+                auctionId, listingId
             });
         }
     }

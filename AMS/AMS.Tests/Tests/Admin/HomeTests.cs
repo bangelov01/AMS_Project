@@ -90,7 +90,7 @@
         [InlineData("invalid")]
         public async Task Delete_ReturnsBadRequest_WithNullOrEmptyListingId_OrNonExistantId(string value)
         {
-            var currentCount = await data.Vehicles.CountAsync();
+            await data.Vehicles.CountAsync();
 
             var result = await homeController.Delete(value);
 

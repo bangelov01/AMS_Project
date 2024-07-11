@@ -1,20 +1,20 @@
 ﻿namespace AMS.Data.Constants
 {
-    public class DataConstants
+    public static class DataConstants
     {
-        public class ErrorMessages
+        public static class ErrorMessages
         {
             public const string StringLengthValidationError = "{0} must be between {2} and {1} characters long!";
             public const string PriceValidationError = "{0} can not be negative!";
         }
 
-        public class UserConstants
+        public static class UserConstants
         {
             public const byte UsernameMinLength = 5;
             public const byte UsernameMaxLength = 30;
         }
 
-        public class VehicleConstants
+        public static class VehicleConstants
         {
             public const byte ConditionMaxLength = 20;
             public const byte MakeMaxLength = 30;
@@ -29,13 +29,13 @@
 
         }
 
-        public class AuctionConstants
+        public static class AuctionConstants
         {
             public const short DescriptionMaxLength = 255;
             public const short DescriptionMinLength = 5;
         }
 
-        public class AddressConstants
+        public static class AddressConstants
         {
             public const byte CountryNameMinLength = 4;
             public const byte CountryNameMaxLength = 60;

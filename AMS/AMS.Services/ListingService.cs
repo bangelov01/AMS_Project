@@ -16,17 +16,11 @@
 
     using static AMS.Services.Common.CommonFunctions;
 
-    public class ListingService : IListingService
+    public class ListingService(
+        AMSDbContext dbContext,
+        IMapper mapper) : IListingService
     {
-        private readonly AMSDbContext dbContext;
-        private readonly IConfigurationProvider mapper;
-
-        public ListingService(AMSDbContext dbContext,
-            IMapper mapper)
-        {
-            this.dbContext = dbContext;
-            this.mapper = mapper.ConfigurationProvider;
-        }
+        private readonly IConfigurationProvider mapper = mapper.ConfigurationProvider;
 
         public async Task Create(int year,
             decimal price,

@@ -7,26 +7,17 @@
 
     using AMS.Services.Contracts;
 
-    public class HomeController : Controller
+    public class HomeController(
+        IStatisticService statisticService,
+        IListingService listingService,
+        IMemoryCache cache)
+        : Controller
     {
-        private readonly IStatisticService statisticService;
-        private readonly IListingService listingService;
-        private readonly IMemoryCache cache;
-
-        public HomeController(IStatisticService statisticService,
-            IListingService listingService,
-            IMemoryCache cache)
-        {
-            this.statisticService = statisticService;
-            this.listingService = listingService;
-            this.cache = cache;
-        }
-
         public async Task<IActionResult> Index()
         {
             const string HomeViewKey = "HomeViewKey";
 
-            var model = this.cache.Get<HomeViewModel>(HomeViewKey);
+            var model = cache.Get<HomeViewModel>(HomeViewKey);
 
             if (model == null)
             {
@@ -36,7 +27,7 @@
                     Preview = await listingService.Preview()
                 };
 
-                this.cache.Set(HomeViewKey,
+                cache.Set(HomeViewKey,
                     model,
                     new MemoryCacheEntryOptions()
                     .SetAbsoluteExpiration(TimeSpan.FromSeconds(15)));

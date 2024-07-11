@@ -8,29 +8,17 @@
     using AMS.Services.Contracts;
     using static AMS.Services.Common.CommonFunctions;
 
-    public class ValidatorService : IValidatorService
+    public class ValidatorService(AMSDbContext dbContext) : IValidatorService
     {
-        private readonly AMSDbContext dbContext;
-
-        public ValidatorService(AMSDbContext dbContext)
-        {
-            this.dbContext = dbContext;
-        }
-
         public async Task<bool> AreListingParamsValid(int conditionId,
             int modelId,
             int makeId,
             int typeId)
         {
-            if (!await ConditionExists(conditionId) ||
-                !await ModelExists(modelId) ||
-                !await MakeExists(makeId) ||
-                !await TypeExists(typeId))
-            {
-                return false;
-            }
-
-            return true;
+            return await ConditionExists(conditionId) &&
+                   await ModelExists(modelId) &&
+                   await MakeExists(makeId) &&
+                   await TypeExists(typeId);
         }
 
         public async Task<bool> IsAuctionValid(string Id)
@@ -40,14 +28,7 @@
 
         public bool IsOrderParamValid(string orderParam)
         {
-            if (orderParam == nameof(Make) ||
-                orderParam == nameof(Model) ||
-                orderParam == nameof(Vehicle.Year))
-            {
-                return true;
-            }
-
-            return false;
+            return orderParam is nameof(Make) or nameof(Model) or nameof(Vehicle.Year);
         }
 
         public async Task<bool> IsListingValidForBid(string listingId, string userId, decimal amount)

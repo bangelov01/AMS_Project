@@ -1,6 +1,6 @@
 ﻿namespace AMS.Web.Areas.Admin.Constants
 {
-    public class AdminConstants
+    public static class AdminConstants
     {
         public const string AdminAreaName = "Admin";
     }

@@ -8,18 +8,11 @@
     using static AMS.Services.Infrastructure.Extensions.ClaimsPrincipleExtensions;
 
     [Authorize]
-    public class WatchlistsController : Controller
+    public class WatchlistsController(
+        IWatchlistService watchlistService,
+        IValidatorService validatorService)
+        : Controller
     {
-        private readonly IWatchlistService watchlistService;
-        private readonly IValidatorService validatorService;
-
-        public WatchlistsController(IWatchlistService watchlistService,
-            IValidatorService validatorService)
-        {
-            this.watchlistService = watchlistService;
-            this.validatorService = validatorService;
-        }
-
         public async Task<IActionResult> All() 
             => View(await watchlistService.ListingsForUser(this.User.Id()));
 

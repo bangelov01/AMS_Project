@@ -1,6 +1,6 @@
 ﻿namespace AMS.Services.Constants
 {
-    public class ServicesConstants
+    public static class ServicesConstants
     {
         public const string AdministratorRoleName = "Administrator";
     }

@@ -15,17 +15,11 @@
 
     using static AMS.Services.Common.CommonFunctions;
 
-    public class WatchlistService : IWatchlistService
+    public class WatchlistService(
+        AMSDbContext dbContext,
+        IMapper mapper) : IWatchlistService
     {
-        private readonly AMSDbContext dbContext;
-        private readonly IConfigurationProvider mapper;
-
-        public WatchlistService(AMSDbContext dbContext,
-            IMapper mapper)
-        {
-            this.dbContext = dbContext;
-            this.mapper = mapper.ConfigurationProvider;
-        }
+        private readonly IConfigurationProvider mapper = mapper.ConfigurationProvider;
 
         public async Task Create(string listingId, string userId)
         {

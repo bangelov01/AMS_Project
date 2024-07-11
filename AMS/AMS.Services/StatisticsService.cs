@@ -7,15 +7,8 @@
     using AMS.Services.Contracts;
     using AMS.Services.Models;
 
-    public class StatisticsService : IStatisticService
+    public class StatisticsService(AMSDbContext dbContext) : IStatisticService
     {
-        private readonly AMSDbContext dbContext;
-
-        public StatisticsService(AMSDbContext dbContext)
-        {
-            this.dbContext = dbContext;
-        }
-
         public async Task<StatisticsServiceModel> Total()
             => new StatisticsServiceModel
             {

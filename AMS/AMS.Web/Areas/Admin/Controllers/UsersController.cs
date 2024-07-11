@@ -5,15 +5,8 @@
     using AMS.Services.Contracts;
     using AMS.Web.Areas.Admin.Controllers.Base;
 
-    public class UsersController : AdminController
+    public class UsersController(IUserService userService) : AdminController
     {
-        private readonly IUserService userService;
-
-        public UsersController(IUserService userService)
-        {
-            this.userService = userService;
-        }
-
         public async Task<IActionResult> All() 
             => View(await userService.All());
 

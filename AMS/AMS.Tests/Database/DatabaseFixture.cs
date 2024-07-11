@@ -18,6 +18,6 @@
             data.Dispose();
         }
 
-        public AMSDbContext data { get; private set; }
+        public AMSDbContext data { get; }
     }
 }

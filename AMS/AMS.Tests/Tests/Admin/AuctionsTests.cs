@@ -39,7 +39,7 @@
         }
 
         [Fact]
-        public async Task Create_ReturnsViewResult()
+        public void Create_ReturnsViewResult()
         {
             var result = auctionsController.Create();
 

@@ -8,15 +8,8 @@
     using AMS.Services.Contracts;
     using AMS.Services.Models.Bids;
 
-    public class BidService : IBidService
+    public class BidService(AMSDbContext dbContext) : IBidService
     {
-        private readonly AMSDbContext dbContext;
-
-        public BidService(AMSDbContext dbContext)
-        {
-            this.dbContext = dbContext;
-        }
-
         public async Task Create(string userId,
             string listingId,
             decimal amount,

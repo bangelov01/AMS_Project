@@ -7,15 +7,8 @@
     using AMS.Web.Areas.Admin.Controllers.Base;
     using AMS.Web.Areas.Admin.Models;
 
-    public class AuctionsController : AdminController
+    public class AuctionsController(IAuctionService auctionService) : AdminController
     {
-        private readonly IAuctionService auctionService;
-
-        public AuctionsController(IAuctionService auctionService)
-        {
-            this.auctionService = auctionService;
-        }
-
         public IActionResult Create()
             => View();
 

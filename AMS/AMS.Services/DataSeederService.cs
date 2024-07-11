@@ -13,23 +13,14 @@
     using static AMS.Services.Constants.ServicesConstants;
     using Microsoft.EntityFrameworkCore;
 
-    public class DataSeederService : IDataSeederService
+    public class DataSeederService(
+        AMSDbContext dbContext,
+        UserManager<User> userManager,
+        RoleManager<IdentityRole> roleManager,
+        IOptions<AppSettingsServiceModel> adminDetails)
+        : IDataSeederService
     {
-        private readonly AMSDbContext dbContext;
-        private readonly UserManager<User> userManager;
-        private readonly RoleManager<IdentityRole> roleManager;
-        private readonly AppSettingsServiceModel adminDetails;
-
-        public DataSeederService(AMSDbContext dbContext,
-            UserManager<User> userManager,
-            RoleManager<IdentityRole> roleManager,
-            IOptions<AppSettingsServiceModel> adminDetails)
-        {
-            this.dbContext = dbContext;
-            this.userManager = userManager;
-            this.roleManager = roleManager;
-            this.adminDetails = adminDetails.Value;
-        }
+        private readonly AppSettingsServiceModel adminDetails = adminDetails.Value;
 
         public async Task SeedAdministrator()
         {
